@@ -558,3 +558,56 @@ html,
 }
 
 /* Reuse action-btn if needed on GenericPage */
+/* ────────────────────────────────────────
+   DOCUMENTS PAGE (only) 
+──────────────────────────────────────── */
+
+/* Wrap the content of DocumentsPage */
+.documents-page {
+  background-color: #ffffff;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* “DOCUMENTS” heading – white fill with black outline */
+.documents-heading {
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  /* A one‐pixel black stroke around each letter */
+  -webkit-text-stroke: 1px #333333;
+  /* Some bottom margin to separate from buttons */
+  margin-bottom: 24px;
+}
+
+/* Container for the six buttons */
+.documents-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+/* Each placeholder button */
+.doc-btn {
+  width: 100%;
+  background-color: #c4b5a0;   /* same beige as tiles */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover/press effect */
+.doc-btn:hover {
+  background-color: #b8a38e;
+}
+.doc-btn:active {
+  transform: scale(0.98);
+}
