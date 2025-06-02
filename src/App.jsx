@@ -48,10 +48,15 @@ function OrdersPage() {
   return (
     <div className="page">
       <header className="topbar">
+        {/* Wrap the SVG in a <Link> so clicking it goes to "/" */}
         <Link to="/">
-        <div dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`}} />
-        <div className="profile"></div>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`,
+            }}
+          />
         </Link>
+        <div className="profile"></div>
       </header>
       <div className="content-page">
         <h1>Orders Dashboard</h1>
@@ -77,7 +82,13 @@ function SalesPage() {
   return (
     <div className="page">
       <header className="topbar">
-        <div dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`}} />
+        <Link to="/">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`,
+            }}
+          />
+        </Link>
         <div className="profile"></div>
       </header>
       <div className="content-page">
@@ -104,7 +115,13 @@ function LeadTimesPage() {
   return (
     <div className="page">
       <header className="topbar">
-        <div dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`}} />
+        <Link to="/">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`,
+            }}
+          />
+        </Link>
         <div className="profile"></div>
       </header>
       <div className="content-page">
@@ -131,7 +148,13 @@ function GenericPage({ title }) {
   return (
     <div className="page">
       <header className="topbar">
-        <div dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`}} />
+        <Link to="/">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`,
+            }}
+          />
+        </Link>
         <div className="profile"></div>
       </header>
       <div className="content-page">
@@ -144,7 +167,9 @@ function GenericPage({ title }) {
           </div>
           <div className="dashboard-card">
             <h3>Quick Links</h3>
-            <button className="action-btn" onClick={() => window.history.back()}>← Back to Home</button>
+            <button className="action-btn" onClick={() => window.history.back()}>
+              ← Back to Home
+            </button>
           </div>
         </div>
       </div>
@@ -156,13 +181,19 @@ function HomePage() {
   return (
     <div className="page">
       <header className="topbar">
-        <div dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`}} />
+        <Link to="/">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`,
+            }}
+          />
+        </Link>
         <div className="profile"></div>
       </header>
       <div className="grid">
         {apps.map((a, i) => (
           <a key={i} href={`/${a.slug}`} className="tile">
-            <div className="tile-icon" dangerouslySetInnerHTML={{__html: a.iconSvg}} />
+            <div className="tile-icon" dangerouslySetInnerHTML={{ __html: a.iconSvg }} />
             <div className="tile-label">{a.name}</div>
           </a>
         ))}
