@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 
@@ -237,28 +237,51 @@ function LeadTimesPage() {
 }
 
 function ReplacementPage() {
-  // create a ref for the hidden file input
+  // Ref to the hidden file-input
   const fileInputRef = useRef(null);
 
-  // when “Take Photo” is clicked, trigger the file input’s click()
+  // State to hold the chosen photo
+  const [photoFile, setPhotoFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  // State for form fields
+  const [soNumber, setSoNumber] = useState("");
+  const [lineItem, setLineItem] = useState("");
+  const [notes, setNotes] = useState("");
+
+  // When user taps “Take Photo”, trigger the hidden file input
   const handleTakePhoto = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // optional: handle the chosen file (e.g. show a preview or upload)
-  // for now, we just read it so the input’s behavior is visible
-  const handleFileChosen = (event) => {
-    const file = event.target.files[0];
+  // When user picks (or snaps) a photo, show the form
+  const handleFileChosen = (e) => {
+    const file = e.target.files[0];
     if (file) {
-      // You could display a preview or send the file to a server here.
-      console.log("User took/selected a photo:", file);
-      // For example, to show a basic data URL preview:
-      // const reader = new FileReader();
-      // reader.onload = e => console.log(e.target.result);
-      // reader.readAsDataURL(file);
+      setPhotoFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
     }
+  };
+
+  // On form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // RIGHT NOW: just log data and alert. In real life, you'd upload to your server.
+    console.log({
+      soNumber,
+      lineItem,
+      notes,
+      photoFile
+    });
+    alert("Replacement form submitted!");
+    // Reset everything for next time (or you could redirect elsewhere)
+    setPhotoFile(null);
+    setPreviewUrl(null);
+    setSoNumber("");
+    setLineItem("");
+    setNotes("");
   };
 
   return (
@@ -288,67 +311,108 @@ function ReplacementPage() {
       </header>
 
       <div className="content-page">
-        {/* REPLACEMENT Section */}
-        <h1 className="section-title">REPLACEMENT</h1>
+        {!photoFile ? (
+          // STEP 1: Show “Take Photo” and “Upload” buttons
+          <>
+            <h1 className="section-title">REPLACEMENT</h1>
+            <div className="dashboard-grid">
+              <button className="tile" onClick={handleTakePhoto}>
+                <div className="tile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    width="48"
+                    height="48"
+                  >
+                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16
+                            a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
+                  </svg>
+                </div>
+                <div className="tile-label">TAKE PHOTO</div>
+              </button>
 
-        <div className="dashboard-grid">
-          {/* “Take Photo” button now triggers the hidden <input> */}
-          <button className="tile" onClick={handleTakePhoto}>
-            <div className="tile-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="white"
-                viewBox="0 0 24 24"
-                width="48"
-                height="48"
-              >
-                <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
-                <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16
-                        a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
-              </svg>
+              {/* Hidden file input (camera + gallery) */}
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChosen}
+              />
+
+              <button className="tile" onClick={handleTakePhoto}>
+                <div className="tile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    width="48"
+                    height="48"
+                  >
+                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
+                  </svg>
+                </div>
+                <div className="tile-label">UPLOAD</div>
+              </button>
             </div>
-            <div className="tile-label">TAKE PHOTO</div>
-          </button>
+          </>
+        ) : (
+          // STEP 2: Show form once a photo is selected
+          <div className="form-container">
+            <h1 className="section-title">REPLACEMENT DETAILS</h1>
 
-          {/* hidden file input, configured to open camera on mobile devices */}
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleFileChosen}
-          />
+            {/* Image preview at top */}
+            {previewUrl && (
+              <img src={previewUrl} alt="Preview" className="image-preview" />
+            )}
 
-          {/* “Upload” button remains unchanged */}
-          <button className="tile">
-            <div className="tile-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="white"
-                viewBox="0 0 24 24"
-                width="48"
-                height="48"
-              >
-                <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
-              </svg>
-            </div>
-            <div className="tile-label">UPLOAD</div>
-          </button>
-        </div>
+            <form onSubmit={handleSubmit}>
+              {/* SO Number */}
+              <div className="form-field">
+                <label htmlFor="soNumber">SO #</label>
+                <input
+                  type="text"
+                  id="soNumber"
+                  value={soNumber}
+                  onChange={(e) => setSoNumber(e.target.value)}
+                  required
+                />
+              </div>
 
-        {/* WARRANTY Section */}
-        <h1 className="section-title">WARRANTY</h1>
-        <p className="big-number">12 yrs</p>
-        <ul className="warranty-list">
-          <li>Wood Seating</li>
-          <li>Seating Controls</li>
-          <li>Pneumatic Cylinders</li>
-          <li>Laminate Surfaces</li>
-          <li>Veneer Surfaces</li>
-          <li>Solid Surface Components</li>
-          <li>Somna, Kindera, Satisse, and Forge in Wood</li>
-        </ul>
+              {/* Line Item Number */}
+              <div className="form-field">
+                <label htmlFor="lineItem">Line Item #</label>
+                <input
+                  type="text"
+                  id="lineItem"
+                  value={lineItem}
+                  onChange={(e) => setLineItem(e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Notes (longer description) */}
+              <div className="form-field">
+                <label htmlFor="notes">Notes / Description</label>
+                <textarea
+                  id="notes"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows="4"
+                  required
+                />
+              </div>
+
+              {/* Submit button */}
+              <button type="submit" className="submit-btn">
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -386,7 +450,7 @@ function GenericPage({ title }) {
           <div className="dashboard-card">
             <h3>Welcome to {title}</h3>
             <p>This section is coming soon!</p>
-            <p>We're building amazing features for you.</p>
+            <p>We’re building amazing features for you.</p>
           </div>
           <div className="dashboard-card">
             <h3>Quick Links</h3>
