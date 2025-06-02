@@ -15,15 +15,13 @@ html,
 }
 
 /* -------------------------------------------
-   Container & Topbar
+   Container & Topbar (shared)
 ------------------------------------------- */
 .page {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-
-/* Dark header background, left logo + right profile icon */
 .topbar {
   background-color: #333333;   /* dark gray */
   color: white;
@@ -35,15 +33,11 @@ html,
   position: relative;
   z-index: 5;
 }
-
-/* “My JSI” SVG wrapper—clickable */
 .logo {
   cursor: pointer;
   display: inline-block;
   margin-right: 16px;
 }
-
-/* Profile icon on the right */
 .profile {
   margin-left: auto;
   width: 32px;
@@ -53,17 +47,16 @@ html,
 }
 
 /* -------------------------------------------
-   HomePage grid & tile styling
+   HomePage: Grid & Tiles
 ------------------------------------------- */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;          /* space between tiles */
+  gap: 12px;
   padding: 12px;
   margin-top: 8px;
   margin-bottom: 56px; /* leave room for feedback bar */
 }
-
 .tile {
   background-color: #c4b5a0;   /* light beige */
   border-radius: 12px;
@@ -83,7 +76,6 @@ html,
 .tile:hover {
   background-color: #b8a38e;  /* darker on hover */
 }
-
 .tile-icon {
   width: 60px;
   height: 60px;
@@ -93,7 +85,6 @@ html,
   width: 100%;
   height: 100%;
 }
-
 .tile-label {
   text-transform: lowercase;
   font-size: 14px;
@@ -109,7 +100,7 @@ html,
   left: 0;
   width: 100%;
   height: 48px;
-  background-color: #c4b5a0;  /* same beige as tiles */
+  background-color: #c4b5a0;
   color: white;
   display: flex;
   align-items: center;
@@ -119,16 +110,307 @@ html,
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* -------------------------------------------
+   OrdersPage: Search + Calendar + List
+------------------------------------------- */
+.orders-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: white;
+}
+.orders-search-wrapper {
+  position: relative;
+  flex: 1;
+}
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+.orders-search-input {
+  width: 100%;
+  padding: 8px 8px 8px 36px; /* leave space for search icon */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+.orders-search-input:focus {
+  border-color: #888;
+}
+.calendar-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 16px;
+  cursor: pointer;
+}
+.orders-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: white;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.orders-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  text-transform: uppercase;
+}
+.orders-total {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+.orders-list {
+  flex: 1;
+  overflow-y: auto;
+  background-color: white;
+}
+.orders-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #eee;
+}
+.orders-item:last-child {
+  border-bottom: none;
+}
 
 /* -------------------------------------------
-   SSAPage styling (fillable form)
+   SalesPage: Table, Goal, Info Cards
+------------------------------------------- */
+.content-page {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  padding: 16px;
+}
+.sales-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: white;
+  margin-left: 16px;
+  text-transform: uppercase;
+}
+.new-lead-btn {
+  margin-left: auto;
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.new-lead-btn:hover {
+  background-color: #4958a3;
+}
+.year-selector {
+  margin-bottom: 16px;
+}
+.year-selector select {
+  font-size: 14px;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+.sales-table th,
+.sales-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #dddddd;
+  font-size: 14px;
+}
+.sales-table th {
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+.totals-row td {
+  border-top: 2px solid #000000;
+  font-weight: bold;
+  background-color: #fafafa;
+}
+.goal-section {
+  background-color: #eeeeee;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.goal-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+.goal-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+.progress-bar-container {
+  background-color: #dddddd;
+  border-radius: 10px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  background-color: #000000;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.year-progress-text {
+  font-size: 12px;
+  color: #555555;
+  margin-top: 4px;
+}
+.info-cards {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+.info-card {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info-card.placeholder-card {
+  opacity: 0.6;
+}
+.info-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+.info-value {
+  font-size: 16px;
+  color: #333333;
+}
+
+/* -------------------------------------------
+   LeadTimesPage: Dashboard Cards
+------------------------------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.dashboard-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+.big-number {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+.action-btn {
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 14px;
+  margin: 8px 0;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+.action-btn:hover {
+  background-color: #3949ab;
+}
+
+/* -------------------------------------------
+   ReplacementPage: Take Photo & Form
+------------------------------------------- */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  color: #333333;
+}
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.form-container {
+  margin-top: 16px;
+}
+.form-field {
+  margin-bottom: 12px;
+}
+.form-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #333333;
+}
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.submit-btn {
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.submit-btn:hover {
+  background-color: #3949ab;
+}
+
+/* -------------------------------------------
+   SSAPage: Fillable Form
 ------------------------------------------- */
 .ssa-page .content-page {
   background: #ffffff;
   padding: 16px;
   overflow-y: auto;
 }
-
 .ssa-heading {
   font-size: 24px;
   font-weight: bold;
@@ -137,28 +419,22 @@ html,
   color: #333333;
   text-transform: uppercase;
 }
-
 .ssa-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-
-/* Each row: fixed-width label + flexible input */
 .ssa-form-field {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-
 .ssa-form-field label {
-  flex: 0 0 120px;  /* label column width */
+  flex: 0 0 120px;  /* fixed label width */
   font-size: 14px;
   color: #444444;
   font-weight: 500;
 }
-
-/* Standard inputs, selects, textarea */
 .ssa-form-field input[type="text"],
 .ssa-form-field input[type="number"],
 .ssa-form-field input[type="date"],
@@ -179,8 +455,6 @@ html,
 .ssa-form-field textarea:focus {
   border-color: #888888;
 }
-
-/* Search‐style inputs (Dealer, Products) */
 .ssa-search-wrapper {
   position: relative;
   flex: 1;
@@ -199,8 +473,6 @@ html,
 .ssa-search-wrapper input {
   padding-left: 36px;  /* space for icon */
 }
-
-/* Dollar‐sign wrapper (Est. List) */
 .ssa-dollar-wrapper {
   position: relative;
   flex: 1;
@@ -217,8 +489,6 @@ html,
 .ssa-dollar-wrapper input {
   padding-left: 24px;  /* space for $ */
 }
-
-/* Inline checkboxes (Contract + Spiff) */
 .ssa-form-field-inline {
   display: flex;
   gap: 24px;
@@ -239,8 +509,6 @@ html,
   font-size: 14px;
   color: #444444;
 }
-
-/* Waive section */
 .waiver-section {
   flex-direction: column;
 }
@@ -250,8 +518,6 @@ html,
   margin-top: 4px;
   padding-left: 120px; /* align under inputs */
 }
-
-/* Submit button */
 .ssa-form-actions {
   display: flex;
   justify-content: center;
@@ -276,11 +542,19 @@ html,
 }
 
 /* -------------------------------------------
-   Placeholder styling for other pages
+   GenericPage: Dashboard Placeholder
 ------------------------------------------- */
-.content-page {
-  flex: 1;
-  overflow-y: auto;
-  background-color: #f5f5f5;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.dashboard-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px;
 }
+
+/* Reuse action-btn if needed on GenericPage */
