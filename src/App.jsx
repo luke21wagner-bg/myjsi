@@ -3,14 +3,13 @@ import "./index.css";
 
 /* ---------- config ---------- */
 const apps = [
-  { name: "orders",     slug: "orders",      icon: "/icons/orders.svg" },
-  { name: "sales",      slug: "sales",       icon: "/icons/sales.svg" },
-  { name: "lead times", slug: "lead-times",  icon: "/icons/lead-times.svg" },
-  { name: "fabrics",    slug: "fabrics",     icon: "/icons/fabrics.svg" },
-  { name: "ssa",        slug: "ssa",         icon: "/icons/ssa.svg" },
-  { name: "documents",  slug: "documents",   icon: "/icons/documents.svg" },
-  { name: "samples",    slug: "samples",     icon: "/icons/samples.svg" },
-  { name: "replacement",slug: "replacement", icon: "/icons/replacement.svg" },
+{ name: "🚀 Launch", slug: "orders", icon: "/icons/orders.svg" },
+{ name: "💰 Sales", slug: "sales", icon: "/icons/sales.svg" },
+{ name: "📈 Analytics", slug: "lead-lines", icon: "/icons/lead-lines.svg" },
+{ name: "🎨 Design", slug: "fabrics", icon: "/icons/fabrics.svg" },
+{ name: "📰 News", slug: "news", icon: "/icons/news.svg" },
+{ name: "✨ Magic", slug: "samples", icon: "/icons/samples.svg" },
+{ name: "🔧 Tools", slug: "replacement", icon: "/icons/replacement.svg" },
 ];
 
 /* ---------- generic detail screen ---------- */
