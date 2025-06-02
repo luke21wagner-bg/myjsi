@@ -51,7 +51,6 @@ function OrdersPage() {
         <Link to="/">
         <div dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="white"><text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">My</text><rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/><text x="60" y="25" font-family="Arial" font-size="18">JSI</text></svg>`}} />
         <div className="profile"></div>
-          />
         </Link>
       </header>
       <div className="content-page">
