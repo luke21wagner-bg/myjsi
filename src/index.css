@@ -18,10 +18,6 @@ body, html, #root {
   color: #fff;
 }
 
-.topbar img {
-  height: 40px;
-}
-
 .profile {
   width: 40px;
   height: 40px;
@@ -63,8 +59,11 @@ body, html, #root {
   height: 60px;
   width: 60px;
   margin-bottom: 20px;
-  opacity: 1;
-  filter: invert(1);
+}
+
+.tile-icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .tile-label {
@@ -76,13 +75,6 @@ body, html, #root {
   text-align: center;
 }
 
-/* Mobile responsive */
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
 /* Bottom feedback bar */
 .feedback-bar {
   background: #c4b5a0;
@@ -91,4 +83,16 @@ body, html, #root {
   color: #fff;
   font-size: 18px;
   margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Mobile responsive */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;
 }
