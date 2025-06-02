@@ -4,7 +4,7 @@ import "./index.css";
 /* ---------- config ---------- */
 const apps = [
   { name: "🚀 Launch", slug: "orders", icon: "/icons/orders.svg" },
-  { name: "💰 Sales", slug: "sales", icon: "/icons/sales.svg" },
+  { name: "💰 Sales", slug: "sales", icon: "/icons/sales.svg" }, 
   { name: "📈 Analytics", slug: "lead-lines", icon: "/icons/lead-lines.svg" },
   { name: "🎨 Design", slug: "fabrics", icon: "/icons/fabrics.svg" },
   { name: "📰 News", slug: "news", icon: "/icons/news.svg" },
