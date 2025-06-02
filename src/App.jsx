@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
@@ -237,51 +238,85 @@ function LeadTimesPage() {
 }
 
 function ReplacementPage() {
-  // Ref to the hidden file-input
+  // 1) Ref for hidden <input>
   const fileInputRef = useRef(null);
 
-  // State to hold the chosen photo
+  // 2) State to store chosen file and preview URL
   const [photoFile, setPhotoFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  // State for form fields
+  // 3) Form fields
   const [soNumber, setSoNumber] = useState("");
   const [lineItem, setLineItem] = useState("");
   const [notes, setNotes] = useState("");
 
-  // When user taps “Take Photo”, trigger the hidden file input
+  // 4) Trigger camera / file-picker
   const handleTakePhoto = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // When user picks (or snaps) a photo, show the form
+  // 5) When user picks/snaps photo
   const handleFileChosen = (e) => {
     const file = e.target.files[0];
     if (file) {
       setPhotoFile(file);
+
+      // Create a local preview URL
       setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-  // On form submission
-  const handleSubmit = (e) => {
+  // 6) On form submission: convert image to Base64, send to API
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // RIGHT NOW: just log data and alert. In real life, you'd upload to your server.
-    console.log({
-      soNumber,
-      lineItem,
-      notes,
-      photoFile
-    });
-    alert("Replacement form submitted!");
-    // Reset everything for next time (or you could redirect elsewhere)
-    setPhotoFile(null);
-    setPreviewUrl(null);
-    setSoNumber("");
-    setLineItem("");
-    setNotes("");
+
+    if (!photoFile || !soNumber || !lineItem || !notes) {
+      alert("All fields are required.");
+      return;
+    }
+
+    // Convert image file to Base64 string
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64String = reader.result; // e.g. "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+
+      // Build JSON payload
+      const payload = {
+        soNumber,
+        lineItem,
+        notes,
+        photoBase64: base64String,
+      };
+
+      try {
+        // POST to our serverless function
+        const response = await fetch("/api/send-replacement", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const json = await response.json();
+        if (response.ok) {
+          alert("✅ Replacement email sent!");
+          // Reset state so the user can take another photo if needed
+          setPhotoFile(null);
+          setPreviewUrl(null);
+          setSoNumber("");
+          setLineItem("");
+          setNotes("");
+        } else {
+          alert("❌ Failed to send email: " + (json.error || "-unknown-"));
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        alert("❌ Error sending email.");
+      }
+    };
+
+    reader.readAsDataURL(photoFile);
   };
 
   return (
@@ -312,7 +347,7 @@ function ReplacementPage() {
 
       <div className="content-page">
         {!photoFile ? (
-          // STEP 1: Show “Take Photo” and “Upload” buttons
+          // STEP 1: Show “Take Photo” + “Upload” buttons
           <>
             <h1 className="section-title">REPLACEMENT</h1>
             <div className="dashboard-grid">
@@ -333,7 +368,7 @@ function ReplacementPage() {
                 <div className="tile-label">TAKE PHOTO</div>
               </button>
 
-              {/* Hidden file input (camera + gallery) */}
+              {/* Hidden <input> for camera & file-picker */}
               <input
                 type="file"
                 accept="image/*"
@@ -360,17 +395,16 @@ function ReplacementPage() {
             </div>
           </>
         ) : (
-          // STEP 2: Show form once a photo is selected
+          // STEP 2: Show the form, with preview + inputs
           <div className="form-container">
             <h1 className="section-title">REPLACEMENT DETAILS</h1>
 
-            {/* Image preview at top */}
+            {/* Image preview */}
             {previewUrl && (
               <img src={previewUrl} alt="Preview" className="image-preview" />
             )}
 
             <form onSubmit={handleSubmit}>
-              {/* SO Number */}
               <div className="form-field">
                 <label htmlFor="soNumber">SO #</label>
                 <input
@@ -382,7 +416,6 @@ function ReplacementPage() {
                 />
               </div>
 
-              {/* Line Item Number */}
               <div className="form-field">
                 <label htmlFor="lineItem">Line Item #</label>
                 <input
@@ -394,7 +427,6 @@ function ReplacementPage() {
                 />
               </div>
 
-              {/* Notes (longer description) */}
               <div className="form-field">
                 <label htmlFor="notes">Notes / Description</label>
                 <textarea
@@ -406,7 +438,6 @@ function ReplacementPage() {
                 />
               </div>
 
-              {/* Submit button */}
               <button type="submit" className="submit-btn">
                 Submit
               </button>
