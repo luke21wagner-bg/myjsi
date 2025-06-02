@@ -31,7 +31,7 @@ body, html, #root {
 
 /* Main grid */
 .grid {
-  padding: 40px 20px;
+  padding: 40px 20px 40px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 24px;
@@ -54,7 +54,7 @@ body, html, #root {
   cursor: pointer;
 }
 
-.tile:hover {
+.tile:hover {  
   transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
@@ -73,10 +73,8 @@ body, html, #root {
 }
 
 /* Mobile responsive */
-@media (min-height: 100%) {
-  .page {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+.page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
