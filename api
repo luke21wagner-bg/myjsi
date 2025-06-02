@@ -1,1 +1,79 @@
+// api/send-replacement.js
+import nodemailer from "nodemailer";
+
+// Environment variables (set these in your Vercel Dashboard → Settings → Environment Variables):
+//   EMAIL_HOST       ← e.g. "smtp.gmail.com"
+//   EMAIL_PORT       ← typically 465 (for SSL/TLS) or 587 (STARTTLS)
+//   EMAIL_USER       ← the “from” email address (e.g. your generic Gmail/SendGrid user)
+//   EMAIL_PASS       ← the SMTP password or app-specific password
+//   TO_ADDRESS       ← the destination email (luke21wagner@gmail.com)
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    res.status(405).json({ error: "Only POST allowed" });
+    return;
+  }
+
+  try {
+    // 1) Parse JSON body:
+    const { soNumber, lineItem, notes, photoBase64 } = req.body;
+
+    if (!soNumber || !lineItem || !notes || !photoBase64) {
+      return res.status(400).json({ error: "Missing fields" });
+    }
+
+    // 2) Create a Nodemailer transport using your SMTP credentials (from ENV)
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT || 465),
+      secure: Number(process.env.EMAIL_PORT || 465) === 465, // true for 465, false for 587
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // 3) Convert Base64 string back into a Buffer for attachment:
+    //    photoBase64 is expected to begin with "data:image/…;base64,XXXXXXXX"
+    const matches = photoBase64.match(/^data:(image\/\w+);base64,(.+)$/);
+    if (!matches) {
+      throw new Error("Invalid image data");
+    }
+    const contentType = matches[1]; // e.g. "image/jpeg"
+    const base64Data = matches[2];  // the actual base64 part
+    const imgBuffer = Buffer.from(base64Data, "base64");
+
+    // 4) Compose the email:
+    const mailOptions = {
+      from: `"JSI Replacement Bot" <${process.env.EMAIL_USER}>`,
+      to: process.env.TO_ADDRESS,
+      subject: `New Replacement Request: SO# ${soNumber}, LineItem ${lineItem}`,
+      text: `
+Replacement Form Submitted:
+
+• SO Number: ${soNumber}
+• Line Item #: ${lineItem}
+• Notes: ${notes}
+
+(See attached image for the photo captured.)
+      `,
+      attachments: [
+        {
+          filename: `replacement_${soNumber}_LI${lineItem}.jpg`,
+          content: imgBuffer,
+          contentType: contentType,
+        },
+      ],
+    };
+
+    // 5) Send the email
+    await transporter.sendMail(mailOptions);
+
+    // 6) Respond with success
+    return res.status(200).json({ message: "Email sent successfully." });
+  } catch (err) {
+    console.error("Error in send-replacement:", err);
+    return res.status(500).json({ error: "Failed to send email." });
+  }
+}
 
