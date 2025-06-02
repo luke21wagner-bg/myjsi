@@ -1,154 +1,184 @@
-/* Global styles */
-body, html, #root {
+/* Reset some defaults */
+* {
+  box-sizing: border-box;
   margin: 0;
-  height: 100%;
-  background-color: #f0f0f0;
-  font-family: "Segoe UI", Helvetica, sans-serif;
-  color: #333;
+  padding: 0;
 }
 
-/* Top header bar */
+body, html, #root {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* ---------------------------------------------------
+   Common layout classes
+--------------------------------------------------- */
+
+/* .page: full-screen container for each page */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* .topbar: fixed-height header at top */
 .topbar {
-  background: #666;
-  height: 80px;
-  padding: 0 20px;
+  background-color: #333;
+  color: white;
+  height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  color: #fff;
+  padding: 0 16px;
+  flex-shrink: 0;
 }
 
+/* .logo: wrapper for the MyJSI SVG */
+.logo {
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* .profile: right side of topbar (empty for now) */
 .profile {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #fff;
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #999;
+  background-color: #666;
 }
 
-/* Main grid */
+/* .content-page: below topbar, scrollable region */
+.content-page {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* ---------------------------------------------------
+   HomePage-specific styles
+--------------------------------------------------- */
+
+/* .grid: 2-column layout for home tiles */
 .grid {
-  padding: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 100%;
-  margin: 0;
-  padding-bottom: 100px;
+  gap: 16px;
+  margin-top: 24px;
 }
 
-/* Tiles */
+/* .tile: a square/rounded tile in the grid */
 .tile {
-  background: #c4b5a0;
-  border: none;
+  background-color: #d2c4b0;
   border-radius: 8px;
-  padding: 40px 20px;
+  text-decoration: none;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: white;
+  padding: 24px;
+  transition: background-color 0.2s ease;
 }
 
 .tile:hover {
-  opacity: 0.8;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background-color: #b8a38e;
+  cursor: pointer;
 }
 
 .tile-icon {
-  height: 60px;
-  width: 60px;
-  margin-bottom: 20px;
-}
-
-.tile-icon svg {
-  width: 100%;
-  height: 100%;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
 }
 
 .tile-label {
-  font-size: 18px;
-  font-weight: normal;
-  text-transform: lowercase;
-  color: #fff;
-  letter-spacing: 0px;
-  text-align: center;
-}
-
-/* Content pages */
-.content-page {
-  padding: 40px 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.content-page h1 {
-  color: #333;
-  margin-bottom: 30px;
   text-transform: capitalize;
+  font-size: 16px;
+  font-weight: bold;
 }
 
+/* .feedback-bar: bottom fixed bar */
+.feedback-bar {
+  background-color: #999;
+  color: white;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------
+   Dashboard (app) pages styles
+--------------------------------------------------- */
+
+/* .dashboard-grid: two-column card layout */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
 }
 
+/* .dashboard-card: individual card inside an app page */
 .dashboard-card {
-  background: white;
+  background-color: white;
   border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px;
 }
 
-.dashboard-card h3 {
-  margin-top: 0;
-  color: #666;
-}
-
-.big-number {
-  font-size: 36px;
-  font-weight: bold;
-  color: #c4b5a0;
-  margin: 10px 0;
-}
-
+/* .action-btn: buttons inside dashboard cards */
 .action-btn {
-  background: #c4b5a0;
+  background-color: #5c6bc0;
   color: white;
   border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 14px;
+  margin: 8px 0;
+  transition: background-color 0.2s ease;
   cursor: pointer;
-  margin: 5px 10px 5px 0;
-  transition: opacity 0.2s;
 }
 
 .action-btn:hover {
-  opacity: 0.8;
+  background-color: #3949ab;
 }
 
-/* Bottom feedback bar */
-.feedback-bar {
-  background: #c4b5a0;
-  padding: 20px;
-  text-align: center;
-  color: #fff;
-  font-size: 18px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+/* ---------------------------------------------------
+   Replacements page custom styles
+--------------------------------------------------- */
+
+/* .section-title: large uppercase headings */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  color: #333;
 }
 
-/* Page layout */
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* .big-number: for “12 yrs” styling */
+.big-number {
+  font-size: 48px;
+  font-weight: bold;
+  color: #444;
+  margin: 8px 0 16px 0;
 }
+
+/* .warranty-list: bullet list styling */
+.warranty-list {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #555;
+}
+
+.warranty-list li {
+  margin-bottom: 4px;
+}
+
+/* ---------------------------------------------------
+   GenericPage overrides (if needed)
+--------------------------------------------------- */
+
+/* Reuse .dashboard-grid and .dashboard-card from above */
