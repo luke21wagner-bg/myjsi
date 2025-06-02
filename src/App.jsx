@@ -254,6 +254,7 @@ function DocumentsPage() {
     <div className="page">
       <header className="topbar">
         <Link to="/">
+          {/* “My JSI” logo SVG */}
           <div
             className="logo"
             dangerouslySetInnerHTML={{
@@ -291,6 +292,7 @@ function DocumentsPage() {
     </div>
   );
 }
+
 
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
