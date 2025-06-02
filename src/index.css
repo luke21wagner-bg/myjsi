@@ -1,9 +1,6 @@
-/* src/index.css */
-
 /* -------------------------------------------
-   Basic resets and common layout
+   Global resets & layout
 ------------------------------------------- */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,16 +14,16 @@ html,
   background-color: #f5f5f5;
 }
 
-/* .page: container for each “screen” */
+/* -------------------------------------------
+   Container & Topbar
+------------------------------------------- */
 .page {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-
-/* .topbar: fixed header at top */
 .topbar {
-  background-color: #333;
+  background-color: #333333;      /* Dark gray background */
   color: white;
   height: 60px;
   display: flex;
@@ -34,23 +31,40 @@ html,
   padding: 0 16px;
   flex-shrink: 0;
 }
-
-/* .logo: wrapper for the MyJSI SVG */
 .logo {
   cursor: pointer;
   display: inline-block;
 }
 
-/* .profile: right side of topbar (empty placeholder) */
-.profile {
-  margin-left: auto;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #666;
+/* “SALES” title in header */
+.sales-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: white;
+  margin-left: 16px;
+  text-transform: uppercase;
 }
 
-/* .content-page: everything below the topbar */
+/* “New Lead +” button */
+.new-lead-btn {
+  margin-left: auto;
+  background-color: #5c6bc0;      /* Blue-purple */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.new-lead-btn:hover {
+  background-color: #4958a3;
+}
+
+/* -------------------------------------------
+   Main content area
+------------------------------------------- */
 .content-page {
   flex: 1;
   overflow-y: auto;
@@ -58,72 +72,137 @@ html,
 }
 
 /* -------------------------------------------
-   HomePage-specific styles
+   Year selector dropdown
 ------------------------------------------- */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 24px;
+.year-selector {
+  margin-bottom: 16px;
 }
-
-.tile {
-  background-color: #d2c4b0;
-  border-radius: 8px;
-  text-decoration: none;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  transition: background-color 0.2s ease;
-}
-.tile:hover {
-  background-color: #b8a38e;
-  cursor: pointer;
-}
-
-.tile-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 8px;
-}
-
-.tile-label {
-  text-transform: capitalize;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.feedback-bar {
-  background-color: #999;
-  color: white;
-  text-align: center;
-  padding: 8px 0;
+.year-selector select {
   font-size: 14px;
-  flex-shrink: 0;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
 }
 
 /* -------------------------------------------
-   Dashboard (app) pages styles
+   Sales table
 ------------------------------------------- */
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+.sales-table th,
+.sales-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #dddddd;
+  font-size: 14px;
+}
+.sales-table th {
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+.totals-row td {
+  border-top: 2px solid #000000;
+  font-weight: bold;
+  background-color: #fafafa;
+}
 
+/* -------------------------------------------
+   Goal section
+------------------------------------------- */
+.goal-section {
+  background-color: #eeeeee;      /* Light gray container */
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.goal-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+.goal-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+.progress-bar-container {
+  background-color: #dddddd;
+  border-radius: 10px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  background-color: #000000;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.year-progress-text {
+  font-size: 12px;
+  color: #555555;
+  margin-top: 4px;
+}
+
+/* -------------------------------------------
+   Info cards (Backlog, Customer Rank, Rewards)
+------------------------------------------- */
+.info-cards {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+.info-card {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info-card.placeholder-card {
+  opacity: 0.6;  /* Slightly dim placeholders */
+}
+.info-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+.info-value {
+  font-size: 16px;
+  color: #333333;
+}
+
+/* -------------------------------------------
+   Reusing existing tile styles (if needed)
+------------------------------------------- */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-top: 16px;
 }
-
 .dashboard-card {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px;
 }
-
 .action-btn {
   background-color: #5c6bc0;
   color: white;
@@ -138,68 +217,3 @@ html,
 .action-btn:hover {
   background-color: #3949ab;
 }
-
-/* -------------------------------------------
-   Replacement page / Form styles
-------------------------------------------- */
-
-.section-title {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-  color: #333;
-}
-
-.image-preview {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.form-container {
-  margin-top: 16px;
-}
-
-.form-field {
-  margin-bottom: 12px;
-}
-
-.form-field label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 4px;
-  color: #333;
-}
-
-.form-field input,
-.form-field textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.submit-btn {
-  background-color: #5c6bc0;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-.submit-btn:hover {
-  background-color: #3949ab;
-}
-
-/* -------------------------------------------
-   GenericPage overrides (if any)
-------------------------------------------- */
-
-/* (Reuses .dashboard-grid, .dashboard-card from above) */
