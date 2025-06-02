@@ -247,6 +247,51 @@ function OrdersPage() {
 }
 
 //
+
+// ─── DOCUMENTS PAGE ─────────────────────────────────────────────────────────
+function DocumentsPage() {
+  return (
+    <div className="page">
+      <header className="topbar">
+        <Link to="/">
+          <div
+            className="logo"
+            dangerouslySetInnerHTML={{
+              __html: `
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="120" height="40"
+                     viewBox="0 0 120 40" fill="white">
+                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
+                    My
+                  </text>
+                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
+                  <text x="60" y="25" font-family="Arial" font-size="18">
+                    JSI
+                  </text>
+                </svg>
+              `
+            }}
+          />
+        </Link>
+        <div className="profile"></div>
+      </header>
+
+      <div className="content-page documents-page">
+        <h1 className="documents-heading">DOCUMENTS</h1>
+
+        <div className="documents-buttons">
+          <button className="doc-btn">Contracts</button>
+          <button className="doc-btn">Commission Rates</button>
+          <button className="doc-btn">Presentations</button>
+          <button className="doc-btn">Sample Discounts</button>
+          <button className="doc-btn">Install Instructions</button>
+          <button className="doc-btn">Discontinued Finishes</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
 function SalesPage() {
@@ -972,7 +1017,7 @@ function App() {
         <Route path="/lead-times" element={<LeadTimesPage />} />
         <Route path="/fabrics" element={<GenericPage title="Fabrics" />} />
         <Route path="/ssa" element={<SSAPage />} />
-        <Route path="/documents" element={<GenericPage title="Documents" />} />
+        <Route path="/documents" element={<DocumentsPage />} />
         <Route path="/replacements" element={<ReplacementPage />} />
         <Route path="/samples" element={<GenericPage title="Samples" />} />
       </Routes>
