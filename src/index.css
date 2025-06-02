@@ -1,28 +1,28 @@
-/* Reset some defaults */
+/* -------------------------------------------
+   Basic resets and common layout
+------------------------------------------- */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
-body, html, #root {
+body,
+html,
+#root {
   height: 100%;
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
 }
 
-/* ---------------------------------------------------
-   Common layout classes
---------------------------------------------------- */
-
-/* .page: full-screen container for each page */
+/* .page: container for each “screen” */
 .page {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* .topbar: fixed-height header at top */
+/* .topbar: fixed header at top */
 .topbar {
   background-color: #333;
   color: white;
@@ -39,7 +39,7 @@ body, html, #root {
   display: inline-block;
 }
 
-/* .profile: right side of topbar (empty for now) */
+/* .profile: right side of topbar (empty placeholder) */
 .profile {
   margin-left: auto;
   width: 32px;
@@ -48,18 +48,17 @@ body, html, #root {
   background-color: #666;
 }
 
-/* .content-page: below topbar, scrollable region */
+/* .content-page: everything below the topbar */
 .content-page {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
 }
 
-/* ---------------------------------------------------
+/* -------------------------------------------
    HomePage-specific styles
---------------------------------------------------- */
+------------------------------------------- */
 
-/* .grid: 2-column layout for home tiles */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -67,7 +66,6 @@ body, html, #root {
   margin-top: 24px;
 }
 
-/* .tile: a square/rounded tile in the grid */
 .tile {
   background-color: #d2c4b0;
   border-radius: 8px;
@@ -80,7 +78,6 @@ body, html, #root {
   padding: 24px;
   transition: background-color 0.2s ease;
 }
-
 .tile:hover {
   background-color: #b8a38e;
   cursor: pointer;
@@ -98,7 +95,6 @@ body, html, #root {
   font-weight: bold;
 }
 
-/* .feedback-bar: bottom fixed bar */
 .feedback-bar {
   background-color: #999;
   color: white;
@@ -108,11 +104,10 @@ body, html, #root {
   flex-shrink: 0;
 }
 
-/* ---------------------------------------------------
+/* -------------------------------------------
    Dashboard (app) pages styles
---------------------------------------------------- */
+------------------------------------------- */
 
-/* .dashboard-grid: two-column card layout */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -120,7 +115,6 @@ body, html, #root {
   margin-top: 16px;
 }
 
-/* .dashboard-card: individual card inside an app page */
 .dashboard-card {
   background-color: white;
   border-radius: 8px;
@@ -128,7 +122,6 @@ body, html, #root {
   padding: 16px;
 }
 
-/* .action-btn: buttons inside dashboard cards */
 .action-btn {
   background-color: #5c6bc0;
   color: white;
@@ -140,16 +133,14 @@ body, html, #root {
   transition: background-color 0.2s ease;
   cursor: pointer;
 }
-
 .action-btn:hover {
   background-color: #3949ab;
 }
 
-/* ---------------------------------------------------
-   Replacements page custom styles
---------------------------------------------------- */
+/* -------------------------------------------
+   Replacement page / Form styles
+------------------------------------------- */
 
-/* .section-title: large uppercase headings */
 .section-title {
   font-size: 24px;
   font-weight: bold;
@@ -158,27 +149,55 @@ body, html, #root {
   color: #333;
 }
 
-/* .big-number: for “12 yrs” styling */
-.big-number {
-  font-size: 48px;
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-container {
+  margin-top: 16px;
+}
+
+.form-field {
+  margin-bottom: 12px;
+}
+
+.form-field label {
+  display: block;
   font-weight: bold;
-  color: #444;
-  margin: 8px 0 16px 0;
-}
-
-/* .warranty-list: bullet list styling */
-.warranty-list {
-  list-style-type: disc;
-  margin-left: 20px;
-  color: #555;
-}
-
-.warranty-list li {
   margin-bottom: 4px;
+  color: #333;
 }
 
-/* ---------------------------------------------------
-   GenericPage overrides (if needed)
---------------------------------------------------- */
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
 
-/* Reuse .dashboard-grid and .dashboard-card from above */
+.submit-btn {
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.submit-btn:hover {
+  background-color: #3949ab;
+}
+
+/* -------------------------------------------
+   GenericPage overrides (if any)
+------------------------------------------- */
+
+/* (Reuses .dashboard-grid, .dashboard-card from above) */
