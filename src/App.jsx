@@ -1,3 +1,4 @@
+import React, { useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 
@@ -236,6 +237,30 @@ function LeadTimesPage() {
 }
 
 function ReplacementPage() {
+  // create a ref for the hidden file input
+  const fileInputRef = useRef(null);
+
+  // when “Take Photo” is clicked, trigger the file input’s click()
+  const handleTakePhoto = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // optional: handle the chosen file (e.g. show a preview or upload)
+  // for now, we just read it so the input’s behavior is visible
+  const handleFileChosen = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // You could display a preview or send the file to a server here.
+      console.log("User took/selected a photo:", file);
+      // For example, to show a basic data URL preview:
+      // const reader = new FileReader();
+      // reader.onload = e => console.log(e.target.result);
+      // reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="page">
       <header className="topbar">
@@ -261,14 +286,22 @@ function ReplacementPage() {
         </Link>
         <div className="profile"></div>
       </header>
+
       <div className="content-page">
-        {/* Replacement Section */}
+        {/* REPLACEMENT Section */}
         <h1 className="section-title">REPLACEMENT</h1>
+
         <div className="dashboard-grid">
-          {/* TAKE PHOTO Button */}
-          <button className="tile">
+          {/* “Take Photo” button now triggers the hidden <input> */}
+          <button className="tile" onClick={handleTakePhoto}>
             <div className="tile-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="48" height="48">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="white"
+                viewBox="0 0 24 24"
+                width="48"
+                height="48"
+              >
                 <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
                 <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16
                         a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
@@ -276,10 +309,27 @@ function ReplacementPage() {
             </div>
             <div className="tile-label">TAKE PHOTO</div>
           </button>
-          {/* UPLOAD Button */}
+
+          {/* hidden file input, configured to open camera on mobile devices */}
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChosen}
+          />
+
+          {/* “Upload” button remains unchanged */}
           <button className="tile">
             <div className="tile-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="48" height="48">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="white"
+                viewBox="0 0 24 24"
+                width="48"
+                height="48"
+              >
                 <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
               </svg>
             </div>
@@ -287,7 +337,7 @@ function ReplacementPage() {
           </button>
         </div>
 
-        {/* Warranty Section */}
+        {/* WARRANTY Section */}
         <h1 className="section-title">WARRANTY</h1>
         <p className="big-number">12 yrs</p>
         <ul className="warranty-list">
@@ -376,7 +426,6 @@ function HomePage() {
         </Link>
         <div className="profile"></div>
       </header>
-
       <div className="grid">
         {apps.map((a, i) => (
           <a key={i} href={`/${a.slug}`} className="tile">
@@ -385,7 +434,6 @@ function HomePage() {
           </a>
         ))}
       </div>
-
       <div className="feedback-bar">Feedback</div>
     </div>
   );
