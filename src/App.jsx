@@ -989,7 +989,7 @@ function ComYdgRequestPage() {
     );
   };
 
-  // Enable Submit only if every line has nonempty pattern and qty&gt;0
+  // Enable Submit only if every line has nonempty pattern and qty > 0
   const allValid =
     lines.length > 0 &&
     lines.every(
@@ -1785,7 +1785,7 @@ function SamplesPage() {
 }
 
 //
-// ─── MAIN APP (Router Setup & Leads State) ────────────────────────────────────
+// ─── MAIN APP (Router Setup & Leads State & Viewport Lock) ────────────────────
 //
 function App() {
   // Holds an array of all “New Lead” submissions
@@ -1795,6 +1795,21 @@ function App() {
   const addLead = (leadObj) => {
     setLeads((prev) => [...prev, leadObj]);
   };
+
+  // Disable pinch/zoom by setting viewport meta tag on initial mount
+  useEffect(() => {
+    let meta = document.querySelector('meta[name="viewport"]');
+    const contentValue =
+      "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "viewport";
+      meta.content = contentValue;
+      document.head.appendChild(meta);
+    } else {
+      meta.setAttribute("content", contentValue);
+    }
+  }, []);
 
   return (
     <div className="app-container">
