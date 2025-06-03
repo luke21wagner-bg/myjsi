@@ -773,7 +773,10 @@ function OpportunitiesPage({ leads }) {
                 </li>
               ))
             ) : (
-              <li className="opp-item" style={{ fontStyle: "italic", color: "#777" }}>
+              <li
+                className="opp-item"
+                style={{ fontStyle: "italic", color: "#777" }}
+              >
                 (No leads in this category)
               </li>
             )}
@@ -797,9 +800,7 @@ function RewardsPage() {
     { name: "Alan Bird", amount: "$1,034.21" }
   ];
 
-  const designerRewards = [
-    { name: "Jen Franklin", amount: "$12.10" }
-  ];
+  const designerRewards = [{ name: "Jen Franklin", amount: "$12.10" }];
 
   return (
     <div className="page rewards-page">
@@ -1357,10 +1358,6 @@ function ProductsPage() {
               fill="#333"
             >
               <rect x="3" y="5" width="18" height="14" rx="1" stroke="#333" strokeWidth="1" fill="none"/>
-              <rect x="6" y="8" width="4" height="3" fill="#333"/>
-              <rect x="14" y="8" width="4" height="3" fill="#333"/>
-              <rect x="6" y="14" width="4" height="3" fill="#333"/>
-              <rect x="14" y="14" width="4" height="3" fill="#333"/>
             </svg>
             <div className="prod-btn-label">Casegoods</div>
           </Link>
@@ -1371,529 +1368,22 @@ function ProductsPage() {
 }
 
 //
-// ─── PRODUCTS Placeholder Pages ─────────────────────────────────────────────────
-//
-function SwivelsPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">SWIVELS</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the placeholder page for <strong>Swivels</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function EndTablesPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">END TABLES</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the placeholder page for <strong>End Tables</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function ConferencePage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">CONFERENCE</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the placeholder page for <strong>Conference</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function MorePage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">MORE</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the placeholder page for <strong>More...</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function SeatingPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">SEATING</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the placeholder page for <strong>Seating</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function CasegoodsPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">CASEGOODS</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the placeholder page for <strong>Casegoods</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-//
 // ─── REPLACEMENTS PAGE ─────────────────────────────────────────────────────────
 //
 function ReplacementsPage() {
-  const fileInputRef = useRef(null);
-  const [photoFile, setPhotoFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [soNumber, setSoNumber] = useState("");
-  const [lineItem, setLineItem] = useState("");
-  const [notes, setNotes] = useState("");
-
-  const handleTakePhoto = () => {
-    if (fileInputRef.current) fileInputRef.current.click();
-  };
-
-  const handleFileChosen = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPhotoFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Replacement submitted! (Add email logic separately.)");
-    setPhotoFile(null);
-    setPreviewUrl(null);
-    setSoNumber("");
-    setLineItem("");
-    setNotes("");
-  };
-
   return (
-    <div className="page">
+    <div className="page replacements-page">
       <Topbar />
 
       <h1 className="documents-heading">REPLACEMENTS</h1>
 
-      <div className="content-page replacements-page">
-        {!photoFile ? (
-          <div className="dashboard-grid">
-            <button className="tile" onClick={handleTakePhoto}>
-              <div className="tile-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="white"
-                  viewBox="0 0 24 24"
-                  width="48"
-                  height="48"
-                >
-                  <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z" />
-                  <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z" />
-                </svg>
-              </div>
-              <div className="tile-label">TAKE PHOTO</div>
-            </button>
-
-            <input
-              type="file"
-              accept="image/*"
-              capture="environment"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileChosen}
-            />
-
-            <button className="tile" onClick={handleTakePhoto}>
-              <div className="tile-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="white"
-                  viewBox="0 0 24 24"
-                  width="48"
-                  height="48"
-                >
-                  <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z" />
-                </svg>
-              </div>
-              <div className="tile-label">UPLOAD</div>
-            </button>
-          </div>
-        ) : (
-          <div className="form-container">
-            <h1 className="section-title">REPLACEMENT DETAILS</h1>
-            {previewUrl && (
-              <img src={previewUrl} alt="Preview" className="image-preview" />
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <div className="form-field">
-                <label htmlFor="soNumber">SO #</label>
-                <input
-                  type="text"
-                  id="soNumber"
-                  value={soNumber}
-                  onChange={(e) => setSoNumber(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="lineItem">Line Item #</label>
-                <input
-                  type="text"
-                  id="lineItem"
-                  value={lineItem}
-                  onChange={(e) => setLineItem(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="notes">Notes / Description</label>
-                <textarea
-                  id="notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows="4"
-                  required
-                />
-              </div>
-
-              <button type="submit" className="submit-btn">
-                Submit
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── SSAPAGE ──────────────────────────────────────────────────────────────────
-//
-function SSAPage() {
-  const [form, setForm] = useState({
-    project: "",
-    dealer: "",
-    estList: "",
-    discount: "Standard Discount",
-    poDate: "",
-    products: "",
-    priceList: "January 2025",
-    contract: false,
-    spiff: false,
-    waiveHandling: false,
-    waiveGrommets: false,
-    waiveSpecialFinish: false,
-    waiveSpecialLam: false,
-    validThrough: "",
-    competition: "",
-    notes: ""
-  });
-
-  function handleChange(e) {
-    const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value
-    }));
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("SSA form submitted:", form);
-    alert("SSA form submitted! Check console for data.");
-  }
-
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">SSA</h1>
-
-      <div className="content-page ssa-page">
-        <form className="ssa-form" onSubmit={handleSubmit}>
-          {/* Project */}
-          <div className="ssa-form-field">
-            <label htmlFor="project">Project</label>
-            <input
-              type="text"
-              id="project"
-              name="project"
-              placeholder="Enter Project Name"
-              value={form.project}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Dealer */}
-          <div className="ssa-form-field">
-            <label htmlFor="dealer">Dealer</label>
-            <div className="ssa-search-wrapper">
-              <svg
-                className="ssa-search-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="#888"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <input
-                type="text"
-                id="dealer"
-                name="dealer"
-                placeholder="Search Dealer"
-                value={form.dealer}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Est. List */}
-          <div className="ssa-form-field">
-            <label htmlFor="estList">Est. List</label>
-            <div className="ssa-dollar-wrapper">
-              <span className="ssa-dollar-sign">$</span>
-              <input
-                type="number"
-                id="estList"
-                name="estList"
-                placeholder="0.00"
-                value={form.estList}
-                onChange={handleChange}
-                min="0"
-                step="0.01"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Discount */}
-          <div className="ssa-form-field">
-            <label htmlFor="discount">Discount</label>
-            <select
-              id="discount"
-              name="discount"
-              value={form.discount}
-              onChange={handleChange}
-              required
-            >
-              <option>Standard Discount</option>
-              <option>Discount Option 1</option>
-              <option>Discount Option 2</option>
-            </select>
-          </div>
-
-          {/* PO Date */}
-          <div className="ssa-form-field">
-            <label htmlFor="poDate">PO Date</label>
-            <input
-              type="date"
-              id="poDate"
-              name="poDate"
-              value={form.poDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Products */}
-          <div className="ssa-form-field">
-            <label htmlFor="products">Products</label>
-            <div className="ssa-search-wrapper">
-              <svg
-                className="ssa-search-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="#888"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <input
-                type="text"
-                id="products"
-                name="products"
-                placeholder="Search Products"
-                value={form.products}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Price List */}
-          <div className="ssa-form-field">
-            <label htmlFor="priceList">Price List</label>
-            <select
-              id="priceList"
-              name="priceList"
-              value={form.priceList}
-              onChange={handleChange}
-              required
-            >
-              <option>January 2025</option>
-              <option>February 2025</option>
-              <option>March 2025</option>
-            </select>
-          </div>
-
-          {/* Contract + Spiff */}
-          <div className="ssa-form-field-inline">
-            <div className="ssa-checkbox-group">
-              <input
-                type="checkbox"
-                id="contract"
-                name="contract"
-                checked={form.contract}
-                onChange={handleChange}
-              />
-              <label htmlFor="contract">Contract</label>
-            </div>
-            <div className="ssa-checkbox-group">
-              <input
-                type="checkbox"
-                id="spiff"
-                name="spiff"
-                checked={form.spiff}
-                onChange={handleChange}
-              />
-              <label htmlFor="spiff">Spiff</label>
-            </div>
-          </div>
-
-          {/* Waive checkboxes */}
-          <div className="ssa-form-field waiver-section">
-            <label>Waive</label>
-            <div className="waive-checkboxes">
-              <div className="ssa-checkbox-group">
-                <input
-                  type="checkbox"
-                  id="waiveHandling"
-                  name="waiveHandling"
-                  checked={form.waiveHandling}
-                  onChange={handleChange}
-                />
-                <label htmlFor="waiveHandling">Handling</label>
-              </div>
-              <div className="ssa-checkbox-group">
-                <input
-                  type="checkbox"
-                  id="waiveGrommets"
-                  name="waiveGrommets"
-                  checked={form.waiveGrommets}
-                  onChange={handleChange}
-                />
-                <label htmlFor="waiveGrommets">Grommets</label>
-              </div>
-              <div className="ssa-checkbox-group">
-                <input
-                  type="checkbox"
-                  id="waiveSpecialFinish"
-                  name="waiveSpecialFinish"
-                  checked={form.waiveSpecialFinish}
-                  onChange={handleChange}
-                />
-                <label htmlFor="waiveSpecialFinish">Special Finish</label>
-              </div>
-              <div className="ssa-checkbox-group">
-                <input
-                  type="checkbox"
-                  id="waiveSpecialLam"
-                  name="waiveSpecialLam"
-                  checked={form.waiveSpecialLam}
-                  onChange={handleChange}
-                />
-                <label htmlFor="waiveSpecialLam">Special Lam</label>
-              </div>
-            </div>
-          </div>
-
-          {/* Valid Through */}
-          <div className="ssa-form-field">
-            <label htmlFor="validThrough">Valid Through</label>
-            <input
-              type="date"
-              id="validThrough"
-              name="validThrough"
-              value={form.validThrough}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Competition */}
-          <div className="ssa-form-field">
-            <label htmlFor="competition">Competition</label>
-            <input
-              type="text"
-              id="competition"
-              name="competition"
-              placeholder="Search Competitors"
-              value={form.competition}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Notes */}
-          <div className="ssa-form-field">
-            <label htmlFor="notes">Notes</label>
-            <textarea
-              id="notes"
-              name="notes"
-              placeholder="Additional notes or competitors..."
-              rows="3"
-              value={form.notes}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="ssa-form-actions">
-            <button type="submit" className="ssa-submit-btn">
-              Submit
-            </button>
-          </div>
-        </form>
+      <div className="content-page">
+        <div className="dashboard-grid">
+          <div className="dashboard-card">Card 1</div>
+          <div className="dashboard-card">Card 2</div>
+          <div className="dashboard-card">Card 3</div>
+          <div className="dashboard-card">Card 4</div>
+        </div>
       </div>
     </div>
   );
@@ -1904,28 +1394,16 @@ function SSAPage() {
 //
 function SamplesPage() {
   return (
-    <div className="page">
+    <div className="page samples-page">
       <Topbar />
 
       <h1 className="documents-heading">SAMPLES</h1>
 
-      <div className="content-page samples-page">
+      <div className="content-page">
         <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>Welcome to Samples</h3>
-            <p>This section is coming soon!</p>
-            <p>We’re building amazing features for you.</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>Quick Links</h3>
-            <button
-              className="action-btn"
-              onClick={() => window.history.back()}
-            >
-              ← Back to Home
-            </button>
-          </div>
+          <div className="dashboard-card">Sample A</div>
         </div>
+        <button className="action-btn">Action</button>
       </div>
     </div>
   );
@@ -1935,20 +1413,11 @@ function SamplesPage() {
 // ─── FEEDBACK PAGE ────────────────────────────────────────────────────────────
 //
 function FeedbackPage() {
-  const navigate = useNavigate();
-
-  const [subject, setSubject] = useState("");
-  const [suggestion, setSuggestion] = useState("");
-  const [files, setFiles] = useState("");
-  const [isSubmittedOverlayOn, setIsSubmittedOverlayOn] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmittedOverlayOn(true);
-    setTimeout(() => {
-      setIsSubmittedOverlayOn(false);
-      navigate("/");
-    }, 1000);
+    setSubmitted(true);
   };
 
   return (
@@ -1958,31 +1427,20 @@ function FeedbackPage() {
       <h1 className="feedback-heading">FEEDBACK</h1>
 
       <div className="content-page">
-        <form className="feedback-form" onSubmit={handleSubmit}>
-          <div className="feedback-field">
-            <label>Subject</label>
-            <input
-              type="text"
-              placeholder="Include suggestion title..."
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              required
-            />
+        {submitted ? (
+          <div className="submitted-message">
+            Thank you! Your feedback has been submitted.
           </div>
-
-          <div className="feedback-field">
-            <label>Suggestion</label>
-            <textarea
-              rows="6"
-              placeholder="Include suggestions for MyJSI app improvements..."
-              value={suggestion}
-              onChange={(e) => setSuggestion(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="feedback-field">
-            <label>Files</label>
+        ) : (
+          <form className="feedback-form" onSubmit={handleSubmit}>
+            <div className="feedback-field">
+              <label>Name</label>
+              <input type="text" required />
+            </div>
+            <div className="feedback-field">
+              <label>Comments</label>
+              <textarea rows="4" required />
+            </div>
             <div className="feedback-file-wrapper">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1993,136 +1451,43 @@ function FeedbackPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5"></path>
+                <path d="M12 15V3"></path>
               </svg>
-              <input
-                type="text"
-                placeholder="Add attachments"
-                value={files}
-                onChange={(e) => setFiles(e.target.value)}
-              />
+              <input type="text" placeholder="Upload file..." />
             </div>
-          </div>
-
-          <button type="submit" className="feedback-submit-btn">
-            SUBMIT
-          </button>
-        </form>
+            <button className="feedback-submit-btn">SUBMIT</button>
+          </form>
+        )}
       </div>
-
-      {isSubmittedOverlayOn && (
-        <div className="modal-overlay">
-          <div className="modal-content" style={{ maxWidth: "300px" }}>
-            <div className="submitted-message">Submitted</div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
 //
-// ─── OTHER PAGES (SSA, Replacements, Samples, etc.) are defined above
+// ─── APP ROOT ─────────────────────────────────────────────────────────────────
 //
-// ──────────────────────────────────────────────────────────────────────────────
-//
-// ROUTER: tie everything together
-//
-function App() {
-  const [leads, setLeads] = useState([]);
-
-  const addLead = (leadObj) => {
-    setLeads((prev) => [...prev, leadObj]);
-  };
-
-  // Lock pinch/zoom so user can’t break layout
-  useEffect(() => {
-    let meta = document.querySelector('meta[name="viewport"]');
-    const contentValue =
-      "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "viewport";
-      meta.content = contentValue;
-      document.head.appendChild(meta);
-    } else {
-      meta.setAttribute("content", contentValue);
-    }
-  }, []);
-
+export default function App({ leads, addLead }) {
   return (
-    <div className="app-container">
-      <Router>
+    <Router>
+      <div className="app-container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-
-          {/* ORDERS */}
           <Route path="/orders" element={<OrdersPage />} />
-
-          {/* SALES */}
           <Route path="/sales" element={<SalesPage leads={leads} />} />
-          <Route
-            path="/sales/new-leads"
-            element={<NewLeadsPage addLead={addLead} />}
-          />
+          <Route path="/sales/new-leads" element={<NewLeadsPage addLead={addLead} />} />
           <Route path="/sales/rewards" element={<RewardsPage />} />
-          <Route
-            path="/sales/commissions"
-            element={
-              <div className="page">
-                <Topbar />
-                <h1 className="documents-heading">COMMISSIONS</h1>
-                <div className="content-page">
-                  <p style={{ padding: "0 16px", color: "#333333" }}>
-                    This is a placeholder page for <strong>Commissions</strong>.
-                  </p>
-                </div>
-              </div>
-            }
-          />
-
-          {/* LEAD TIMES */}
           <Route path="/lead-times" element={<LeadTimesPage />} />
-
-          {/* FABRICS */}
           <Route path="/fabrics" element={<FabricsPage />} />
-          <Route
-            path="/fabrics/database"
-            element={<FabricDatabasePage />}
-          />
-          <Route
-            path="/fabrics/com-request"
-            element={<ComYdgRequestPage />}
-          />
-
-          {/* DOCUMENTS */}
+          <Route path="/fabrics/database" element={<FabricDatabasePage />} />
+          <Route path="/fabrics/com-request" element={<ComYdgRequestPage />} />
           <Route path="/documents" element={<DocumentsPage />} />
-
-          {/* REPLACEMENTS */}
-          <Route path="/replacements" element={<ReplacementsPage />} />
-
-          {/* PRODUCTS */}
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/swivels" element={<SwivelsPage />} />
-          <Route path="/products/end-tables" element={<EndTablesPage />} />
-          <Route path="/products/conference" element={<ConferencePage />} />
-          <Route path="/products/more" element={<MorePage />} />
-          <Route path="/products/seating" element={<SeatingPage />} />
-          <Route path="/products/casegoods" element={<CasegoodsPage />} />
-
-          {/* SSA */}
-          <Route path="/ssa" element={<SSAPage />} />
-
-          {/* SAMPLES */}
+          <Route path="/replacements" element={<ReplacementsPage />} />
           <Route path="/samples" element={<SamplesPage />} />
-
-          {/* FEEDBACK */}
           <Route path="/feedback" element={<FeedbackPage />} />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
-
-export default App;
