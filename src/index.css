@@ -576,7 +576,7 @@ body,
 }
 
 /* -------------------------------------------
-   COM YDG REQUEST PAGE Styles
+   COM YDG REQUEST Page Styles
 ------------------------------------------- */
 .com-page .content-page {
   background-color: #ffffff;
@@ -684,4 +684,79 @@ body,
 }
 .com-submit-btn:hover:not(:disabled) {
   background-color: #f0f0f0;
+}
+
+/* -------------------------------------------
+   PRODUCTS Page Styles
+------------------------------------------- */
+.products-page .content-page {
+  background-color: #ffffff;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+.category-box {
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;  /* so Links inside look normal */
+  color: inherit;
+}
+.category-box:hover {
+  background-color: #f7f7f7;
+}
+.category-title {
+  font-size: 18px;
+  font-weight: bold;
+  flex: 0 0 120px;
+}
+.product-images {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.product-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+}
+.prod-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 0 16px;
+}
+.prod-btn {
+  flex: 1;
+  background-color: #f0f0f0;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  text-decoration: none;
+  color: #333333;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.prod-btn:hover {
+  background-color: #e0e0e0;
+}
+.prod-btn:active {
+  transform: scale(0.98);
+}
+.prod-btn-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+.prod-btn-label {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
