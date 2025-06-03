@@ -111,7 +111,7 @@ body,
 }
 
 /* -------------------------------------------
-   OrdersPage: Search + Calendar + List
+   ORDERS PAGE: Search + Calendar + List
 ------------------------------------------- */
 .orders-toolbar {
   display: flex;
@@ -181,7 +181,7 @@ body,
 }
 
 /* -------------------------------------------
-   SalesPage: Table, Goal, Info Cards
+   SALES PAGE: Table, Goal, Info Cards
 ------------------------------------------- */
 .content-page {
   flex: 1;
@@ -309,7 +309,7 @@ body,
 }
 
 /* -------------------------------------------
-   LeadTimesPage: Dashboard Cards
+   LEAD TIMES PAGE: Dashboard Cards
 ------------------------------------------- */
 .dashboard-grid {
   display: grid;
@@ -344,7 +344,7 @@ body,
 }
 
 /* -------------------------------------------
-   ReplacementPage: Take Photo & Form
+   REPLACEMENT PAGE: Take Photo & Form
 ------------------------------------------- */
 .section-title {
   font-size: 24px;
@@ -534,16 +534,15 @@ body,
 }
 
 /* -------------------------------------------
-   GenericPage & Documents Page
+   DOCUMENTS PAGE: Buttons & Heading
 ------------------------------------------- */
-/* (reuses .dashboard-grid and .dashboard-card from above) */
 .documents-page {
   background-color: #ffffff;
   padding: 16px;
   overflow-y: auto;
 }
 .documents-heading {
-  font-size: 32px;                   /* larger than before */
+  font-size: 32px;                   /* Enlarged for your request */
   font-weight: bold;
   text-transform: uppercase;
   color: #ffffff;
