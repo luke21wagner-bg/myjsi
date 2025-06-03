@@ -94,13 +94,13 @@ body,
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 6px;       /* slightly smaller than before */
-  padding: 8px;   /* a bit tighter */
+  gap: 12px;      /* ↑ increased from 6px to 12px to make each tile narrower */
+  padding: 12px;  /* ↑ increased from 8px to 12px for extra outer spacing */
   margin-bottom: 8px;
 }
 .tile {
   background-color: #c4b5a0;
-  border-radius: 16px;    /* increased from 12px to 16px for more curvature */
+  border-radius: 20px;    /* ↑ increased from 16px to 20px for slightly more rounding */
   aspect-ratio: 1/1;      /* perfect square tiles */
   display: flex;
   flex-direction: column;
@@ -118,8 +118,8 @@ body,
   transform: scale(0.98);
 }
 .tile-icon {
-  width: 40px;   /* reduced from 45px to 40px */
-  height: 40px;  /* reduced from 45px to 40px */
+  width: 40px;   /* same as before */
+  height: 40px;  /* same as before */
   margin-bottom: 5px;
 }
 .tile-icon svg {
@@ -128,7 +128,7 @@ body,
 }
 .tile-label {
   text-transform: lowercase;
-  font-size: 11px;  /* slightly smaller label text */
+  font-size: 11px;
   color: #ffffff;
   text-align: center;
   line-height: 1.2;
