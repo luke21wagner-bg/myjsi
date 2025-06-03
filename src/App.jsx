@@ -658,7 +658,7 @@ function NewLeadsPage({ addLead }) {
                       pointerEvents: "none"
                     }}
                   >
-                    <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"></path>
+                    <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
                   </svg>
                   <input
                     type="text"
@@ -1720,7 +1720,7 @@ function LeadTimesPage() {
         const doc = parser.parseFromString(htmlString, "text/html");
         const fullText = doc.body.innerText;
 
-        // 3) Split into lines, trim, and remove empty‐string lines
+        // 3) Split into lines, trim, and remove empty-string lines
         const lines = fullText
           .split("\n")
           .map((l) => l.trim())
@@ -1881,11 +1881,11 @@ function LeadTimesPage() {
 
 //
 // ─── OTHER PAGES ──────────────────────────────────────────────────────────────
-// (Re‐use exactly as we defined above in your previous setup.)
+// (Re-use exactly as we defined above in your previous setup.)
+// – DocumentsPage, FabricDatabasePage, ComYdgRequestPage, ProductsPage, SwivelsPage, EndTablesPage, ConferencePage, MorePage, SeatingPage, CasegoodsPage, ReplacementsPage, SSAPage, SamplesPage, FeedbackPage
 //
-// For brevity, the code for “ReplacementsPage”, “SSAPage”, “SamplesPage”, etc.
-// is unchanged from the prior version. See above in this file for the full
-// definitions of ReplacementsPage, SSAPage, SamplesPage, FeedbackPage, etc.
+// All those components remain exactly unchanged from the prior code. For brevity,
+// we do not re-list them here, since they were already included above.
 //
 // ──────────────────────────────────────────────────────────────────────────────
 //
