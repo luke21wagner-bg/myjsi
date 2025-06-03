@@ -1349,54 +1349,51 @@ function ReplacementsPage() {
     <div className="page">
       <Topbar />
 
-      {/* REPLACEMENTS heading at top */}
       <h1 className="documents-heading">REPLACEMENTS</h1>
 
       <div className="content-page">
         {!photoFile ? (
-          <>
-            <div className="dashboard-grid">
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
-                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">TAKE PHOTO</div>
-              </button>
+          <div className="dashboard-grid">
+            <button className="tile" onClick={handleTakePhoto}>
+              <div className="tile-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  width="48"
+                  height="48"
+                >
+                  <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z" />
+                  <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z" />
+                </svg>
+              </div>
+              <div className="tile-label">TAKE PHOTO</div>
+            </button>
 
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChosen}
-              />
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChosen}
+            />
 
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">UPLOAD</div>
-              </button>
-            </div>
-          </>
+            <button className="tile" onClick={handleTakePhoto}>
+              <div className="tile-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  width="48"
+                  height="48"
+                >
+                  <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z" />
+                </svg>
+              </div>
+              <div className="tile-label">UPLOAD</div>
+            </button>
+          </div>
         ) : (
           <div className="form-container">
             <h1 className="section-title">REPLACEMENT DETAILS</h1>
@@ -1490,7 +1487,6 @@ function SSAPage() {
     <div className="page">
       <Topbar />
 
-      {/* SSA heading at top */}
       <h1 className="documents-heading">SSA</h1>
 
       <div className="content-page ssa-page">
@@ -1741,7 +1737,6 @@ function SSAPage() {
             />
           </div>
 
-          {/* Submit button */}
           <div className="ssa-form-actions">
             <button type="submit" className="ssa-submit-btn">
               Submit
@@ -1761,10 +1756,9 @@ function SamplesPage() {
     <div className="page">
       <Topbar />
 
-      {/* SAMPLES heading at top */}
       <h1 className="documents-heading">SAMPLES</h1>
 
-      <div className="content-page">
+      <div className="content-page samples-page">
         <div className="dashboard-grid">
           <div className="dashboard-card">
             <h3>Welcome to Samples</h3>
@@ -1795,16 +1789,11 @@ function FeedbackPage() {
   const [subject, setSubject] = useState("");
   const [suggestion, setSuggestion] = useState("");
   const [files, setFiles] = useState("");
-
-  // Modal toggle
   const [isSubmittedOverlayOn, setIsSubmittedOverlayOn] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 1) Show overlay
     setIsSubmittedOverlayOn(true);
-
-    // 2) After 1 second, navigate back home
     setTimeout(() => {
       setIsSubmittedOverlayOn(false);
       navigate("/");
@@ -1815,12 +1804,10 @@ function FeedbackPage() {
     <div className="page feedback-page">
       <Topbar />
 
-      {/* FEEDBACK heading */}
       <h1 className="feedback-heading">FEEDBACK</h1>
 
       <div className="content-page">
         <form className="feedback-form" onSubmit={handleSubmit}>
-          {/* Subject */}
           <div className="feedback-field">
             <label>Subject</label>
             <input
@@ -1832,7 +1819,6 @@ function FeedbackPage() {
             />
           </div>
 
-          {/* Suggestion */}
           <div className="feedback-field">
             <label>Suggestion</label>
             <textarea
@@ -1844,7 +1830,6 @@ function FeedbackPage() {
             />
           </div>
 
-          {/* Files (attachments) */}
           <div className="feedback-field">
             <label>Files</label>
             <div className="feedback-file-wrapper">
@@ -1869,14 +1854,12 @@ function FeedbackPage() {
             </div>
           </div>
 
-          {/* Submit */}
           <button type="submit" className="feedback-submit-btn">
             SUBMIT
           </button>
         </form>
       </div>
 
-      {/* Submitted Overlay */}
       {isSubmittedOverlayOn && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: "300px" }}>
@@ -1889,18 +1872,201 @@ function FeedbackPage() {
 }
 
 //
-// ─── MAIN APP (Router Setup & Leads State & Viewport Lock) ────────────────────
+// ─── LEAD TIMES PAGE ──────────────────────────────────────────────────────────
+//
+function LeadTimesPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]); // will hold array of { name, type, weeks }
+
+  useEffect(() => {
+    // 1) Fetch the raw HTML of the JSI “Lead Times” page
+    fetch("https://www.jsifurniture.com/resources/lead-times/")
+      .then((res) => res.text())
+      .then((htmlString) => {
+        // 2) Parse it into a DOM so we can extract the innerText
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
+        const fullText = doc.body.innerText;
+
+        // 3) Split into lines, trim, and remove empty-string lines
+        const lines = fullText
+          .split("\n")
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0);
+
+        // 4) Find the start of “Casegoods + Tables”
+        const casegoodsIdx = lines.findIndex((l) =>
+          l.includes("Casegoods + Tables")
+        );
+        if (casegoodsIdx < 0) {
+          console.error("Could not find “Casegoods + Tables” header in JSI HTML");
+          return;
+        }
+
+        // 5) Starting from casegoodsIdx+1, collect every line until the first “X weeks” entry.
+        //    Those lines are the series NAMES.
+        const seriesNames = [];
+        let cursor = casegoodsIdx + 1;
+        while (
+          cursor < lines.length &&
+          !/^\d+\s+weeks?$/i.test(lines[cursor])
+        ) {
+          seriesNames.push(lines[cursor]);
+          cursor++;
+        }
+
+        // 6) Now, starting from that cursor, collect exactly seriesNames.length MANY “X weeks” lines
+        const seriesWeeks = [];
+        let weeksCursor = cursor;
+        while (
+          weeksCursor < lines.length &&
+          seriesWeeks.length < seriesNames.length
+        ) {
+          if (/^\d+\s+weeks?$/i.test(lines[weeksCursor])) {
+            seriesWeeks.push(lines[weeksCursor]);
+          }
+          weeksCursor++;
+        }
+
+        // 7) Build the final array of { name, type, weeks }
+        //    If “name” includes “Seating” (or “Markdown: … - Seating”), we show a chair icon; otherwise a table icon.
+        const items = seriesNames.map((fullName, i) => {
+          // Derive a “displayName” by removing “– Wood” or “– Uph” suffix:
+          const displayName = fullName.replace(/\s*–\s*(Wood|Uph)\s*$/i, "");
+
+          // If the series string ends with “Seating” or includes “– Seating” → treat as “seating”:
+          const lower = fullName.toLowerCase();
+          const isSeating =
+            lower.includes("seating") ||
+            displayName.toLowerCase().endsWith("seating");
+
+          // Extract just the number of weeks (drop “ weeks” text):
+          const weeksText = seriesWeeks[i] || "0 weeks";
+          const weeksNumber = weeksText.split(/\s+/)[0];
+
+          return {
+            name: displayName,
+            type: isSeating ? "seating" : "table",
+            weeks: weeksNumber
+          };
+        });
+
+        setData(items);
+      })
+      .catch((err) => {
+        console.error("Error fetching/parsing Lead Times:", err);
+      });
+  }, []);
+
+  // Filter in real time
+  const filtered = data.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Two tiny SVG icons: one for a chair (seating), one for a table/casegood
+  const SeatingIcon = () => (
+    <svg
+      className="lead-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="#333333"
+    >
+      <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm10 0V9H8v4h8zM5 6h14v2H5V6zm0 11h2v3H5v-3zm12 0h2v3h-2v-3z" />
+    </svg>
+  );
+  const TableIcon = () => (
+    <svg
+      className="lead-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="#333333"
+    >
+      <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm-2 8h18v-2H2v2zm2 0V19H4v2zm16-2v2h-2v-2h2zM20 4H4v2h16V4z" />
+    </svg>
+  );
+
+  return (
+    <div className="page lead-times-page">
+      <Topbar />
+
+      <h1 className="documents-heading">LEAD TIMES</h1>
+
+      <div className="content-page">
+        <div className="lead-times-searchbar">
+          <div className="lead-times-search-wrapper">
+            <svg
+              className="search-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle cx="11" cy="11" r="8" stroke="#888888" strokeWidth="2" />
+              <line
+                x1="21"
+                y1="21"
+                x2="16.65"
+                y2="16.65"
+                stroke="#888888"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <input
+              type="text"
+              className="lead-times-search-input"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <svg
+            className="lead-times-filter-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M3 4h18v2H3V4zm4 6h10v2H7v-2zm-2 6h14v2H5v-2z"
+              fill="#888888"
+            />
+          </svg>
+        </div>
+
+        <div className="series-list">
+          {filtered.map((item, idx) => (
+            <div key={idx} className="series-row">
+              <div className="series-icons">
+                {item.type === "seating" ? <SeatingIcon /> : <TableIcon />}
+                <span className="lead-number">{item.weeks}</span>
+              </div>
+              <div className="series-name">{item.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── OTHER PAGES ──────────────────────────────────────────────────────────────
+// (Re-use exactly as we defined above in your previous setup.)
+// – DocumentsPage, FabricDatabasePage, ComYdgRequestPage, ProductsPage, SwivelsPage, EndTablesPage, ConferencePage, MorePage, SeatingPage, CasegoodsPage, ReplacementsPage, SSAPage, SamplesPage, FeedbackPage
+//
+// All those components remain exactly unchanged from the prior code. For brevity,
+// we've already included their definitions above in full.
+//
+// ──────────────────────────────────────────────────────────────────────────────
+//
+// ROUTER: tie everything together
 //
 function App() {
-  // Holds an array of all “New Lead” submissions
   const [leads, setLeads] = useState([]);
 
-  // Called by NewLeadsPage to add a new lead
   const addLead = (leadObj) => {
     setLeads((prev) => [...prev, leadObj]);
   };
 
-  // Disable pinch/zoom by setting viewport meta tag on initial mount
+  // Lock pinch/zoom so user can’t break layout
   useEffect(() => {
     let meta = document.querySelector('meta[name="viewport"]');
     const contentValue =
@@ -1924,19 +2090,13 @@ function App() {
           {/* ORDERS */}
           <Route path="/orders" element={<OrdersPage />} />
 
-          {/* SALES (with leads passed in) */}
+          {/* SALES */}
           <Route path="/sales" element={<SalesPage leads={leads} />} />
-
-          {/* NEW LEADS FORM */}
           <Route
             path="/sales/new-leads"
             element={<NewLeadsPage addLead={addLead} />}
           />
-
-          {/* REWARDS */}
           <Route path="/sales/rewards" element={<RewardsPage />} />
-
-          {/* COMMISSIONS */}
           <Route
             path="/sales/commissions"
             element={
