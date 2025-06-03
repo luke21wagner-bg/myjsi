@@ -323,13 +323,119 @@ body,
 }
 
 /* -------------------------------------------
-   OPPORTUNITIES PAGE Styles
+   New Leads Page Styles (Form)
 ------------------------------------------- */
-.opp-page .content-page {
+.new-lead-page .content-page {
   background-color: #ffffff;
   padding: 16px;
   flex: 1;
   overflow-y: auto;
+}
+.new-lead-heading {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #333333;
+  margin: 20px 16px 24px; /* same spacing as other headings */
+}
+.new-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lead-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lead-field label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+}
+.lead-field input[type="text"],
+.lead-field input[type="number"],
+.lead-field select,
+.lead-field textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: none;
+  background-color: #fcfcfc;
+  transition: border-color 0.2s ease;
+}
+.lead-field input:focus,
+.lead-field select:focus,
+.lead-field textarea:focus {
+  border-color: #888888;
+}
+.lead-form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.lead-half {
+  flex: 1 1 48%;
+}
+.lead-full {
+  flex: 1 1 100%;
+}
+.lead-submit-btn {
+  background-color: #c4b5a0;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 8px;
+}
+.lead-submit-btn:hover {
+  background-color: #b8a38e;
+}
+.lead-submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* -------------------------------------------
+   OPPORTUNITIES PAGE Modal Styles
+------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 380px;
+  max-height: 90%;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  color: #555555;
+  cursor: pointer;
 }
 .opp-section {
   background-color: #eeeeee;
@@ -355,6 +461,13 @@ body,
 }
 .opp-item:last-child {
   border-bottom: none;
+}
+
+/* -------------------------------------------
+   If modal is open, hide background scroll
+------------------------------------------- */
+body.no-scroll {
+  overflow: hidden;
 }
 
 /* -------------------------------------------
