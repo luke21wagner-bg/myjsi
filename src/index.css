@@ -1,1090 +1,3 @@
-/* -------------------------------------------
-   Lock to a phone‐sized viewport
-------------------------------------------- */
-.app-container {
-  max-width: 420px;
-  margin: 0 auto;
-  height: 100vh;
-  overflow: hidden; /* Root is fixed‐height, but inner content is scrollable */
-  background-color: #f5f5f5;
-}
-
-/* -------------------------------------------
-   Global resets & layout
-------------------------------------------- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-html,
-body,
-#root {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-}
-
-/* -------------------------------------------
-   Container & Topbar (shared)
-------------------------------------------- */
-.page {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.topbar {
-  background-color: #333333;   /* dark gray */
-  color: #ffffff;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 5;
-}
-.logo {
-  cursor: pointer;
-  display: inline-block;
-  margin-right: 16px;
-}
-.profile {
-  margin-left: auto;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #666666;
-}
-
-/* -------------------------------------------
-   HomePage: Scrollable container + Grid & Tiles (even smaller + subtle shadow)
-------------------------------------------- */
-.home-content {
-  flex: 1;
-  overflow-y: auto;
-  padding-top: 8px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;          /* reduced from 8px */
-  padding: 8px;      /* reduced from 10px */
-  margin-bottom: 8px;
-}
-.tile {
-  background-color: #c4b5a0;   /* light beige */
-  border-radius: 12px;
-  aspect-ratio: 1 / 1;         /* perfect square */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* slightly bolder subtle shadow */
-  text-decoration: none;
-  overflow: hidden;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.tile:active {
-  transform: scale(0.98);
-}
-.tile:hover {
-  background-color: #b8a38e;  /* darker on hover */
-}
-.tile-icon {
-  width: 45px;    /* reduced from 50px */
-  height: 45px;
-  margin-bottom: 5px;
-}
-.tile-icon svg {
-  width: 100%;
-  height: 100%;
-}
-.tile-label {
-  text-transform: lowercase;
-  font-size: 11px; /* reduced from 12px */
-  color: #ffffff;
-  text-align: center;
-  line-height: 1.2;
-}
-
-/* -------------------------------------------
-   Feedback Bar (bottom of Home) – now clickable
-------------------------------------------- */
-.feedback-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 48px;
-  background-color: #c4b5a0;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  z-index: 10;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-/* -------------------------------------------
-   ORDERS PAGE: Search + Calendar + List
-------------------------------------------- */
-.orders-toolbar {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  background-color: #ffffff;
-}
-.orders-search-wrapper {
-  position: relative;
-  flex: 1;
-}
-.search-icon {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  pointer-events: none;
-}
-.orders-search-input {
-  width: 100%;
-  padding: 8px 8px 8px 36px; /* leave space for search icon */
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  outline: none;
-}
-.orders-search-input:focus {
-  border-color: #888888;
-}
-.calendar-icon {
-  width: 24px;
-  height: 24px;
-  margin-left: 16px;
-  cursor: pointer;
-}
-.orders-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background-color: #ffffff;
-  border-top: 1px solid #eeeeee;
-  border-bottom: 1px solid #eeeeee;
-}
-.orders-date {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333333;
-  text-transform: uppercase;
-}
-.orders-list {
-  flex: 1;
-  overflow-y: auto;
-  background-color: #ffffff;
-}
-.orders-item {
-  padding: 12px 16px;
-  font-size: 14px;
-  color: #333333;
-  border-bottom: 1px solid #eeeeee;
-}
-.orders-item:last-child {
-  border-bottom: none;
-}
-
-/* -------------------------------------------
-   SALES PAGE: Swipeable Toolbar + Sleek Table + Goal
-------------------------------------------- */
-/* Swipeable button bar (hides scrollbar) */
-.sales-toolbar {
-  display: flex;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  gap: 12px;
-  padding: 12px 16px;
-  background-color: #ffffff;
-}
-.sales-toolbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Buttons all share one style */
-.new-lead-btn,
-.rewards-btn,
-.commissions-btn,
-.opportunities-btn {
-  flex: 0 0 auto;
-  background-color: #333333;    /* match topbar gray */
-  color: #ffffff;               /* white text */
-  border: none;
-  border-radius: 20px;          /* extra-rounded corners */
-  padding: 8px 16px;            /* uniform padding */
-  font-size: 14px;
-  min-width: 100px;             /* ensure equal width */
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.new-lead-btn:hover,
-.rewards-btn:hover,
-.commissions-btn:hover,
-.opportunities-btn:hover {
-  background-color: #555555;    /* slightly lighter on hover */
-}
-.new-lead-btn:active,
-.rewards-btn:active,
-.commissions-btn:active,
-.opportunities-btn:active {
-  transform: scale(0.98);
-}
-
-/* Content below the toolbar */
-.content-page {
-  flex: 1;
-  overflow-y: auto;    /* user can scroll vertically if content is long */
-  background-color: #f5f5f5;
-  padding: 16px;
-}
-
-/* Table container for sleek styling */
-.table-container {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-
-/* Sleek Sales table */
-.sales-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.sales-table th,
-.sales-table td {
-  padding: 12px 16px;
-  text-align: left;
-  font-size: 14px;
-}
-.sales-table th {
-  background-color: #f0f0f0;
-  color: #333333;
-  text-transform: uppercase;
-  font-weight: normal;
-}
-.sales-table td {
-  color: #555555;
-}
-.sales-table tr:nth-child(even) {
-  background-color: #fafafa;
-}
-.sales-table tr:last-child td {
-  border-bottom: none;
-}
-
-/* Goal / Progress section */
-.goal-section {
-  background-color: #eeeeee;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-}
-.goal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-.goal-label,
-.goal-amount {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333333;
-}
-.progress-bar-container {
-  background-color: #dddddd;
-  border-radius: 10px;
-  height: 24px;
-  overflow: hidden;
-  position: relative;
-}
-.progress-bar-fill {
-  background-color: #333333;  /* match topbar gray */
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #ffffff;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.year-progress-text {
-  font-size: 12px;
-  color: #555555;
-  margin-top: 4px;
-}
-
-/* -------------------------------------------
-   New Leads Page Styles (Form)
-------------------------------------------- */
-.new-lead-page .content-page {
-  background-color: #ffffff;
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
-}
-.new-lead-heading {
-  font-size: 32px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #ffffff;
-  -webkit-text-stroke: 1px #333333;
-  margin: 20px 16px 24px; /* same spacing as other headings */
-}
-.new-lead-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.lead-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.lead-field label {
-  font-size: 14px;
-  font-weight: bold;
-  color: #333333;
-}
-.lead-field input[type="text"],
-.lead-field input[type="number"],
-.lead-field select,
-.lead-field textarea {
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  outline: none;
-  background-color: #fcfcfc;
-  transition: border-color 0.2s ease;
-}
-.lead-field input:focus,
-.lead-field select:focus,
-.lead-field textarea:focus {
-  border-color: #888888;
-}
-.lead-form-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.lead-half {
-  flex: 1 1 48%;
-}
-.lead-full {
-  flex: 1 1 100%;
-}
-.lead-submit-btn {
-  background-color: #c4b5a0;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 0;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 8px;
-}
-.lead-submit-btn:hover {
-  background-color: #b8a38e;
-}
-.lead-submit-btn:active {
-  transform: scale(0.98);
-}
-
-/* -------------------------------------------
-   OPPORTUNITIES PAGE Modal Styles
-------------------------------------------- */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal-content {
-  background-color: #ffffff;
-  width: 90%;
-  max-width: 380px;
-  max-height: 90%;
-  overflow-y: auto;
-  border-radius: 8px;
-  padding: 16px;
-  position: relative;
-}
-.modal-close {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 24px;
-  color: #555555;
-  cursor: pointer;
-}
-.opp-section {
-  background-color: #eeeeee;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-.opp-section h2 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333333;
-}
-.opp-list {
-  list-style: none;
-  padding-left: 0;
-}
-.opp-item {
-  padding: 6px 0;
-  font-size: 14px;
-  color: #555555;
-  border-bottom: 1px solid #dddddd;
-}
-.opp-item:last-child {
-  border-bottom: none;
-}
-
-/* -------------------------------------------
-   If modal is open, hide background scroll
-------------------------------------------- */
-body.no-scroll {
-  overflow: hidden;
-}
-
-/* -------------------------------------------
-   LEAD TIMES PAGE: Dashboard Cards
-------------------------------------------- */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
-}
-.dashboard-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-}
-.big-number {
-  font-size: 32px;
-  font-weight: bold;
-  margin: 8px 0;
-}
-.action-btn {
-  background-color: #5c6bc0;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  font-size: 14px;
-  margin: 8px 0;
-  transition: background-color 0.2s ease;
-  cursor: pointer;
-}
-.action-btn:hover {
-  background-color: #3949ab;
-}
-
-/* -------------------------------------------
-   REPLACEMENTS PAGE: Take Photo & Form
-------------------------------------------- */
-.section-title {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-  color: #333333;
-}
-.image-preview {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 16px;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-}
-.form-container {
-  margin-top: 16px;
-}
-.form-field {
-  margin-bottom: 12px;
-}
-.form-field label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 4px;
-  color: #333333;
-}
-.form-field input,
-.form-field textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-.submit-btn {
-  background-color: #5c6bc0;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background-color 0.2s ease;
-}
-.submit-btn:hover {
-  background-color: #3949ab;
-}
-
-/* -------------------------------------------
-   SSAPage: Fillable Form
-------------------------------------------- */
-.ssa-page .content-page {
-  background-color: #ffffff;
-  padding: 16px;
-  overflow-y: auto;
-}
-.ssa-heading {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-bottom: 24px;
-  color: #333333;
-  text-transform: uppercase;
-}
-.ssa-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.ssa-form-field {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.ssa-form-field label {
-  flex: 0 0 120px;  /* fixed label width */
-  font-size: 14px;
-  color: #444444;
-  font-weight: 500;
-}
-.ssa-form-field input[type="text"],
-.ssa-form-field input[type="number"],
-.ssa-form-field input[type="date"],
-.ssa-form-field select,
-.ssa-form-field textarea {
-  flex: 1;
-  font-size: 14px;
-  padding: 8px 10px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  outline: none;
-  color: #333333;
-  background-color: #fcfcfc;
-  transition: border-color 0.2s ease;
-}
-.ssa-form-field input:focus,
-.ssa-form-field select:focus,
-.ssa-form-field textarea:focus {
-  border-color: #888888;
-}
-.ssa-search-wrapper {
-  position: relative;
-  flex: 1;
-}
-.ssa-search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  stroke: #888888;
-  fill: none;
-  pointer-events: none;
-}
-.ssa-search-wrapper input {
-  padding-left: 36px;  /* space for icon */
-}
-.ssa-dollar-wrapper {
-  position: relative;
-  flex: 1;
-}
-.ssa-dollar-sign {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #555555;
-  pointer-events: none;
-}
-.ssa-dollar-wrapper input {
-  padding-left: 24px;  /* space for $ */
-}
-.ssa-form-field-inline {
-  display: flex;
-  gap: 24px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  padding-left: 120px; /* align under inputs */
-}
-.ssa-checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.ssa-checkbox-group input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-}
-.ssa-checkbox-group label {
-  font-size: 14px;
-  color: #444444;
-}
-.waiver-section {
-  flex-direction: column;
-}
-.waive-checkboxes {
-  display: flex;
-  gap: 24px;
-  margin-top: 4px;
-  padding-left: 120px; /* align under inputs */
-}
-.ssa-form-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-}
-.ssa-submit-btn {
-  background-color: #c4b5a0;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 48px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.ssa-submit-btn:hover {
-  background-color: #b8a38e;
-}
-.ssa-submit-btn:active {
-  transform: scale(0.98);
-}
-
-/* -------------------------------------------
-   DOCUMENTS PAGE: Buttons & Heading
-------------------------------------------- */
-.documents-page {
-  background-color: #ffffff;
-  padding: 16px;
-  overflow-y: auto;
-}
-.documents-heading {
-  font-size: 32px;                   /* Enlarged for titles */
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #ffffff;
-  -webkit-text-stroke: 1px #333333;
-  margin: 20px 16px 24px;           /* 20px below topbar, 16px from sides, 24px below */
-}
-.documents-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 0 16px;
-}
-.doc-btn {
-  width: 100%;
-  background-color: #c4b5a0;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 0;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.doc-btn:hover {
-  background-color: #b8a38e;
-}
-.doc-btn:active {
-  transform: scale(0.98);
-}
-
-/* -------------------------------------------
-   COM YDG REQUEST Page Styles
-------------------------------------------- */
-.com-page .content-page {
-  background-color: #ffffff;
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
-}
-.com-heading {
-  font-size: 32px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #ffffff;
-  -webkit-text-stroke: 1px #333333;
-  margin: 20px 16px 24px; /* same spacing as .documents-heading */
-}
-.com-search-wrapper {
-  position: relative;
-  margin-bottom: 16px;
-}
-.com-search-input {
-  width: 100%;
-  padding: 8px 36px 8px 12px;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  outline: none;
-}
-.com-search-input:focus {
-  border-color: #888888;
-}
-.com-search-icon {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  fill: #888888;
-  cursor: pointer;
-}
-.model-pill {
-  display: inline-block;
-  background-color: #eeeeee;
-  padding: 8px 12px;
-  border-radius: 16px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  font-size: 14px;
-  cursor: pointer;
-}
-.com-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.com-item {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  padding: 12px;
-  background-color: #f9f9f9;
-}
-.com-item-header {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-.com-item-fields {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.com-item-fields select,
-.com-item-fields input[type="number"],
-.com-item-fields input[type="text"] {
-  flex: 1;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  outline: none;
-}
-.com-item-fields select:focus,
-.com-item-fields input:focus {
-  border-color: #888888;
-}
-.com-submit-btn {
-  width: 100%;
-  background-color: #ffffff;
-  color: #666666;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  padding: 12px 0;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.com-submit-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.com-submit-btn:hover:not(:disabled) {
-  background-color: #f0f0f0;
-}
-
-/* -------------------------------------------
-   PRODUCTS Page Styles
-------------------------------------------- */
-.products-page .content-page {
-  background-color: #ffffff;
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
-}
-.category-box {
-  border: 1px solid #dddddd;
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  text-decoration: none;  /* so Links inside look normal */
-  color: inherit;
-}
-.category-box:hover {
-  background-color: #f7f7f7;
-}
-.category-title {
-  font-size: 18px;
-  font-weight: bold;
-  flex: 0 0 120px;
-}
-.product-images {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.product-img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
-  border: 1px solid #cccccc;
-}
-.prod-buttons {
-  display: flex;
-  gap: 16px;
-  margin-top: 16px;
-  padding: 0 16px;
-}
-.prod-btn {
-  flex: 1;
-  background-color: #f0f0f0;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px 0;
-  text-decoration: none;
-  color: #333333;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.prod-btn:hover {
-  background-color: #e0e0e0;
-}
-.prod-btn:active {
-  transform: scale(0.98);
-}
-.prod-btn-icon {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 8px;
-}
-.prod-btn-label {
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-/* -------------------------------------------
-   REWARDS PAGE Styles
-------------------------------------------- */
-.rewards-page .content-page {
-  background-color: #ffffff;
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
-}
-.rewards-heading {
-  font-size: 32px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #ffffff;
-  -webkit-text-stroke: 1px #333333;
-  margin: 20x 16px 24px; /* same as other headings */
-}
-.quarter-selector {
-  margin: 0 16px 16px;
-}
-.quarter-selector select {
-  font-size: 14px;
-  padding: 6px 8px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  background-color: #ffffff;
-}
-.rewards-section {
-  background-color: #eeeeee;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.rewards-section h2 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-.rewards-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.rewards-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
-/* -------------------------------------------
-   FEEDBACK PAGE Styles
-------------------------------------------- */
-.feedback-page .content-page {
-  background-color: #ffffff;
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
-}
-.feedback-heading {
-  font-size: 32px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #ffffff;
-  -webkit-text-stroke: 1px #333333;
-  margin: 20px 16px 24px; /* same spacing as other headings */
-}
-.feedback-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.feedback-field {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.feedback-field label {
-  flex: 0 0 80px;  /* labels are narrower than SSA to keep the form compact */
-  font-size: 14px;
-  color: #333333;
-  font-weight: bold;
-}
-.feedback-field input[type="text"],
-.feedback-field textarea {
-  flex: 1;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  outline: none;
-  background-color: #fcfcfc;
-  transition: border-color 0.2s ease;
-}
-.feedback-field input[type="text"]:focus,
-.feedback-field textarea:focus {
-  border-color: #888888;
-}
-.feedback-file-wrapper {
-  position: relative;
-  flex: 1;
-}
-.feedback-file-wrapper svg {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  fill: #888888;
-  pointer-events: none;
-}
-.feedback-file-wrapper input {
-  width: 100%;
-  padding: 8px 36px 8px 8px; /* space for the search icon on the right */
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  outline: none;
-  background-color: #fcfcfc;
-  transition: border-color 0.2s ease;
-}
-.feedback-file-wrapper input:focus {
-  border-color: #888888;
-}
-.feedback-submit-btn {
-  width: 100%;
-  background-color: #dddddd;
-  color: #666666;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 0;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.feedback-submit-btn:hover {
-  background-color: #cccccc;
-}
-.feedback-submit-btn:active {
-  transform: scale(0.98);
-}
-
-/* -------------------------------------------
-   FEEDBACK Submission Overlay (reuses modal classes)
-------------------------------------------- */
-.submitted-message {
-  text-align: center;
-  font-size: 18px;
-  color: #333333;
-  margin-bottom: 16px;
-}
-
 /* ─────────────────────────────────────────────────────────────────────────────
    GLOBAL & CONTAINER
 ───────────────────────────────────────────────────────────────────────────── */
@@ -1101,7 +14,7 @@ body,
   background-color: #f5f5f5;
 }
 
-/* Lock the viewport to a phone‐sized display */
+/* Lock the viewport to a phone-sized display */
 .app-container {
   max-width: 420px;
   margin: 0 auto;
@@ -1159,8 +72,8 @@ body,
 }
 .tile {
   background-color: #c4b5a0;
-  border-radius: 12px;
-  aspect-ratio: 1/1;         /* perfect square tiles */
+  border-radius: 16px;    /* ↑ increased from 12px to 16px for more curvature */
+  aspect-ratio: 1/1;      /* perfect square tiles */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1177,8 +90,8 @@ body,
   transform: scale(0.98);
 }
 .tile-icon {
-  width: 45px;   /* tiny bit smaller than before */
-  height: 45px;
+  width: 40px;   /* ↓ reduced from 45px to 40px */
+  height: 40px;  /* ↓ reduced from 45px to 40px */
   margin-bottom: 5px;
 }
 .tile-icon svg {
@@ -1187,7 +100,7 @@ body,
 }
 .tile-label {
   text-transform: lowercase;
-  font-size: 11px;  /* slightly smaller label text */
+  font-size: 11px;  /* same as before */
   color: #ffffff;
   text-align: center;
   line-height: 1.2;
@@ -1253,10 +166,10 @@ body,
   flex: 1;
   overflow-y: auto;
   background-color: #f5f5f5;
-  padding: 16px 0 24px; /* extra bottom padding so last item isn't covered */
+  padding: 16px 0 24px; /* extra bottom padding so last item isn’t covered */
 }
 
-/* Re‐use the “SEARCH + FILTER” bar pattern from ORDERS */
+/* Re-use the “SEARCH + FILTER” bar pattern from ORDERS */
 .lead-times-searchbar {
   display: flex;
   align-items: center;
@@ -1331,7 +244,7 @@ body,
   margin-left: 4px;
 }
 
-/* If modal/pop‐up needed (not used here, but just in case) */
+/* If modal/pop-up needed (not used here, but just in case) */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1365,7 +278,7 @@ body,
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   REUSE “DOCUMENTS‐style” Heading Across ALL PAGES
+   REUSE “DOCUMENTS-STYLE” HEADING ACROSS ALL PAGES
 ───────────────────────────────────────────────────────────────────────────── */
 .documents-heading {
   font-size: 32px;
@@ -1377,7 +290,7 @@ body,
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   “DOCUMENTS” BUTTONS (also re‐used by other pages)
+   “DOCUMENTS” BUTTONS (also re-used by other pages)
 ───────────────────────────────────────────────────────────────────────────── */
 .doc-btn {
   width: 100%;
@@ -1400,9 +313,281 @@ body,
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   OTHER PAGES (unchanged)
-   – Orders, Sales, New Leads, Opportunities, Rewards, Documents, Com‐Ydg, 
-     Products, Replacements, SSA, Samples, Feedback, etc. 
-   (those CSS rules remain exactly as in your previous setup)
-   I’ve omitted them here to keep focus on the new “Lead Times” page. 
+   OTHER PAGES (unchanged – included here for completeness)
+   – Orders, Sales, New Leads, Opportunities, Rewards, Documents, Com-Ydg,
+     Products, Replacements, SSA, Samples, Feedback, etc.
 ───────────────────────────────────────────────────────────────────────────── */
+
+/* ORDERS item styling */
+.orders-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+.orders-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  text-transform: uppercase;
+}
+.orders-list {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+.orders-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #eeeeee;
+}
+.orders-item:last-child {
+  border-bottom: none;
+}
+
+/* SALES TOOLBAR BUTTONS */
+.sales-toolbar {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #ffffff;
+}
+.sales-toolbar::-webkit-scrollbar {
+  display: none;
+}
+.new-lead-btn,
+.rewards-btn,
+.commissions-btn,
+.opportunities-btn {
+  flex: 0 0 auto;
+  background-color: #333333;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  min-width: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.new-lead-btn:hover,
+.rewards-btn:hover,
+.commissions-btn:hover,
+.opportunities-btn:hover {
+  background-color: #555555;
+}
+.new-lead-btn:active,
+.rewards-btn:active,
+.commissions-btn:active,
+.opportunities-btn:active {
+  transform: scale(0.98);
+}
+
+/* Content wrapper for pages with vertical scrolling */
+.content-page {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  padding: 16px;
+}
+
+/* Sales table container */
+.table-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.sales-table th,
+.sales-table td {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+}
+.sales-table th {
+  background-color: #f0f0f0;
+  color: #333333;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+.sales-table td {
+  color: #555555;
+}
+.sales-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+.sales-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Goal / Progress section */
+.goal-section {
+  background-color: #eeeeee;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.goal-label,
+.goal-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+.progress-bar-container {
+  background-color: #dddddd;
+  border-radius: 10px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  background-color: #333333;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.year-progress-text {
+  font-size: 12px;
+  color: #555555;
+  margin-top: 4px;
+}
+
+/* New Leads form */
+.new-lead-page .content-page {
+  background-color: #ffffff;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+.new-lead-heading {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #333333;
+  margin: 20px 16px 24px;
+}
+.new-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lead-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lead-field label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+}
+.lead-field input[type="text"],
+.lead-field input[type="number"],
+.lead-field select,
+.lead-field textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: none;
+  background-color: #fcfcfc;
+  transition: border-color 0.2s ease;
+}
+.lead-field input:focus,
+.lead-field select:focus,
+.lead-field textarea:focus {
+  border-color: #888888;
+}
+.lead-form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.lead-half {
+  flex: 1 1 48%;
+}
+.lead-full {
+  flex: 1 1 100%;
+}
+.lead-submit-btn {
+  background-color: #c4b5a0;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 8px;
+}
+.lead-submit-btn:hover {
+  background-color: #b8a38e;
+}
+.lead-submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Opportunities modal content */
+.opp-section {
+  background-color: #eeeeee;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.opp-section h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333333;
+}
+.opp-list {
+  list-style: none;
+  padding-left: 0;
+}
+.opp-item {
+  padding: 6px 0;
+  font-size: 14px;
+  color: #555555;
+  border-bottom: 1px solid #dddddd;
+}
+.opp-item:last-child {
+  border-bottom: none;
+}
+
+/* Lead Times icons (chair/table) and list already covered above */
+
+/* Lead Times helper: no extra CSS needed here beyond “series‐list” etc. */
+
+/* Lead Times text‐only headings and filter icon covered above */
+
+/* Lead Times repeats up to here */
+
+/* Remaining pages (unchanged): Documents, Com-Ydg, Products, Replacements,
+   SSA, Samples, Feedback. Their CSS was already in previous answers and
+   remains exactly as before. */
