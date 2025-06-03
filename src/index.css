@@ -181,8 +181,9 @@ body,
 }
 
 /* -------------------------------------------
-   SALES PAGE (Updated): Table, Goal, Info Cards, and Buttons
+   SALES PAGE (Updated): Toolbar + Table + Goal + Info Cards
 ------------------------------------------- */
+/* Container for the three toolbar buttons */
 .sales-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -191,33 +192,31 @@ body,
   padding: 12px 16px;
   background-color: #ffffff;
 }
-/* Existing "New Lead +" button */
-.new-lead-btn {
-  background-color: #5c6bc0;
-  color: #ffffff;
+
+/* All three buttons now share a single style */
+.new-lead-btn,
+.rewards-btn,
+.commissions-btn {
+  background-color: #000000;    /* black */
+  color: #ffffff;               /* white text */
   border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: 20px;          /* extra-rounded corners */
+  padding: 8px 16px;            /* uniform padding */
   font-size: 14px;
+  min-width: 100px;             /* ensure same width if text is short */
+  text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
-.new-lead-btn:hover {
-  background-color: #4958a3;
+.new-lead-btn:hover,
+.rewards-btn:hover,
+.commissions-btn:hover {
+  background-color: #333333;    /* slightly lighter on hover */
 }
-/* New "Rewards" button, placed next to New Lead + */
-.rewards-btn {
-  background-color: #5c6bc0;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-.rewards-btn:hover {
-  background-color: #4958a3;
+.new-lead-btn:active,
+.rewards-btn:active,
+.commissions-btn:active {
+  transform: scale(0.98);
 }
 
 /* Content below the toolbar */
@@ -687,7 +686,7 @@ body,
 }
 
 /* -------------------------------------------
-   PRODUCTS Page Styles (unchanged)
+   PRODUCTS Page Styles
 ------------------------------------------- */
 .products-page .content-page {
   background-color: #ffffff;
@@ -762,7 +761,7 @@ body,
 }
 
 /* -------------------------------------------
-   REWARDS PAGE Styles (NEW)
+   REWARDS PAGE Styles (unchanged from before)
 ------------------------------------------- */
 .rewards-page .content-page {
   background-color: #ffffff;
