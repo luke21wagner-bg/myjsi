@@ -543,12 +543,12 @@ body,
   overflow-y: auto;
 }
 .documents-heading {
-  font-size: 24px;
+  font-size: 32px;                   /* larger than before */
   font-weight: bold;
   text-transform: uppercase;
   color: #ffffff;
   -webkit-text-stroke: 1px #333333;
-  margin-bottom: 24px;
+  margin: 20px 16px 24px;           /* 20px below topbar, 16px from sides, 24px below */
 }
 .documents-buttons {
   display: flex;
