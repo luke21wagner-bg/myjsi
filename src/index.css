@@ -1,4 +1,15 @@
 /* -------------------------------------------
+   Lock to a phone‐sized viewport
+------------------------------------------- */
+.app-container {
+  max-width: 420px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+/* -------------------------------------------
    Global resets & layout
 ------------------------------------------- */
 * {
@@ -180,41 +191,48 @@ body,
 }
 
 /* -------------------------------------------
-   SALES PAGE (Updated): Toolbar + Sleek Table + Goal
+   SALES PAGE: Swipeable Toolbar + Sleek Table + Goal
 ------------------------------------------- */
-/* Container for the three toolbar buttons */
+/* Swipeable button bar (hides scrollbar) */
 .sales-toolbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   gap: 12px;
   padding: 12px 16px;
   background-color: #ffffff;
 }
+.sales-toolbar::-webkit-scrollbar {
+  display: none;
+}
 
-/* All three buttons now share a single style (dark gray) */
+/* Buttons all share one style */
 .new-lead-btn,
 .rewards-btn,
-.commissions-btn {
+.commissions-btn,
+.opportunities-btn {
+  flex: 0 0 auto;
   background-color: #333333;    /* match topbar gray */
   color: #ffffff;               /* white text */
   border: none;
   border-radius: 20px;          /* extra-rounded corners */
   padding: 8px 16px;            /* uniform padding */
   font-size: 14px;
-  min-width: 100px;             /* ensure same width if text is short */
+  min-width: 100px;             /* ensure equal width */
   text-align: center;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 .new-lead-btn:hover,
 .rewards-btn:hover,
-.commissions-btn:hover {
-  background-color: #555555;    /* slightly lighter gray on hover */
+.commissions-btn:hover,
+.opportunities-btn:hover {
+  background-color: #555555;    /* slightly lighter on hover */
 }
 .new-lead-btn:active,
 .rewards-btn:active,
-.commissions-btn:active {
+.commissions-btn:active,
+.opportunities-btn:active {
   transform: scale(0.98);
 }
 
@@ -302,6 +320,41 @@ body,
   font-size: 12px;
   color: #555555;
   margin-top: 4px;
+}
+
+/* -------------------------------------------
+   OPPORTUNITIES PAGE Styles
+------------------------------------------- */
+.opp-page .content-page {
+  background-color: #ffffff;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+.opp-section {
+  background-color: #eeeeee;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.opp-section h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333333;
+}
+.opp-list {
+  list-style: none;
+  padding-left: 0;
+}
+.opp-item {
+  padding: 6px 0;
+  font-size: 14px;
+  color: #555555;
+  border-bottom: 1px solid #dddddd;
+}
+.opp-item:last-child {
+  border-bottom: none;
 }
 
 /* -------------------------------------------
@@ -772,7 +825,7 @@ body,
   text-transform: uppercase;
   color: #ffffff;
   -webkit-text-stroke: 1px #333333;
-  margin: 20px 16px 24px; /* same as other headings */
+  margin: 20x 16px 24px; /* same as other headings */
 }
 .quarter-selector {
   margin: 0 16px 16px;
