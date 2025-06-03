@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  useNavigate
 } from "react-router-dom";
 import "./index.css";
 
@@ -280,11 +281,14 @@ function OrdersPage() {
 //
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
-function SalesPage() {
+function SalesPage({ leads }) {
   // “Today” string, e.g. “Wed – Jun 3, 2025”
   const [todayDateStr, setTodayDateStr] = useState("");
   // Percentage of the year that’s passed
   const [yearPassedPercent, setYearPassedPercent] = useState("0.00");
+
+  // Modal open/close for Opportunities
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -332,6 +336,16 @@ function SalesPage() {
   const goalAmount = 7000000;
   const percentAchieved = ((totalBookings / goalAmount) * 100).toFixed(2);
 
+  // Open & close modal (toggle) for Opportunities
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.body.classList.add("no-scroll");
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.classList.remove("no-scroll");
+  };
+
   return (
     <div className="page">
       <Topbar />
@@ -350,9 +364,9 @@ function SalesPage() {
         <Link to="/sales/commissions">
           <button className="commissions-btn">Commissions</button>
         </Link>
-        <Link to="/sales/opportunities">
-          <button className="opportunities-btn">Opportunities</button>
-        </Link>
+        <button className="opportunities-btn" onClick={openModal}>
+          Opportunities
+        </button>
       </div>
 
       {/* Sleek table container */}
@@ -428,6 +442,20 @@ function SalesPage() {
           </div>
         </div>
       </div>
+
+      {/* -------------------------------------
+            Opportunities Modal (if open)
+         ------------------------------------- */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <span className="modal-close" onClick={closeModal}>
+              ×
+            </span>
+            <OpportunitiesPage leads={leads} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -443,76 +471,313 @@ function monthDay(fullDateStr) {
 }
 
 //
-// ─── NEW LEADS Placeholder Page ───────────────────────────────────────────────
+// ─── NEW LEADS PAGE (Form) ───────────────────────────────────────────────────
 //
-function NewLeadsPage() {
-  return (
-    <div className="page">
-      <Topbar />
+function NewLeadsPage({ addLead }) {
+  const navigate = useNavigate();
 
-      <h1 className="documents-heading">NEW LEADS</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is a placeholder page for <strong>New Leads</strong>. 
-          Implement your New Leads functionality here.
-        </p>
-      </div>
-    </div>
-  );
-}
+  // Local form state
+  const [projectName, setProjectName] = useState("");
+  const [decisionMakerName, setDecisionMakerName] = useState("");
+  const [decisionMakerRole, setDecisionMakerRole] = useState("");
+  const [projectStatus, setProjectStatus] = useState("Discovery");
+  const [vertical, setVertical] = useState("Healthcare");
+  const [estimatedList, setEstimatedList] = useState("");
+  const [poTimeframe, setPoTimeframe] = useState("Jan 2025");
+  const [urgency, setUrgency] = useState("Low");
+  const [competitors, setCompetitors] = useState("Kimball");
+  const [attachments, setAttachments] = useState("");
+  const [otherNotes, setOtherNotes] = useState("");
 
-//
-// ─── COMMISSIONS Placeholder Page ─────────────────────────────────────────────
-//
-function CommissionsPage() {
-  return (
-    <div className="page">
-      <Topbar />
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-      <h1 className="documents-heading">COMMISSIONS</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is a placeholder page for <strong>Commissions</strong>. 
-          Implement your Commissions functionality here.
-        </p>
-      </div>
-    </div>
-  );
-}
+    // Build a single lead object
+    const newLead = {
+      projectName,
+      decisionMakerName,
+      decisionMakerRole,
+      projectStatus,
+      vertical,
+      estimatedList,
+      poTimeframe,
+      urgency,
+      competitors,
+      attachments,
+      otherNotes,
+      timestamp: new Date().toISOString()
+    };
 
-//
-// ─── OPPORTUNITIES Placeholder Pipeline Page ─────────────────────────────────
-//
-function OpportunitiesPage() {
-  // Six categories with placeholder items
-  const pipeline = {
-    Discovery: ["Project Alpha", "Project Beta"],
-    Specifying: ["Project Gamma", "Project Delta"],
-    "Bidding/Decision": ["Project Epsilon", "Project Zeta"],
-    "PO Expected": ["Project Eta", "Project Theta"],
-    Won: ["Project Iota"],
-    Lost: ["Project Kappa"]
+    // Add to top‐level leads array
+    addLead(newLead);
+
+    // After submit, navigate back to /sales (SalesPage)
+    navigate("/sales");
   };
 
   return (
-    <div className="page opp-page">
+    <div className="page new-lead-page">
       <Topbar />
 
-      <h1 className="documents-heading">OPPORTUNITIES</h1>
+      {/* NEW LEAD heading */}
+      <h1 className="new-lead-heading">NEW LEAD</h1>
+
       <div className="content-page">
-        {Object.entries(pipeline).map(([stage, items]) => (
-          <div key={stage} className="opp-section">
-            <h2>{stage}</h2>
-            <ul className="opp-list">
-              {items.map((proj, idx) => (
+        <form className="new-lead-form" onSubmit={handleSubmit}>
+          {/* Project */}
+          <div className="lead-field lead-full">
+            <label>Project</label>
+            <input
+              type="text"
+              placeholder="e.g. Project Alpha"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Decision Maker (Name/Email + Role) */}
+          <div className="lead-form-row">
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Decision Maker Name/Email</label>
+                <input
+                  type="text"
+                  placeholder="Name and/or email..."
+                  value={decisionMakerName}
+                  onChange={(e) => setDecisionMakerName(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Decision Maker Role</label>
+                <input
+                  type="text"
+                  placeholder="Enter role..."
+                  value={decisionMakerRole}
+                  onChange={(e) => setDecisionMakerRole(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Project Status */}
+          <div className="lead-field lead-full">
+            <label>Project Status</label>
+            <select
+              value={projectStatus}
+              onChange={(e) => setProjectStatus(e.target.value)}
+              required
+            >
+              <option>Discovery</option>
+              <option>Specifying</option>
+              <option>Bidding/Decision</option>
+              <option>PO Expected</option>
+              <option>Won</option>
+              <option>Lost</option>
+            </select>
+          </div>
+
+          {/* Vertical + Estimated List */}
+          <div className="lead-form-row">
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Vertical</label>
+                <select
+                  value={vertical}
+                  onChange={(e) => setVertical(e.target.value)}
+                >
+                  <option>Healthcare</option>
+                  <option>Education</option>
+                  <option>Corporate</option>
+                  <option>Hospitality</option>
+                  <option>Government</option>
+                </select>
+              </div>
+            </div>
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Estimated List</label>
+                <div style={{ position: "relative" }}>
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "10px",
+                      transform: "translateY(-50%)",
+                      fontSize: "14px",
+                      color: "#555555",
+                      pointerEvents: "none"
+                    }}
+                  >
+                    $
+                  </span>
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    style={{ paddingLeft: "24px" }}
+                    value={estimatedList}
+                    onChange={(e) => setEstimatedList(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* PO Timeframe + Urgency */}
+          <div className="lead-form-row">
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>PO Timeframe</label>
+                <select
+                  value={poTimeframe}
+                  onChange={(e) => setPoTimeframe(e.target.value)}
+                >
+                  <option>Jan 2025</option>
+                  <option>Feb 2025</option>
+                  <option>Mar 2025</option>
+                  <option>Apr 2025</option>
+                  <option>May 2025</option>
+                  <option>Jun 2025</option>
+                </select>
+              </div>
+            </div>
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Urgency</label>
+                <select
+                  value={urgency}
+                  onChange={(e) => setUrgency(e.target.value)}
+                >
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Competitors + Attachments */}
+          <div className="lead-form-row">
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Competitors</label>
+                <select
+                  value={competitors}
+                  onChange={(e) => setCompetitors(e.target.value)}
+                >
+                  <option>Kimball</option>
+                  <option>Steelcase</option>
+                  <option>Herman Miller</option>
+                  <option>HON</option>
+                </select>
+              </div>
+            </div>
+            <div className="lead-half">
+              <div className="lead-field">
+                <label>Attachments</label>
+                <div style={{ position: "relative" }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#888"
+                    viewBox="0 0 24 24"
+                    stroke="#888"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      right: "12px",
+                      transform: "translateY(-50%)",
+                      width: "18px",
+                      height: "18px",
+                      pointerEvents: "none"
+                    }}
+                  >
+                    <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"></path>
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Include attachment(s)"
+                    style={{ paddingRight: "36px" }}
+                    value={attachments}
+                    onChange={(e) => setAttachments(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Other notes */}
+          <div className="lead-field lead-full">
+            <label>Other notes</label>
+            <textarea
+              rows="4"
+              placeholder="Other project scope info, install locations, or general details..."
+              value={otherNotes}
+              onChange={(e) => setOtherNotes(e.target.value)}
+            />
+          </div>
+
+          {/* Submit */}
+          <button type="submit" className="lead-submit-btn">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── OPPORTUNITIES PAGE (Modal Content) ──────────────────────────────────────
+//
+function OpportunitiesPage({ leads }) {
+  // Organize leads by projectStatus
+  const categories = {
+    Discovery: [],
+    Specifying: [],
+    "Bidding/Decision": [],
+    "PO Expected": [],
+    Won: [],
+    Lost: []
+  };
+
+  leads.forEach((lead) => {
+    const status = lead.projectStatus;
+    if (categories[status]) {
+      categories[status].push(lead.projectName);
+    } else {
+      // If somehow unmatched, put in 'Discovery'
+      categories["Discovery"].push(lead.projectName);
+    }
+  });
+
+  return (
+    <div className="opp-page">
+      {Object.entries(categories).map(([stage, items]) => (
+        <div key={stage} className="opp-section">
+          <h2>{stage}</h2>
+          <ul className="opp-list">
+            {items.length > 0 ? (
+              items.map((proj, idx) => (
                 <li key={idx} className="opp-item">
                   {proj}
                 </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+              ))
+            ) : (
+              <li className="opp-item" style={{ fontStyle: "italic", color: "#777" }}>
+                (No leads in this category)
+              </li>
+            )}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
@@ -724,7 +989,7 @@ function ComYdgRequestPage() {
     );
   };
 
-  // Enable Submit only if every line has nonempty pattern and qty>0
+  // Enable Submit only if every line has nonempty pattern and qty&gt;0
   const allValid =
     lines.length > 0 &&
     lines.every(
@@ -1520,21 +1785,58 @@ function SamplesPage() {
 }
 
 //
-// ─── MAIN APP (Router Setup) ─────────────────────────────────────────────────
+// ─── MAIN APP (Router Setup & Leads State) ────────────────────────────────────
 //
 function App() {
+  // Holds an array of all “New Lead” submissions
+  const [leads, setLeads] = useState([]);
+
+  // Called by NewLeadsPage to add a new lead
+  const addLead = (leadObj) => {
+    setLeads((prev) => [...prev, leadObj]);
+  };
+
   return (
     <div className="app-container">
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+
+          {/* ORDERS */}
           <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/sales" element={<SalesPage />} />
-          <Route path="/sales/new-leads" element={<NewLeadsPage />} />
+
+          {/* SALES (with leads passed in) */}
+          <Route path="/sales" element={<SalesPage leads={leads} />} />
+
+          {/* NEW LEADS FORM */}
+          <Route
+            path="/sales/new-leads"
+            element={<NewLeadsPage addLead={addLead} />}
+          />
+
+          {/* REWARDS */}
           <Route path="/sales/rewards" element={<RewardsPage />} />
-          <Route path="/sales/commissions" element={<CommissionsPage />} />
-          <Route path="/sales/opportunities" element={<OpportunitiesPage />} />
+
+          {/* COMMISSIONS */}
+          <Route
+            path="/sales/commissions"
+            element={
+              <div className="page">
+                <Topbar />
+                <h1 className="documents-heading">COMMISSIONS</h1>
+                <div className="content-page">
+                  <p style={{ padding: "0 16px", color: "#333333" }}>
+                    This is a placeholder page for <strong>Commissions</strong>.
+                  </p>
+                </div>
+              </div>
+            }
+          />
+
+          {/* LEAD TIMES */}
           <Route path="/lead-times" element={<LeadTimesPage />} />
+
+          {/* FABRICS */}
           <Route path="/fabrics" element={<FabricsPage />} />
           <Route
             path="/fabrics/database"
@@ -1544,25 +1846,26 @@ function App() {
             path="/fabrics/com-request"
             element={<ComYdgRequestPage />}
           />
+
+          {/* DOCUMENTS */}
           <Route path="/documents" element={<DocumentsPage />} />
+
+          {/* REPLACEMENTS */}
           <Route path="/replacements" element={<ReplacementsPage />} />
+
+          {/* PRODUCTS */}
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/swivels" element={<SwivelsPage />} />
-          <Route
-            path="/products/end-tables"
-            element={<EndTablesPage />}
-          />
-          <Route
-            path="/products/conference"
-            element={<ConferencePage />}
-          />
+          <Route path="/products/end-tables" element={<EndTablesPage />} />
+          <Route path="/products/conference" element={<ConferencePage />} />
           <Route path="/products/more" element={<MorePage />} />
           <Route path="/products/seating" element={<SeatingPage />} />
-          <Route
-            path="/products/casegoods"
-            element={<CasegoodsPage />}
-          />
+          <Route path="/products/casegoods" element={<CasegoodsPage />} />
+
+          {/* SSA */}
           <Route path="/ssa" element={<SSAPage />} />
+
+          {/* SAMPLES */}
           <Route path="/samples" element={<SamplesPage />} />
         </Routes>
       </Router>
