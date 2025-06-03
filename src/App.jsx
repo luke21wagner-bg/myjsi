@@ -1,5 +1,10 @@
 import React, { useRef, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 import "./index.css";
 
 //
@@ -191,7 +196,7 @@ function OrdersPage() {
     <div className="page">
       <Topbar />
 
-      {/* Add the Orders title here */}
+      {/* ORDERS heading at top */}
       <h1 className="documents-heading">ORDERS</h1>
 
       <div className="orders-toolbar">
@@ -259,7 +264,7 @@ function DocumentsPage() {
     <div className="page">
       <Topbar />
 
-      {/* Documents title already matches the desired style */}
+      {/* DOCUMENTS heading at top */}
       <h1 className="documents-heading">DOCUMENTS</h1>
 
       <div className="content-page documents-page">
@@ -310,7 +315,7 @@ function SalesPage() {
     <div className="page">
       <Topbar />
 
-      {/* Add the Sales title here */}
+      {/* SALES heading at top */}
       <h1 className="documents-heading">SALES</h1>
 
       <button className="new-lead-btn">New Lead +</button>
@@ -397,7 +402,7 @@ function LeadTimesPage() {
     <div className="page">
       <Topbar />
 
-      {/* Add the Lead Times title here */}
+      {/* LEAD TIMES heading at top */}
       <h1 className="documents-heading">LEAD TIMES</h1>
 
       <div className="content-page">
@@ -414,6 +419,73 @@ function LeadTimesPage() {
             <p>Bulk Order – 12 days remaining</p>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── NEW: FABRICS PAGE ─────────────────────────────────────────────────────────
+//
+function FabricsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* FABRICS heading at top */}
+      <h1 className="documents-heading">FABRICS</h1>
+
+      <div className="content-page documents-page">
+        <div className="documents-buttons">
+          <Link to="/fabrics/database">
+            <button className="doc-btn">Fabric Database</button>
+          </Link>
+          <Link to="/fabrics/com-request">
+            <button className="doc-btn">COM Ydg Request</button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── NEW: Fabric Database Landing Page ────────────────────────────────────────
+//
+function FabricDatabasePage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* Fabric Database heading */}
+      <h1 className="documents-heading">FABRIC DATABASE</h1>
+
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the landing page for <strong>Fabric Database</strong>. 
+          (You can replace this stub with actual functionality later.)
+        </p>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── NEW: COM Yardage Request Landing Page ─────────────────────────────────────
+//
+function ComYdgRequestPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* COM Ydg Request heading */}
+      <h1 className="documents-heading">COM YDG REQUEST</h1>
+
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the landing page for <strong>COM Yardage Request</strong>. 
+          (You can replace this stub with actual functionality later.)
+        </p>
       </div>
     </div>
   );
@@ -456,7 +528,7 @@ function ReplacementPage() {
     <div className="page">
       <Topbar />
 
-      {/* Add the Replacement title here */}
+      {/* REPLACEMENTS heading at top */}
       <h1 className="documents-heading">REPLACEMENTS</h1>
 
       <div className="content-page">
@@ -597,7 +669,7 @@ function SSAPage() {
     <div className="page">
       <Topbar />
 
-      {/* Add the SSA title here */}
+      {/* SSA heading at top */}
       <h1 className="documents-heading">SSA</h1>
 
       <div className="content-page ssa-page">
@@ -861,20 +933,157 @@ function SSAPage() {
 }
 
 //
-// ─── GENERIC PAGE (for Fabrics, Samples, etc.) ────────────────────────────────
+// ─── REPLACEMENTS PAGE ──────────────────────────────────────────────────────────
 //
-function GenericPage({ title }) {
+function ReplacementsPage() {
+  const fileInputRef = useRef(null);
+  const [photoFile, setPhotoFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [soNumber, setSoNumber] = useState("");
+  const [lineItem, setLineItem] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const handleTakePhoto = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+
+  const handleFileChosen = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPhotoFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Replacement submitted! (Add email logic separately.)");
+    setPhotoFile(null);
+    setPreviewUrl(null);
+    setSoNumber("");
+    setLineItem("");
+    setNotes("");
+  };
+
   return (
     <div className="page">
       <Topbar />
 
-      {/* Apply the same styled heading here */}
-      <h1 className="documents-heading">{title.toUpperCase()}</h1>
+      {/* REPLACEMENTS heading at top */}
+      <h1 className="documents-heading">REPLACEMENTS</h1>
+
+      <div className="content-page">
+        {!photoFile ? (
+          <>
+            <div className="dashboard-grid">
+              <button className="tile" onClick={handleTakePhoto}>
+                <div className="tile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    width="48"
+                    height="48"
+                  >
+                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
+                  </svg>
+                </div>
+                <div className="tile-label">TAKE PHOTO</div>
+              </button>
+
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChosen}
+              />
+
+              <button className="tile" onClick={handleTakePhoto}>
+                <div className="tile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    width="48"
+                    height="48"
+                  >
+                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
+                  </svg>
+                </div>
+                <div className="tile-label">UPLOAD</div>
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="form-container">
+            <h1 className="section-title">REPLACEMENT DETAILS</h1>
+            {previewUrl && (
+              <img src={previewUrl} alt="Preview" className="image-preview" />
+            )}
+
+            <form onSubmit={handleSubmit}>
+              <div className="form-field">
+                <label htmlFor="soNumber">SO #</label>
+                <input
+                  type="text"
+                  id="soNumber"
+                  value={soNumber}
+                  onChange={(e) => setSoNumber(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="lineItem">Line Item #</label>
+                <input
+                  type="text"
+                  id="lineItem"
+                  value={lineItem}
+                  onChange={(e) => setLineItem(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="notes">Notes / Description</label>
+                <textarea
+                  id="notes"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows="4"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="submit-btn">
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── GENERIC PAGE (for Samples, SSA already covered above) ───────────────────
+//
+function SamplesPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* SAMPLES heading at top */}
+      <h1 className="documents-heading">SAMPLES</h1>
 
       <div className="content-page">
         <div className="dashboard-grid">
           <div className="dashboard-card">
-            <h3>Welcome to {title}</h3>
+            <h3>Welcome to Samples</h3>
             <p>This section is coming soon!</p>
             <p>We’re building amazing features for you.</p>
           </div>
@@ -901,11 +1110,13 @@ function App() {
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/sales" element={<SalesPage />} />
         <Route path="/lead-times" element={<LeadTimesPage />} />
-        <Route path="/fabrics" element={<GenericPage title="fabrics" />} />
+        <Route path="/fabrics" element={<FabricsPage />} />
+        <Route path="/fabrics/database" element={<FabricDatabasePage />} />
+        <Route path="/fabrics/com-request" element={<ComYdgRequestPage />} />
         <Route path="/ssa" element={<SSAPage />} />
         <Route path="/documents" element={<DocumentsPage />} />
-        <Route path="/replacements" element={<ReplacementPage />} />
-        <Route path="/samples" element={<GenericPage title="samples" />} />
+        <Route path="/replacements" element={<ReplacementsPage />} />
+        <Route path="/samples" element={<SamplesPage />} />
       </Routes>
     </Router>
   );
