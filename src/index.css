@@ -1055,5 +1055,12 @@ body,
 .feedback-submit-btn:active {
   transform: scale(0.98);
 }
+.submitted-message {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  padding: 24px 0;
+  color: #333333;
+}
 
 /* Any remaining CSS rules for other pages remain unchanged */
