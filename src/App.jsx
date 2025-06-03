@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -198,13 +198,18 @@ function OrdersPage() {
     // …add more as needed
   ];
 
-  const todayDate = "Fri - May 30, 2025";
-  const todayTotal = "$137,262.94";
   const [searchTerm, setSearchTerm] = useState("");
-
   const filtered = projects.filter((p) =>
     p.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Use today's date for header
+  const today = new Date();
+  const weekday = today.toLocaleDateString("en-US", { weekday: "short" });
+  const month = today.toLocaleDateString("en-US", { month: "short" });
+  const day = today.getDate();
+  const year = today.getFullYear();
+  const todayDateStr = `${weekday} - ${month} ${day}, ${year}`;
 
   return (
     <div className="page">
@@ -255,8 +260,7 @@ function OrdersPage() {
       </div>
 
       <div className="orders-header-row">
-        <span className="orders-date">{todayDate}</span>
-        <span className="orders-total">{todayTotal}</span>
+        <span className="orders-date">{todayDateStr}</span>
       </div>
 
       <div className="orders-list">
@@ -271,43 +275,40 @@ function OrdersPage() {
 }
 
 //
-// ─── DOCUMENTS PAGE ─────────────────────────────────────────────────────────
-//
-function DocumentsPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      {/* DOCUMENTS heading at top */}
-      <h1 className="documents-heading">DOCUMENTS</h1>
-
-      <div className="content-page documents-page">
-        <div className="documents-buttons">
-          <button className="doc-btn">Contracts</button>
-          <button className="doc-btn">Commission Rates</button>
-          <button className="doc-btn">Presentations</button>
-          <button className="doc-btn">Sample Discounts</button>
-          <button className="doc-btn">Install Instructions</button>
-          <button className="doc-btn">Discontinued Finishes</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-//
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
 function SalesPage() {
-  const [year, setYear] = useState(2025);
+  // Determine today's date once
+  const [todayDateStr, setTodayDateStr] = useState("");
+  const [yearPassedPercent, setYearPassedPercent] = useState("0.00");
 
+  useEffect(() => {
+    const today = new Date();
+    const weekday = today.toLocaleDateString("en-US", { weekday: "short" });
+    const month = today.toLocaleDateString("en-US", { month: "short" });
+    const day = today.getDate();
+    const year = today.getFullYear();
+    setTodayDateStr(`${weekday} - ${month} ${day}, ${year}`);
+
+    // Calculate percentage of year passed
+    const startOfYear = new Date(year, 0, 1);
+    const startOfNextYear = new Date(year + 1, 0, 1);
+    const percent =
+      ((today.getTime() - startOfYear.getTime()) /
+        (startOfNextYear.getTime() - startOfYear.getTime())) *
+      100;
+    setYearPassedPercent(percent.toFixed(2));
+  }, []);
+
+  // Sample sales data for the table
+  const [year, setYear] = useState(new Date().getFullYear());
   const salesData = [
     { month: "Jan", bookings: "$1,259,493", sales: "$506,304" },
     { month: "Feb", bookings: "$497,537", sales: "$553,922" },
     { month: "Mar", bookings: "$400,110", sales: "$365,601" },
     { month: "Apr", bookings: "$554,318", sales: "$696,628" },
     { month: "May", bookings: "$869,362", sales: "$1,340,018" },
-    { month: "Jun", bookings: "$0",      sales: "$0"       }
+    { month: "Jun", bookings: "$0", sales: "$0" }
   ];
 
   const totalBookings = salesData.reduce(
@@ -318,12 +319,9 @@ function SalesPage() {
     (sum, row) => sum + Number(row.sales.replace(/[\$,]/g, "")),
     0
   );
-
   const formatCurrency = (num) => `$${num.toLocaleString()}`;
-
   const goalAmount = 7000000;
-  const percentAchieved = ((totalSales / goalAmount) * 100).toFixed(2); // ~49.46%
-  const yearPassedPercent = 41.64; // placeholder
+  const percentAchieved = ((totalSales / goalAmount) * 100).toFixed(2);
 
   return (
     <div className="page">
@@ -332,11 +330,20 @@ function SalesPage() {
       {/* SALES heading at top */}
       <h1 className="documents-heading">SALES</h1>
 
-      <button className="new-lead-btn">New Lead +</button>
+      {/* Toolbar: New Lead + and Rewards */}
+      <div className="sales-toolbar">
+        <button className="new-lead-btn">New Lead +</button>
+        <Link to="/sales/rewards">
+          <button className="rewards-btn">Rewards</button>
+        </Link>
+      </div>
 
       <div className="content-page">
         <div className="year-selector">
-          <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
+          <select
+            value={year}
+            onChange={(e) => setYear(Number(e.target.value))}
+          >
             <option value={2025}>2025</option>
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
@@ -362,9 +369,15 @@ function SalesPage() {
           </tbody>
           <tfoot>
             <tr className="totals-row">
-              <td><strong>Total</strong></td>
-              <td><strong>{formatCurrency(totalBookings)}</strong></td>
-              <td><strong>{formatCurrency(totalSales)}</strong></td>
+              <td>
+                <strong>Total</strong>
+              </td>
+              <td>
+                <strong>{formatCurrency(totalBookings)}</strong>
+              </td>
+              <td>
+                <strong>{formatCurrency(totalSales)}</strong>
+              </td>
             </tr>
           </tfoot>
         </table>
@@ -385,23 +398,111 @@ function SalesPage() {
             </div>
           </div>
           <div className="year-progress-text">
-            Jun 2: {yearPassedPercent}% of year passed.
+            {monthDay(todayDateStr)}: {yearPassedPercent}% of year passed.
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        <div className="info-cards">
-          <div className="info-card">
-            <span className="info-title">Backlog</span>
-            <span className="info-value">$1,380,200</span>
-          </div>
-          <div className="info-card placeholder-card">
-            <span className="info-title">Customer Rank</span>
-            <span className="info-value">–</span>
-          </div>
-          <div className="info-card placeholder-card">
-            <span className="info-title">Rewards</span>
-            <span className="info-value">–</span>
-          </div>
+// Helper to reformat "Wed - Jun 3, 2025" → "Jun 3"
+function monthDay(fullDateStr) {
+  // fullDateStr looks like "Wed - Jun 3, 2025"
+  const parts = fullDateStr.split(" - ");
+  if (parts.length === 2) {
+    const datePart = parts[1].split(",")[0]; // "Jun 3"
+    return datePart;
+  }
+  return fullDateStr;
+}
+
+//
+// ─── REWARDS PAGE ─────────────────────────────────────────────────────────────
+//
+function RewardsPage() {
+  // Quarter selector state (default "Q1 2025")
+  const [quarter, setQuarter] = useState("Q1 2025");
+
+  const salesRewards = [
+    { name: "Deb Butler", amount: "$520.32" },
+    { name: "Jason Beehler", amount: "$44.21" },
+    { name: "Andrea Kirkland", amount: "$20.00" },
+    { name: "Alan Bird", amount: "$1,034.21" }
+  ];
+
+  const designerRewards = [
+    { name: "Jen Franklin", amount: "$12.10" }
+  ];
+
+  return (
+    <div className="page rewards-page">
+      <Topbar />
+
+      {/* REWARDS heading */}
+      <h1 className="rewards-heading">REWARDS</h1>
+
+      {/* Quarter dropdown */}
+      <div className="quarter-selector">
+        <select
+          value={quarter}
+          onChange={(e) => setQuarter(e.target.value)}
+        >
+          <option>Q1 2025</option>
+          <option>Q2 2025</option>
+          <option>Q3 2025</option>
+          <option>Q4 2025</option>
+        </select>
+      </div>
+
+      {/* Sales section */}
+      <div className="rewards-section">
+        <h2>Sales</h2>
+        <div className="rewards-list">
+          {salesRewards.map((r, i) => (
+            <div key={i} className="rewards-item">
+              <span>{r.name}</span>
+              <span>{r.amount}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Designers section */}
+      <div className="rewards-section">
+        <h2>Designers</h2>
+        <div className="rewards-list">
+          {designerRewards.map((r, i) => (
+            <div key={i} className="rewards-item">
+              <span>{r.name}</span>
+              <span>{r.amount}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── DOCUMENTS PAGE ─────────────────────────────────────────────────────────
+//
+function DocumentsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* DOCUMENTS heading at top */}
+      <h1 className="documents-heading">DOCUMENTS</h1>
+
+      <div className="content-page documents-page">
+        <div className="documents-buttons">
+          <button className="doc-btn">Contracts</button>
+          <button className="doc-btn">Commission Rates</button>
+          <button className="doc-btn">Presentations</button>
+          <button className="doc-btn">Sample Discounts</button>
+          <button className="doc-btn">Install Instructions</button>
+          <button className="doc-btn">Discontinued Finishes</button>
         </div>
       </div>
     </div>
@@ -1306,7 +1407,10 @@ function SamplesPage() {
           </div>
           <div className="dashboard-card">
             <h3>Quick Links</h3>
-            <button className="action-btn" onClick={() => window.history.back()}>
+            <button
+              className="action-btn"
+              onClick={() => window.history.back()}
+            >
               ← Back to Home
             </button>
           </div>
@@ -1326,19 +1430,35 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/sales" element={<SalesPage />} />
+        <Route path="/sales/rewards" element={<RewardsPage />} />
         <Route path="/lead-times" element={<LeadTimesPage />} />
         <Route path="/fabrics" element={<FabricsPage />} />
-        <Route path="/fabrics/database" element={<FabricDatabasePage />} />
-        <Route path="/fabrics/com-request" element={<ComYdgRequestPage />} />
+        <Route
+          path="/fabrics/database"
+          element={<FabricDatabasePage />}
+        />
+        <Route
+          path="/fabrics/com-request"
+          element={<ComYdgRequestPage />}
+        />
         <Route path="/documents" element={<DocumentsPage />} />
         <Route path="/replacements" element={<ReplacementsPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/swivels" element={<SwivelsPage />} />
-        <Route path="/products/end-tables" element={<EndTablesPage />} />
-        <Route path="/products/conference" element={<ConferencePage />} />
+        <Route
+          path="/products/end-tables"
+          element={<EndTablesPage />}
+        />
+        <Route
+          path="/products/conference"
+          element={<ConferencePage />}
+        />
         <Route path="/products/more" element={<MorePage />} />
         <Route path="/products/seating" element={<SeatingPage />} />
-        <Route path="/products/casegoods" element={<CasegoodsPage />} />
+        <Route
+          path="/products/casegoods"
+          element={<CasegoodsPage />}
+        />
         <Route path="/ssa" element={<SSAPage />} />
         <Route path="/samples" element={<SamplesPage />} />
       </Routes>
