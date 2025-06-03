@@ -21,7 +21,7 @@ body,
   max-width: 420px;
   margin: 0 auto;
   height: 100vh;
-  overflow: hidden; /* Root is fixed; internal pages scroll individually */
+  overflow: hidden; /* Root is fixed; inner pages scroll individually */
   background-color: #f5f5f5;
 }
 
@@ -45,15 +45,14 @@ body,
   z-index: 5;
 }
 
-/* Logo image in top‐left */
-.logo-image {
-  height: 40px;
-  object-fit: contain;
-  margin-right: 16px;
-  cursor: pointer;
+/* Logo image in top-left */
+.logo {
+  height: 40px;        /* Keep the logo PNG 40px tall */
+  object-fit: contain; /* Maintain aspect ratio */
+  margin-right: 16px;  /* Space between logo and profile icon */
+  cursor: pointer;     /* Show pointer on hover */
 }
 
-/* The stray .profile circle, if you want it for user avatar */
 .profile {
   margin-left: auto;
   width: 32px;
@@ -63,7 +62,7 @@ body,
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   MODAL / OVERLAYS (used by Sales modal and Feedback “Submitted” overlay)
+   MODAL / OVERLAYS (Sales modal, Feedback overlay)
 ───────────────────────────────────────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;
@@ -108,14 +107,14 @@ body,
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;      /* increased spacing between tiles */
-  padding: 12px;  /* extra outer padding */
+  gap: 8px;      /* Slightly reduced spacing to make tiles a bit smaller */
+  padding: 8px;  /* Reduced outer padding */
   margin-bottom: 8px;
 }
 .tile {
   background: linear-gradient(135deg, #c4b5a0 0%, #e0d6c5 100%);
-  border-radius: 24px;    /* slightly more rounding */
-  aspect-ratio: 1 / 1;    /* square tiles */
+  border-radius: 24px;
+  aspect-ratio: 1 / 1; /* Keep tiles perfectly square */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,9 +132,9 @@ body,
   transform: scale(0.98);
 }
 .tile-icon {
-  width: 48px;   /* larger icon */
-  height: 48px;
-  margin-bottom: 6px;
+  width: 56px;   /* Increased icon size (was 48px) */
+  height: 56px;
+  margin-bottom: 8px;
 }
 .tile-icon svg {
   width: 100%;
@@ -143,7 +142,7 @@ body,
 }
 .tile-label {
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 14px; /* Increased label size (was 12px) */
   font-weight: bold;
   color: #ffffff;
   text-align: center;
@@ -191,7 +190,7 @@ body,
 }
 .orders-search-input {
   width: 100%;
-  padding: 8px 8px 8px 36px; /* space for icon */
+  padding: 8px 8px 8px 36px; /* Leave room for the search icon */
   font-size: 14px;
   border: 1px solid #cccccc;
   border-radius: 6px;
@@ -1068,4 +1067,6 @@ body,
   color: #333333;
 }
 
-/* Any remaining CSS rules for other pages remain unchanged */
+/* ─────────────────────────────────────────────────────────────────────────────
+   (Any additional CSS rules for other pages stay as-is)
+───────────────────────────────────────────────────────────────────────────── */
