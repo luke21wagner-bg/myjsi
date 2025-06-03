@@ -16,7 +16,7 @@ body,
   background-color: #f5f5f5;
 }
 
-/* This wrapper matches the outermost <div> on your live site */
+/* Outermost wrapper around every page */
 .app-container {
   max-width: 420px;
   margin: 0 auto;
@@ -44,11 +44,16 @@ body,
   position: relative;
   z-index: 5;
 }
-.logo {
-  cursor: pointer;
-  display: inline-block;
+
+/* Logo image in top‐left */
+.logo-image {
+  height: 40px;
+  object-fit: contain;
   margin-right: 16px;
+  cursor: pointer;
 }
+
+/* The stray .profile circle, if you want it for user avatar */
 .profile {
   margin-left: auto;
   width: 32px;
@@ -103,8 +108,8 @@ body,
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;      /* spacing between tiles */
-  padding: 12px;  /* outer padding */
+  gap: 12px;      /* increased spacing between tiles */
+  padding: 12px;  /* extra outer padding */
   margin-bottom: 8px;
 }
 .tile {
