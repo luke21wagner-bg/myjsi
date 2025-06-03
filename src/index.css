@@ -5,7 +5,7 @@
   max-width: 420px;
   margin: 0 auto;
   height: 100vh;
-  overflow: hidden;
+  overflow: hidden; /* Root is fixed‐height, but inner content is scrollable */
   background-color: #f5f5f5;
 }
 
@@ -58,13 +58,13 @@ body,
 }
 
 /* -------------------------------------------
-   HomePage: Grid & Tiles
+   HomePage: Grid & Tiles (smaller, subtle shadow)
 ------------------------------------------- */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 12px;
+  gap: 8px;          /* reduced from 12px */
+  padding: 10px;     /* slightly reduced from 12px */
   margin-top: 8px;
   margin-bottom: 56px; /* leave room for feedback bar */
 }
@@ -76,7 +76,7 @@ body,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* very subtle shadow */
   text-decoration: none;
   overflow: hidden;
   transition: background-color 0.2s ease, transform 0.1s ease;
@@ -88,9 +88,9 @@ body,
   background-color: #b8a38e;  /* darker on hover */
 }
 .tile-icon {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 8px;
+  width: 50px;    /* slightly smaller than 60px */
+  height: 50px;
+  margin-bottom: 6px;
 }
 .tile-icon svg {
   width: 100%;
@@ -98,7 +98,7 @@ body,
 }
 .tile-label {
   text-transform: lowercase;
-  font-size: 14px;
+  font-size: 12px; /* reduced from 14px */
   color: #ffffff;
   text-align: center;
   line-height: 1.2;
@@ -239,7 +239,7 @@ body,
 /* Content below the toolbar */
 .content-page {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto;    /* user can scroll vertically if content is long */
   background-color: #f5f5f5;
   padding: 16px;
 }
