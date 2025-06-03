@@ -58,7 +58,7 @@ body,
 }
 
 /* -------------------------------------------
-   HomePage: Grid & Tiles (smaller, subtle shadow)
+   HomePage: Grid & Tiles (slightly smaller + subtle shadow)
 ------------------------------------------- */
 .grid {
   display: grid;
@@ -104,7 +104,9 @@ body,
   line-height: 1.2;
 }
 
-/* Feedback bar pinned at bottom */
+/* -------------------------------------------
+   Feedback Bar (bottom of Home) – now clickable
+------------------------------------------- */
 .feedback-bar {
   position: fixed;
   bottom: 0;
@@ -119,6 +121,8 @@ body,
   font-size: 16px;
   z-index: 10;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 /* -------------------------------------------
@@ -924,7 +928,7 @@ body.no-scroll {
 }
 
 /* -------------------------------------------
-   REWARDS PAGE Styles (unchanged)
+   REWARDS PAGE Styles
 ------------------------------------------- */
 .rewards-page .content-page {
   background-color: #ffffff;
@@ -970,4 +974,125 @@ body.no-scroll {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
+}
+
+/* -------------------------------------------
+   FEEDBACK PAGE Styles
+------------------------------------------- */
+.feedback-page .content-page {
+  background-color: #ffffff;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+.feedback-heading {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #333333;
+  margin: 20px 16px 24px; /* same spacing as other headings */
+}
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.feedback-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.feedback-field label {
+  flex: 0 0 80px;  /* labels are narrower than SSA to keep the form compact */
+  font-size: 14px;
+  color: #333333;
+  font-weight: bold;
+}
+.feedback-field input[type="text"],
+.feedback-field textarea {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: none;
+  background-color: #fcfcfc;
+  transition: border-color 0.2s ease;
+}
+.feedback-field input[type="text"]:focus,
+.feedback-field textarea:focus {
+  border-color: #888888;
+}
+.feedback-file-wrapper {
+  position: relative;
+  flex: 1;
+}
+.feedback-file-wrapper svg {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  fill: #888888;
+  pointer-events: none;
+}
+.feedback-file-wrapper input {
+  width: 100%;
+  padding: 8px 36px 8px 8px; /* space for the search icon on the right */
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: none;
+  background-color: #fcfcfc;
+  transition: border-color 0.2s ease;
+}
+.feedback-file-wrapper input:focus {
+  border-color: #888888;
+}
+.feedback-submit-btn {
+  width: 100%;
+  background-color: #dddddd;
+  color: #666666;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.feedback-submit-btn:hover {
+  background-color: #cccccc;
+}
+.feedback-submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* -------------------------------------------
+   FEEDBACK Submission Modal (reuse modal classes)
+------------------------------------------- */
+.submitted-message {
+  text-align: center;
+  font-size: 18px;
+  color: #333333;
+  margin-bottom: 16px;
+}
+.modal-ok-btn {
+  background-color: #c4b5a0;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.modal-ok-btn:hover {
+  background-color: #b8a38e;
+}
+.modal-ok-btn:active {
+  transform: scale(0.98);
 }
