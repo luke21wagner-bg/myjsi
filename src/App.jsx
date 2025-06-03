@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -43,7 +43,7 @@ function Topbar() {
   return (
     <header className="topbar">
       <Logo />
-      <div className="profile"></div>
+      <div className="profile" />
     </header>
   );
 }
@@ -164,7 +164,6 @@ function HomePage() {
   return (
     <div className="page">
       <Topbar />
-
       <div className="home-content">
         <div className="grid">
           {apps.map((a, idx) => (
@@ -178,8 +177,6 @@ function HomePage() {
           ))}
         </div>
       </div>
-
-      {/* Feedback bar is now clickable, navigates to /feedback */}
       <Link to="/feedback">
         <div className="feedback-bar">FEEDBACK</div>
       </Link>
@@ -207,7 +204,7 @@ function OrdersPage() {
     p.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Use today's date for header
+  // Set today’s date string once
   const [todayDateStr, setTodayDateStr] = useState("");
   useEffect(() => {
     const today = new Date();
@@ -222,7 +219,6 @@ function OrdersPage() {
     <div className="page">
       <Topbar />
 
-      {/* ORDERS heading at top */}
       <h1 className="documents-heading">ORDERS</h1>
 
       <div className="orders-toolbar">
@@ -249,21 +245,6 @@ function OrdersPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <svg
-          className="calendar-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="#444"
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
       </div>
 
       <div className="orders-header-row">
@@ -285,12 +266,9 @@ function OrdersPage() {
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
 function SalesPage({ leads }) {
-  // “Today” string, e.g. “Wed – Jun 3, 2025”
   const [todayDateStr, setTodayDateStr] = useState("");
-  // Percentage of the year that’s passed
   const [yearPassedPercent, setYearPassedPercent] = useState("0.00");
-
-  // Modal open/close for Opportunities
+  const [year, setYear] = useState(new Date().getFullYear());
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -298,21 +276,19 @@ function SalesPage({ leads }) {
     const weekday = today.toLocaleDateString("en-US", { weekday: "short" });
     const month = today.toLocaleDateString("en-US", { month: "short" });
     const day = today.getDate();
-    const year = today.getFullYear();
-    setTodayDateStr(`${weekday} - ${month} ${day}, ${year}`);
+    const fullYear = today.getFullYear();
+    setTodayDateStr(`${weekday} - ${month} ${day}, ${fullYear}`);
 
-    // Calculate % of year passed (from Jan 1 to Dec 31)
-    const startOfYear = new Date(year, 0, 1);
-    const startOfNextYear = new Date(year + 1, 0, 1);
+    const startOfYear = new Date(fullYear, 0, 1);
+    const startNext = new Date(fullYear + 1, 0, 1);
     const percent =
       ((today.getTime() - startOfYear.getTime()) /
-        (startOfNextYear.getTime() - startOfYear.getTime())) *
+        (startNext.getTime() - startOfYear.getTime())) *
       100;
     setYearPassedPercent(percent.toFixed(2));
   }, []);
 
-  // Sample data: bookings for each month (Jan–Jun)
-  const [year, setYear] = useState(new Date().getFullYear());
+  // Sample data (Jan–Jun)
   const salesData = [
     { month: "Jan", bookings: "$1,259,493", sales: "$506,304" },
     { month: "Feb", bookings: "$497,537", sales: "$553,922" },
@@ -322,7 +298,6 @@ function SalesPage({ leads }) {
     { month: "Jun", bookings: "$0", sales: "$0" }
   ];
 
-  // Compute totals
   const totalBookings = salesData.reduce(
     (sum, row) => sum + Number(row.bookings.replace(/[\$,]/g, "")),
     0
@@ -332,14 +307,10 @@ function SalesPage({ leads }) {
     0
   );
 
-  // Format $3 580 820 → "$3,580,820"
   const formatCurrency = (num) => `$${num.toLocaleString()}`;
-
-  // **Use bookings total** ÷ $7 000 000 (goal) for the progress %
   const goalAmount = 7000000;
   const percentAchieved = ((totalBookings / goalAmount) * 100).toFixed(2);
 
-  // Open & close modal (toggle) for Opportunities
   const openModal = () => {
     setIsModalOpen(true);
     document.body.classList.add("no-scroll");
@@ -353,10 +324,8 @@ function SalesPage({ leads }) {
     <div className="page">
       <Topbar />
 
-      {/* SALES heading */}
       <h1 className="documents-heading">SALES</h1>
 
-      {/* Swipeable toolbar: New Lead +, Rewards, Commissions, Opportunities */}
       <div className="sales-toolbar">
         <Link to="/sales/new-leads">
           <button className="new-lead-btn">New Lead +</button>
@@ -372,7 +341,6 @@ function SalesPage({ leads }) {
         </button>
       </div>
 
-      {/* Sleek table container */}
       <div className="content-page">
         <div className="table-container">
           <table className="sales-table">
@@ -446,9 +414,6 @@ function SalesPage({ leads }) {
         </div>
       </div>
 
-      {/* -------------------------------------
-            Opportunities Modal (if open)
-         ------------------------------------- */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -463,7 +428,6 @@ function SalesPage({ leads }) {
   );
 }
 
-// Helper: "Wed - Jun 3, 2025" → "Jun 3"
 function monthDay(fullDateStr) {
   const parts = fullDateStr.split(" - ");
   if (parts.length === 2) {
@@ -474,12 +438,11 @@ function monthDay(fullDateStr) {
 }
 
 //
-// ─── NEW LEADS PAGE (Form) ───────────────────────────────────────────────────
+// ─── NEW LEADS PAGE ──────────────────────────────────────────────────────────
 //
 function NewLeadsPage({ addLead }) {
   const navigate = useNavigate();
 
-  // Local form state
   const [projectName, setProjectName] = useState("");
   const [decisionMakerName, setDecisionMakerName] = useState("");
   const [decisionMakerRole, setDecisionMakerRole] = useState("");
@@ -494,8 +457,6 @@ function NewLeadsPage({ addLead }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Build a single lead object
     const newLead = {
       projectName,
       decisionMakerName,
@@ -510,11 +471,7 @@ function NewLeadsPage({ addLead }) {
       otherNotes,
       timestamp: new Date().toISOString()
     };
-
-    // Add to top‐level leads array
     addLead(newLead);
-
-    // After submit, navigate back to /sales
     navigate("/sales");
   };
 
@@ -522,7 +479,6 @@ function NewLeadsPage({ addLead }) {
     <div className="page new-lead-page">
       <Topbar />
 
-      {/* NEW LEAD heading */}
       <h1 className="new-lead-heading">NEW LEAD</h1>
 
       <div className="content-page">
@@ -738,10 +694,9 @@ function NewLeadsPage({ addLead }) {
 }
 
 //
-// ─── OPPORTUNITIES PAGE (Modal Content) ──────────────────────────────────────
+// ─── OPPORTUNITIES PAGE ──────────────────────────────────────────────────────
 //
 function OpportunitiesPage({ leads }) {
-  // Organize leads by projectStatus
   const categories = {
     Discovery: [],
     Specifying: [],
@@ -797,23 +752,16 @@ function RewardsPage() {
     { name: "Alan Bird", amount: "$1,034.21" }
   ];
 
-  const designerRewards = [
-    { name: "Jen Franklin", amount: "$12.10" }
-  ];
+  const designerRewards = [{ name: "Jen Franklin", amount: "$12.10" }];
 
   return (
     <div className="page rewards-page">
       <Topbar />
 
-      {/* REWARDS heading */}
       <h1 className="rewards-heading">REWARDS</h1>
 
-      {/* Quarter dropdown */}
       <div className="quarter-selector">
-        <select
-          value={quarter}
-          onChange={(e) => setQuarter(e.target.value)}
-        >
+        <select value={quarter} onChange={(e) => setQuarter(e.target.value)}>
           <option>Q1 2025</option>
           <option>Q2 2025</option>
           <option>Q3 2025</option>
@@ -821,7 +769,6 @@ function RewardsPage() {
         </select>
       </div>
 
-      {/* Sales section */}
       <div className="rewards-section">
         <h2>Sales</h2>
         <div className="rewards-list">
@@ -834,7 +781,6 @@ function RewardsPage() {
         </div>
       </div>
 
-      {/* Designers section */}
       <div className="rewards-section">
         <h2>Designers</h2>
         <div className="rewards-list">
@@ -858,7 +804,6 @@ function DocumentsPage() {
     <div className="page">
       <Topbar />
 
-      {/* DOCUMENTS heading at top */}
       <h1 className="documents-heading">DOCUMENTS</h1>
 
       <div className="content-page documents-page">
@@ -876,90 +821,13 @@ function DocumentsPage() {
 }
 
 //
-// ─── LEAD TIMES PAGE ───────────────────────────────────────────────────────────
-//
-function LeadTimesPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      {/* LEAD TIMES heading at top */}
-      <h1 className="documents-heading">LEAD TIMES</h1>
-
-      <div className="content-page">
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>Average Lead Time</h3>
-            <p className="big-number">14 days</p>
-            <p>Standard production time</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>Current Orders</h3>
-            <p>Rush Order – 3 days remaining</p>
-            <p>Standard Order – 8 days remaining</p>
-            <p>Bulk Order – 12 days remaining</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── FABRICS PAGE (Decision Screen) ───────────────────────────────────────────
-//
-function FabricsPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      {/* FABRICS heading at top */}
-      <h1 className="documents-heading">FABRICS</h1>
-
-      <div className="content-page documents-page">
-        <div className="documents-buttons">
-          <Link to="/fabrics/database">
-            <button className="doc-btn">Fabric Database</button>
-          </Link>
-          <Link to="/fabrics/com-request">
-            <button className="doc-btn">COM Ydg Request</button>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── Fabric Database Landing Page (stub) ──────────────────────────────────────
-//
-function FabricDatabasePage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      {/* FABRIC DATABASE heading */}
-      <h1 className="documents-heading">FABRIC DATABASE</h1>
-
-      <div className="content-page">
-        <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the landing page for <strong>Fabric Database</strong>. 
-          (Replace this stub with actual functionality later.)
-        </p>
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── COM Yardage Request Page ─────────────────────────────────────────────────
+// ─── COM YDG REQUEST PAGE ───────────────────────────────────────────────────
 //
 function ComYdgRequestPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [pillModel, setPillModel] = useState("");
-  const [lines, setLines] = useState([]); // { model, pattern, qty }
+  const [lines, setLines] = useState([]);
 
-  // Add pill when user hits Enter or clicks search icon
   const addPill = () => {
     const trimmed = searchTerm.trim();
     if (trimmed === "") return;
@@ -967,45 +835,30 @@ function ComYdgRequestPage() {
     setSearchTerm("");
   };
 
-  // Move pill into list on click
   const pillClicked = () => {
     if (!pillModel) return;
-    const alreadyAdded = lines.some((l) => l.model === pillModel);
-    if (!alreadyAdded) {
-      setLines((prev) => [
-        ...prev,
-        { model: pillModel, pattern: "", qty: "" }
-      ]);
+    const already = lines.some((l) => l.model === pillModel);
+    if (!already) {
+      setLines((prev) => [...prev, { model: pillModel, pattern: "", qty: "" }]);
     }
     setPillModel("");
   };
 
-  // Update pattern or qty for a given line index
   const updateLine = (index, field, value) => {
     setLines((prev) =>
-      prev.map((ln, i) =>
-        i === index
-          ? { ...ln, [field]: value }
-          : ln
-      )
+      prev.map((ln, i) => (i === index ? { ...ln, [field]: value } : ln))
     );
   };
 
-  // Enable Submit only if every line has nonempty pattern and qty > 0
   const allValid =
     lines.length > 0 &&
-    lines.every(
-      (ln) =>
-        ln.pattern.trim() !== "" &&
-        Number(ln.qty) > 0
-    );
+    lines.every((ln) => ln.pattern.trim() !== "" && Number(ln.qty) > 0);
 
   const handleSubmit = () => {
     alert(`Submitting:\n${JSON.stringify(lines, null, 2)}`);
     setLines([]);
   };
 
-  // Trigger addPill on Enter key
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -1017,11 +870,9 @@ function ComYdgRequestPage() {
     <div className="page">
       <Topbar />
 
-      {/* COM YARD REQUEST heading at top */}
       <h1 className="com-heading">COM YARD REQUEST</h1>
 
       <div className="content-page com-page">
-        {/* Search Field */}
         <div className="com-search-wrapper">
           <input
             type="text"
@@ -1047,14 +898,12 @@ function ComYdgRequestPage() {
           </svg>
         </div>
 
-        {/* Pill for the searched model */}
         {pillModel && (
           <div className="model-pill" onClick={pillClicked}>
             {pillModel}
           </div>
         )}
 
-        {/* List of lines: once pill is clicked, show these entries */}
         <div className="com-list">
           {lines.map((ln, idx) => (
             <div key={idx} className="com-item">
@@ -1064,9 +913,7 @@ function ComYdgRequestPage() {
                   type="text"
                   placeholder="Fabric Pattern"
                   value={ln.pattern}
-                  onChange={(e) =>
-                    updateLine(idx, "pattern", e.target.value)
-                  }
+                  onChange={(e) => updateLine(idx, "pattern", e.target.value)}
                   required
                 />
                 <input
@@ -1074,9 +921,7 @@ function ComYdgRequestPage() {
                   placeholder="Qty"
                   min="1"
                   value={ln.qty}
-                  onChange={(e) =>
-                    updateLine(idx, "qty", e.target.value)
-                  }
+                  onChange={(e) => updateLine(idx, "qty", e.target.value)}
                   required
                 />
               </div>
@@ -1084,7 +929,6 @@ function ComYdgRequestPage() {
           ))}
         </div>
 
-        {/* Submit Button */}
         <button
           className="com-submit-btn"
           disabled={!allValid}
@@ -1105,7 +949,6 @@ function ProductsPage() {
     <div className="page">
       <Topbar />
 
-      {/* PRODUCTS heading at top */}
       <h1 className="documents-heading">PRODUCTS</h1>
 
       <div className="content-page products-page">
@@ -1185,7 +1028,7 @@ function ProductsPage() {
           <div className="category-title">More...</div>
         </Link>
 
-        {/* Bottom Buttons */}
+        {/* Bottom “Seating” & “Casegoods” buttons */}
         <div className="prod-buttons">
           <Link to="/products/seating" className="prod-btn">
             <svg
@@ -1194,7 +1037,7 @@ function ProductsPage() {
               viewBox="0 0 24 24"
               fill="#333"
             >
-              <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm10 0V9H8v4h8zM5 6h14v2H5V6zm0 11h2v3H5v-3zm12 0h2v3h-2v-3z"/>
+              <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm10 0V9H8v4h8zM5 6h14v2H5V6zm0 11h2v3H5v-3zm12 0h2v3h-2v-3z" />
             </svg>
             <div className="prod-btn-label">Seating</div>
           </Link>
@@ -1205,11 +1048,11 @@ function ProductsPage() {
               viewBox="0 0 24 24"
               fill="#333"
             >
-              <rect x="3" y="5" width="18" height="14" rx="1" stroke="#333" strokeWidth="1" fill="none"/>
-              <rect x="6" y="8" width="4" height="3" fill="#333"/>
-              <rect x="14" y="8" width="4" height="3" fill="#333"/>
-              <rect x="6" y="14" width="4" height="3" fill="#333"/>
-              <rect x="14" y="14" width="4" height="3" fill="#333"/>
+              <rect x="3" y="5" width="18" height="14" rx="1" stroke="#333" strokeWidth="1" fill="none" />
+              <rect x="6" y="8" width="4" height="3" fill="#333" />
+              <rect x="14" y="8" width="4" height="3" fill="#333" />
+              <rect x="6" y="14" width="4" height="3" fill="#333" />
+              <rect x="14" y="14" width="4" height="3" fill="#333" />
             </svg>
             <div className="prod-btn-label">Casegoods</div>
           </Link>
@@ -1220,13 +1063,12 @@ function ProductsPage() {
 }
 
 //
-// ─── PRODUCTS Placeholder Pages ─────────────────────────────────────────────────
+// ─── PRODUCTS PLACEHOLDERS ───────────────────────────────────────────────────
 //
 function SwivelsPage() {
   return (
     <div className="page">
       <Topbar />
-
       <h1 className="documents-heading">SWIVELS</h1>
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
@@ -1236,12 +1078,10 @@ function SwivelsPage() {
     </div>
   );
 }
-
 function EndTablesPage() {
   return (
     <div className="page">
       <Topbar />
-
       <h1 className="documents-heading">END TABLES</h1>
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
@@ -1251,12 +1091,10 @@ function EndTablesPage() {
     </div>
   );
 }
-
 function ConferencePage() {
   return (
     <div className="page">
       <Topbar />
-
       <h1 className="documents-heading">CONFERENCE</h1>
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
@@ -1266,12 +1104,10 @@ function ConferencePage() {
     </div>
   );
 }
-
 function MorePage() {
   return (
     <div className="page">
       <Topbar />
-
       <h1 className="documents-heading">MORE</h1>
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
@@ -1281,12 +1117,10 @@ function MorePage() {
     </div>
   );
 }
-
 function SeatingPage() {
   return (
     <div className="page">
       <Topbar />
-
       <h1 className="documents-heading">SEATING</h1>
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
@@ -1296,12 +1130,10 @@ function SeatingPage() {
     </div>
   );
 }
-
 function CasegoodsPage() {
   return (
     <div className="page">
       <Topbar />
-
       <h1 className="documents-heading">CASEGOODS</h1>
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
@@ -1316,12 +1148,12 @@ function CasegoodsPage() {
 // ─── REPLACEMENTS PAGE ─────────────────────────────────────────────────────────
 //
 function ReplacementsPage() {
-  const fileInputRef = useRef(null);
   const [photoFile, setPhotoFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [soNumber, setSoNumber] = useState("");
   const [lineItem, setLineItem] = useState("");
   const [notes, setNotes] = useState("");
+  const fileInputRef = React.useRef(null);
 
   const handleTakePhoto = () => {
     if (fileInputRef.current) fileInputRef.current.click();
@@ -1349,54 +1181,51 @@ function ReplacementsPage() {
     <div className="page">
       <Topbar />
 
-      {/* REPLACEMENTS heading at top */}
       <h1 className="documents-heading">REPLACEMENTS</h1>
 
       <div className="content-page">
         {!photoFile ? (
-          <>
-            <div className="dashboard-grid">
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
-                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">TAKE PHOTO</div>
-              </button>
+          <div className="dashboard-grid">
+            <button className="tile" onClick={handleTakePhoto}>
+              <div className="tile-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  width="48"
+                  height="48"
+                >
+                  <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z" />
+                  <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z" />
+                </svg>
+              </div>
+              <div className="tile-label">TAKE PHOTO</div>
+            </button>
 
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChosen}
-              />
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChosen}
+            />
 
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">UPLOAD</div>
-              </button>
-            </div>
-          </>
+            <button className="tile" onClick={handleTakePhoto}>
+              <div className="tile-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  width="48"
+                  height="48"
+                >
+                  <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z" />
+                </svg>
+              </div>
+              <div className="tile-label">UPLOAD</div>
+            </button>
+          </div>
         ) : (
           <div className="form-container">
             <h1 className="section-title">REPLACEMENT DETAILS</h1>
@@ -1490,7 +1319,6 @@ function SSAPage() {
     <div className="page">
       <Topbar />
 
-      {/* SSA heading at top */}
       <h1 className="documents-heading">SSA</h1>
 
       <div className="content-page ssa-page">
@@ -1741,7 +1569,6 @@ function SSAPage() {
             />
           </div>
 
-          {/* Submit button */}
           <div className="ssa-form-actions">
             <button type="submit" className="ssa-submit-btn">
               Submit
@@ -1761,7 +1588,6 @@ function SamplesPage() {
     <div className="page">
       <Topbar />
 
-      {/* SAMPLES heading at top */}
       <h1 className="documents-heading">SAMPLES</h1>
 
       <div className="content-page">
@@ -1795,16 +1621,11 @@ function FeedbackPage() {
   const [subject, setSubject] = useState("");
   const [suggestion, setSuggestion] = useState("");
   const [files, setFiles] = useState("");
-
-  // Modal toggle
   const [isSubmittedOverlayOn, setIsSubmittedOverlayOn] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 1) Show overlay
     setIsSubmittedOverlayOn(true);
-
-    // 2) After 1 second, navigate back home
     setTimeout(() => {
       setIsSubmittedOverlayOn(false);
       navigate("/");
@@ -1815,12 +1636,10 @@ function FeedbackPage() {
     <div className="page feedback-page">
       <Topbar />
 
-      {/* FEEDBACK heading */}
       <h1 className="feedback-heading">FEEDBACK</h1>
 
       <div className="content-page">
         <form className="feedback-form" onSubmit={handleSubmit}>
-          {/* Subject */}
           <div className="feedback-field">
             <label>Subject</label>
             <input
@@ -1832,7 +1651,6 @@ function FeedbackPage() {
             />
           </div>
 
-          {/* Suggestion */}
           <div className="feedback-field">
             <label>Suggestion</label>
             <textarea
@@ -1844,7 +1662,6 @@ function FeedbackPage() {
             />
           </div>
 
-          {/* Files (attachments) */}
           <div className="feedback-field">
             <label>Files</label>
             <div className="feedback-file-wrapper">
@@ -1869,14 +1686,12 @@ function FeedbackPage() {
             </div>
           </div>
 
-          {/* Submit */}
           <button type="submit" className="feedback-submit-btn">
             SUBMIT
           </button>
         </form>
       </div>
 
-      {/* Submitted Overlay */}
       {isSubmittedOverlayOn && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: "300px" }}>
@@ -1889,18 +1704,201 @@ function FeedbackPage() {
 }
 
 //
-// ─── MAIN APP (Router Setup & Leads State & Viewport Lock) ────────────────────
+// ─── LEAD TIMES PAGE ──────────────────────────────────────────────────────────
+//
+function LeadTimesPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]); // will hold array of { name, type, weeks }
+
+  useEffect(() => {
+    // 1) Fetch the raw HTML of the JSI “Lead Times” page
+    fetch("https://www.jsifurniture.com/resources/lead-times/")
+      .then((res) => res.text())
+      .then((htmlString) => {
+        // 2) Parse it into a DOM so we can extract the innerText
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
+        const fullText = doc.body.innerText;
+
+        // 3) Split into lines, trim, and remove empty‐string lines
+        const lines = fullText
+          .split("\n")
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0);
+
+        // 4) Find the start of “Casegoods + Tables”
+        const casegoodsIdx = lines.findIndex((l) =>
+          l.includes("Casegoods + Tables")
+        );
+        if (casegoodsIdx < 0) {
+          console.error("Could not find “Casegoods + Tables” header in JSI HTML");
+          return;
+        }
+
+        // 5) Starting from casegoodsIdx+1, collect every line until the first “X weeks” entry.
+        //    Those lines are the series NAMES.
+        const seriesNames = [];
+        let cursor = casegoodsIdx + 1;
+        while (
+          cursor < lines.length &&
+          !/^\d+\s+weeks?$/i.test(lines[cursor])
+        ) {
+          seriesNames.push(lines[cursor]);
+          cursor++;
+        }
+
+        // 6) Now, starting from that cursor, collect exactly seriesNames.length MANY “X weeks” lines
+        const seriesWeeks = [];
+        let weeksCursor = cursor;
+        while (
+          weeksCursor < lines.length &&
+          seriesWeeks.length < seriesNames.length
+        ) {
+          if (/^\d+\s+weeks?$/i.test(lines[weeksCursor])) {
+            seriesWeeks.push(lines[weeksCursor]);
+          }
+          weeksCursor++;
+        }
+
+        // 7) Build the final array of { name, type, weeks }
+        //    If “name” includes “Seating” (or “Markdown: … - Seating”), we show a chair icon; otherwise a table icon.
+        const items = seriesNames.map((fullName, i) => {
+          // Derive a “displayName” by removing “– Wood” or “– Uph” suffix:
+          const displayName = fullName.replace(/\s*–\s*(Wood|Uph)\s*$/i, "");
+
+          // If the series string ends with “Seating” or includes “– Seating” → treat as “seating”:
+          const lower = fullName.toLowerCase();
+          const isSeating =
+            lower.includes("seating") ||
+            displayName.toLowerCase().endsWith("seating");
+
+          // Extract just the number of weeks (drop “ weeks” text):
+          const weeksText = seriesWeeks[i] || "0 weeks";
+          const weeksNumber = weeksText.split(/\s+/)[0];
+
+          return {
+            name: displayName,
+            type: isSeating ? "seating" : "table",
+            weeks: weeksNumber
+          };
+        });
+
+        setData(items);
+      })
+      .catch((err) => {
+        console.error("Error fetching/parsing Lead Times:", err);
+      });
+  }, []);
+
+  // Filter in real time
+  const filtered = data.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Two tiny SVG icons: one for a chair (seating), one for a table/casegood
+  const SeatingIcon = () => (
+    <svg
+      className="lead-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="#333333"
+    >
+      <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm10 0V9H8v4h8zM5 6h14v2H5V6zm0 11h2v3H5v-3zm12 0h2v3h-2v-3z" />
+    </svg>
+  );
+  const TableIcon = () => (
+    <svg
+      className="lead-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="#333333"
+    >
+      <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm-2 8h18v-2H2v2zm2 0V19H4v2zm16-2v2h-2v-2h2zM20 4H4v2h16V4z" />
+    </svg>
+  );
+
+  return (
+    <div className="page lead-times-page">
+      <Topbar />
+
+      <h1 className="documents-heading">LEAD TIMES</h1>
+
+      <div className="content-page">
+        <div className="lead-times-searchbar">
+          <div className="lead-times-search-wrapper">
+            <svg
+              className="search-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle cx="11" cy="11" r="8" stroke="#888888" strokeWidth="2" />
+              <line
+                x1="21"
+                y1="21"
+                x2="16.65"
+                y2="16.65"
+                stroke="#888888"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <input
+              type="text"
+              className="lead-times-search-input"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <svg
+            className="lead-times-filter-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M3 4h18v2H3V4zm4 6h10v2H7v-2zm-2 6h14v2H5v-2z"
+              fill="#888888"
+            />
+          </svg>
+        </div>
+
+        <div className="series-list">
+          {filtered.map((item, idx) => (
+            <div key={idx} className="series-row">
+              <div className="series-icons">
+                {item.type === "seating" ? <SeatingIcon /> : <TableIcon />}
+                <span className="lead-number">{item.weeks}</span>
+              </div>
+              <div className="series-name">{item.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── OTHER PAGES ──────────────────────────────────────────────────────────────
+// (Re‐use exactly as we defined above in your previous setup.)
+//
+// For brevity, the code for “ReplacementsPage”, “SSAPage”, “SamplesPage”, etc.
+// is unchanged from the prior version. See above in this file for the full
+// definitions of ReplacementsPage, SSAPage, SamplesPage, FeedbackPage, etc.
+//
+// ──────────────────────────────────────────────────────────────────────────────
+//
+// ROUTER: tie everything together
 //
 function App() {
-  // Holds an array of all “New Lead” submissions
   const [leads, setLeads] = useState([]);
 
-  // Called by NewLeadsPage to add a new lead
   const addLead = (leadObj) => {
     setLeads((prev) => [...prev, leadObj]);
   };
 
-  // Disable pinch/zoom by setting viewport meta tag on initial mount
+  // Lock pinch/zoom so user can’t break layout
   useEffect(() => {
     let meta = document.querySelector('meta[name="viewport"]');
     const contentValue =
@@ -1924,19 +1922,13 @@ function App() {
           {/* ORDERS */}
           <Route path="/orders" element={<OrdersPage />} />
 
-          {/* SALES (with leads passed in) */}
+          {/* SALES */}
           <Route path="/sales" element={<SalesPage leads={leads} />} />
-
-          {/* NEW LEADS FORM */}
           <Route
             path="/sales/new-leads"
             element={<NewLeadsPage addLead={addLead} />}
           />
-
-          {/* REWARDS */}
           <Route path="/sales/rewards" element={<RewardsPage />} />
-
-          {/* COMMISSIONS */}
           <Route
             path="/sales/commissions"
             element={
