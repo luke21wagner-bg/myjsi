@@ -542,7 +542,7 @@ body,
   overflow-y: auto;
 }
 .documents-heading {
-  font-size: 32px;                   /* Enlarged for your request */
+  font-size: 32px;                   /* Enlarged for titles */
   font-weight: bold;
   text-transform: uppercase;
   color: #ffffff;
@@ -573,4 +573,115 @@ body,
 }
 .doc-btn:active {
   transform: scale(0.98);
+}
+
+/* -------------------------------------------
+   COM YDG REQUEST PAGE Styles
+------------------------------------------- */
+.com-page .content-page {
+  background-color: #ffffff;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+.com-heading {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #333333;
+  margin: 20px 16px 24px; /* same spacing as .documents-heading */
+}
+.com-search-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+.com-search-input {
+  width: 100%;
+  padding: 8px 36px 8px 12px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  outline: none;
+}
+.com-search-input:focus {
+  border-color: #888888;
+}
+.com-search-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  fill: #888888;
+  cursor: pointer;
+}
+.model-pill {
+  display: inline-block;
+  background-color: #eeeeee;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.com-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.com-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #f9f9f9;
+}
+.com-item-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.com-item-fields {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.com-item-fields select,
+.com-item-fields input[type="number"],
+.com-item-fields input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: none;
+}
+.com-item-fields select:focus,
+.com-item-fields input:focus {
+  border-color: #888888;
+}
+.com-submit-btn {
+  width: 100%;
+  background-color: #ffffff;
+  color: #666666;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.com-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.com-submit-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
 }
