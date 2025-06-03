@@ -3,7 +3,47 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 
 //
-// ─── HOME PAGE ────────────────────────────────────────────────────────────────
+// ─── REUSABLE LOGO COMPONENT ─────────────────────────────────────────────────
+//
+function Logo() {
+  return (
+    <Link to="/">
+      <div
+        className="logo"
+        dangerouslySetInnerHTML={{
+          __html: `
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="120" height="40"
+                 viewBox="0 0 120 40" fill="white">
+              <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
+                My
+              </text>
+              <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
+              <text x="60" y="25" font-family="Arial" font-size="18">
+                JSI
+              </text>
+            </svg>
+          `
+        }}
+      />
+    </Link>
+  );
+}
+
+//
+// ─── SHARED TOPBAR ─────────────────────────────────────────────────────────────
+//
+function Topbar() {
+  return (
+    <header className="topbar">
+      <Logo />
+      <div className="profile"></div>
+    </header>
+  );
+}
+
+//
+// ─── HOME PAGE ─────────────────────────────────────────────────────────────────
 //
 function HomePage() {
   const apps = [
@@ -104,33 +144,11 @@ function HomePage() {
 
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
 
       <div className="grid">
-        {apps.map((a, i) => (
-          <Link key={i} to={`/${a.slug}`} className="tile">
+        {apps.map((a, idx) => (
+          <Link key={idx} to={`/${a.slug}`} className="tile">
             <div
               className="tile-icon"
               dangerouslySetInnerHTML={{ __html: a.iconSvg }}
@@ -171,29 +189,7 @@ function OrdersPage() {
 
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
 
       <div className="orders-toolbar">
         <div className="orders-search-wrapper">
@@ -203,7 +199,13 @@ function OrdersPage() {
             fill="#888"
             viewBox="0 0 24 24"
           >
-            <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+              d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+              stroke="#888"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <input
             type="text"
@@ -247,39 +249,14 @@ function OrdersPage() {
 }
 
 //
-
 // ─── DOCUMENTS PAGE ─────────────────────────────────────────────────────────
 function DocumentsPage() {
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          {/* “My JSI” logo SVG */}
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
 
       <div className="content-page documents-page">
         <h1 className="documents-heading">DOCUMENTS</h1>
-
         <div className="documents-buttons">
           <button className="doc-btn">Contracts</button>
           <button className="doc-btn">Commission Rates</button>
@@ -293,9 +270,8 @@ function DocumentsPage() {
   );
 }
 
-
-// ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
+// ─── SALES PAGE ────────────────────────────────────────────────────────────────
 function SalesPage() {
   const [year, setYear] = useState(2025);
 
@@ -308,52 +284,30 @@ function SalesPage() {
     { month: "Jun", bookings: "$0",      sales: "$0"       },
   ];
 
-  const totalBookings = salesData
-    .reduce((sum, row) => sum + Number(row.bookings.replace(/[\$,]/g, "")), 0);
-  const totalSales = salesData
-    .reduce((sum, row) => sum + Number(row.sales.replace(/[\$,]/g, "")), 0);
+  const totalBookings = salesData.reduce(
+    (sum, row) => sum + Number(row.bookings.replace(/[\$,]/g, "")),
+    0
+  );
+  const totalSales = salesData.reduce(
+    (sum, row) => sum + Number(row.sales.replace(/[\$,]/g, "")),
+    0
+  );
 
-  const formatCurrency = (num) => {
-    return `$${num.toLocaleString()}`;
-  };
+  const formatCurrency = (num) => `$${num.toLocaleString()}`;
 
   const goalAmount = 7000000;
   const percentAchieved = ((totalSales / goalAmount) * 100).toFixed(2); // ~49.46%
-  const yearPassedPercent = 41.64; // static placeholder
+  const yearPassedPercent = 41.64; // placeholder
 
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <h1 className="sales-title">SALES</h1>
-        <button className="new-lead-btn">New Lead +</button>
-      </header>
+      <Topbar />
+      <h1 className="sales-title">SALES</h1>
+      <button className="new-lead-btn">New Lead +</button>
 
       <div className="content-page">
         <div className="year-selector">
-          <select
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-          >
+          <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
             <option value={2025}>2025</option>
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
@@ -389,7 +343,9 @@ function SalesPage() {
         <div className="goal-section">
           <div className="goal-header">
             <span className="goal-label">Goal</span>
-            <span className="goal-amount">${(goalAmount / 1000000).toFixed(2)}M</span>
+            <span className="goal-amount">
+              ${ (goalAmount / 1000000).toFixed(2) }M
+            </span>
           </div>
           <div className="progress-bar-container">
             <div
@@ -429,29 +385,7 @@ function SalesPage() {
 function LeadTimesPage() {
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
 
       <div className="content-page">
         <h1>Lead Times</h1>
@@ -485,9 +419,7 @@ function ReplacementPage() {
   const [notes, setNotes] = useState("");
 
   const handleTakePhoto = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    if (fileInputRef.current) fileInputRef.current.click();
   };
 
   const handleFileChosen = (e) => {
@@ -510,29 +442,7 @@ function ReplacementPage() {
 
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
 
       <div className="content-page">
         {!photoFile ? (
@@ -634,7 +544,6 @@ function ReplacementPage() {
 
 //
 // ─── SSA PAGE ──────────────────────────────────────────────────────────────────
-//
 function SSAPage() {
   const [form, setForm] = useState({
     project: "",
@@ -671,33 +580,10 @@ function SSAPage() {
 
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
 
       <div className="content-page ssa-page">
         <h1 className="ssa-heading">SSA</h1>
-
         <form className="ssa-form" onSubmit={handleSubmit}>
           {/* Project */}
           <div className="ssa-form-field">
@@ -958,34 +844,12 @@ function SSAPage() {
 }
 
 //
-// ─── GENERIC PAGE (for Fabrics, Documents, Samples) ────────────────────────────
+// ─── GENERIC PAGE (for Fabrics, Samples, etc.) ────────────────────────────────
 //
 function GenericPage({ title }) {
   return (
     <div className="page">
-      <header className="topbar">
-        <Link to="/">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="120" height="40"
-                     viewBox="0 0 120 40" fill="white">
-                  <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                    My
-                  </text>
-                  <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-                  <text x="60" y="25" font-family="Arial" font-size="18">
-                    JSI
-                  </text>
-                </svg>
-              `
-            }}
-          />
-        </Link>
-        <div className="profile"></div>
-      </header>
+      <Topbar />
       <div className="content-page">
         <h1>{title}</h1>
         <div className="dashboard-grid">
@@ -1007,7 +871,7 @@ function GenericPage({ title }) {
 }
 
 //
-// ─── APP (Router Setup) ─────────────────────────────────────────────────────────
+// ─── MAIN APP (Router Setup) ─────────────────────────────────────────────────
 //
 function App() {
   return (
