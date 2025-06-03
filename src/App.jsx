@@ -204,12 +204,15 @@ function OrdersPage() {
   );
 
   // Use today's date for header
-  const today = new Date();
-  const weekday = today.toLocaleDateString("en-US", { weekday: "short" });
-  const month = today.toLocaleDateString("en-US", { month: "short" });
-  const day = today.getDate();
-  const year = today.getFullYear();
-  const todayDateStr = `${weekday} - ${month} ${day}, ${year}`;
+  const [todayDateStr, setTodayDateStr] = useState("");
+  useEffect(() => {
+    const today = new Date();
+    const weekday = today.toLocaleDateString("en-US", { weekday: "short" });
+    const month = today.toLocaleDateString("en-US", { month: "short" });
+    const day = today.getDate();
+    const year = today.getFullYear();
+    setTodayDateStr(`${weekday} - ${month} ${day}, ${year}`);
+  }, []);
 
   return (
     <div className="page">
@@ -278,8 +281,9 @@ function OrdersPage() {
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
 //
 function SalesPage() {
-  // Determine today's date once
+  // “Today” string, e.g. “Wed – Jun 3, 2025”
   const [todayDateStr, setTodayDateStr] = useState("");
+  // Percentage of the year that’s passed
   const [yearPassedPercent, setYearPassedPercent] = useState("0.00");
 
   useEffect(() => {
@@ -290,7 +294,7 @@ function SalesPage() {
     const year = today.getFullYear();
     setTodayDateStr(`${weekday} - ${month} ${day}, ${year}`);
 
-    // Calculate percentage of year passed
+    // Calculate % of year passed (from Jan 1 to Dec 31)
     const startOfYear = new Date(year, 0, 1);
     const startOfNextYear = new Date(year + 1, 0, 1);
     const percent =
@@ -300,7 +304,7 @@ function SalesPage() {
     setYearPassedPercent(percent.toFixed(2));
   }, []);
 
-  // Sample sales data for the table
+  // Sample data: bookings for each month (Jan–Jun)
   const [year, setYear] = useState(new Date().getFullYear());
   const salesData = [
     { month: "Jan", bookings: "$1,259,493", sales: "$506,304" },
@@ -311,6 +315,7 @@ function SalesPage() {
     { month: "Jun", bookings: "$0", sales: "$0" }
   ];
 
+  // Compute totals
   const totalBookings = salesData.reduce(
     (sum, row) => sum + Number(row.bookings.replace(/[\$,]/g, "")),
     0
@@ -319,25 +324,31 @@ function SalesPage() {
     (sum, row) => sum + Number(row.sales.replace(/[\$,]/g, "")),
     0
   );
+
+  // Format $3 580 820 → "$3,580,820"
   const formatCurrency = (num) => `$${num.toLocaleString()}`;
+
+  // **Use bookings total** ÷ $7 000 000 (goal) for the progress %
   const goalAmount = 7000000;
-  const percentAchieved = ((totalSales / goalAmount) * 100).toFixed(2);
+  const percentAchieved = ((totalBookings / goalAmount) * 100).toFixed(2);
 
   return (
     <div className="page">
       <Topbar />
 
-      {/* SALES heading at top */}
+      {/* SALES heading */}
       <h1 className="documents-heading">SALES</h1>
 
-      {/* Toolbar: New Lead + and Rewards */}
+      {/* Toolbar: New Lead +, Rewards, Commissions */}
       <div className="sales-toolbar">
         <button className="new-lead-btn">New Lead +</button>
         <Link to="/sales/rewards">
           <button className="rewards-btn">Rewards</button>
         </Link>
+        <button className="commissions-btn">Commissions</button>
       </div>
 
+      {/* Rest of content */}
       <div className="content-page">
         <div className="year-selector">
           <select
@@ -406,9 +417,8 @@ function SalesPage() {
   );
 }
 
-// Helper to reformat "Wed - Jun 3, 2025" → "Jun 3"
+// Helper: "Wed - Jun 3, 2025" → "Jun 3"
 function monthDay(fullDateStr) {
-  // fullDateStr looks like "Wed - Jun 3, 2025"
   const parts = fullDateStr.split(" - ");
   if (parts.length === 2) {
     const datePart = parts[1].split(",")[0]; // "Jun 3"
@@ -421,7 +431,6 @@ function monthDay(fullDateStr) {
 // ─── REWARDS PAGE ─────────────────────────────────────────────────────────────
 //
 function RewardsPage() {
-  // Quarter selector state (default "Q1 2025")
   const [quarter, setQuarter] = useState("Q1 2025");
 
   const salesRewards = [
