@@ -341,57 +341,69 @@ function SalesPage() {
 
       {/* Toolbar: New Lead +, Rewards, Commissions */}
       <div className="sales-toolbar">
-        <button className="new-lead-btn">New Lead +</button>
+        <Link to="/sales/new-leads">
+          <button className="new-lead-btn">New Lead +</button>
+        </Link>
         <Link to="/sales/rewards">
           <button className="rewards-btn">Rewards</button>
         </Link>
-        <button className="commissions-btn">Commissions</button>
+        <Link to="/sales/commissions">
+          <button className="commissions-btn">Commissions</button>
+        </Link>
       </div>
 
-      {/* Rest of content */}
+      {/* Sleek table container */}
       <div className="content-page">
-        <div className="year-selector">
-          <select
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-          >
-            <option value={2025}>2025</option>
-            <option value={2024}>2024</option>
-            <option value={2023}>2023</option>
-          </select>
-        </div>
-
-        <table className="sales-table">
-          <thead>
-            <tr>
-              <th>Month</th>
-              <th>Bookings</th>
-              <th>Sales</th>
-            </tr>
-          </thead>
-          <tbody>
-            {salesData.map((row) => (
-              <tr key={row.month}>
-                <td>{row.month}</td>
-                <td>{row.bookings}</td>
-                <td>{row.sales}</td>
+        <div className="table-container">
+          <table className="sales-table">
+            <thead>
+              <tr>
+                <th>
+                  <select
+                    value={year}
+                    onChange={(e) => setYear(Number(e.target.value))}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      color: "#333333",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <option value={2025}>2025</option>
+                    <option value={2024}>2024</option>
+                    <option value={2023}>2023</option>
+                  </select>
+                </th>
+                <th>Bookings</th>
+                <th>Sales</th>
               </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr className="totals-row">
-              <td>
-                <strong>Total</strong>
-              </td>
-              <td>
-                <strong>{formatCurrency(totalBookings)}</strong>
-              </td>
-              <td>
-                <strong>{formatCurrency(totalSales)}</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {salesData.map((row) => (
+                <tr key={row.month}>
+                  <td>{row.month}</td>
+                  <td>{row.bookings}</td>
+                  <td>{row.sales}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="totals-row">
+                <td>
+                  <strong>Total</strong>
+                </td>
+                <td>
+                  <strong>{formatCurrency(totalBookings)}</strong>
+                </td>
+                <td>
+                  <strong>{formatCurrency(totalSales)}</strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
 
         <div className="goal-section">
           <div className="goal-header">
@@ -425,6 +437,44 @@ function monthDay(fullDateStr) {
     return datePart;
   }
   return fullDateStr;
+}
+
+//
+// ─── NEW LEADS Placeholder Page ───────────────────────────────────────────────
+//
+function NewLeadsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">NEW LEADS</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px", color: "#333333" }}>
+          This is a placeholder page for <strong>New Leads</strong>. 
+          Implement your New Leads functionality here.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── COMMISSIONS Placeholder Page ─────────────────────────────────────────────
+//
+function CommissionsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">COMMISSIONS</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px", color: "#333333" }}>
+          This is a placeholder page for <strong>Commissions</strong>. 
+          Implement your Commissions functionality here.
+        </p>
+      </div>
+    </div>
+  );
 }
 
 //
@@ -585,7 +635,7 @@ function FabricDatabasePage() {
       <h1 className="documents-heading">FABRIC DATABASE</h1>
 
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the landing page for <strong>Fabric Database</strong>. 
           (Replace this stub with actual functionality later.)
         </p>
@@ -872,7 +922,7 @@ function SwivelsPage() {
 
       <h1 className="documents-heading">SWIVELS</h1>
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the placeholder page for <strong>Swivels</strong>.
         </p>
       </div>
@@ -887,7 +937,7 @@ function EndTablesPage() {
 
       <h1 className="documents-heading">END TABLES</h1>
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the placeholder page for <strong>End Tables</strong>.
         </p>
       </div>
@@ -902,7 +952,7 @@ function ConferencePage() {
 
       <h1 className="documents-heading">CONFERENCE</h1>
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the placeholder page for <strong>Conference</strong>.
         </p>
       </div>
@@ -917,7 +967,7 @@ function MorePage() {
 
       <h1 className="documents-heading">MORE</h1>
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the placeholder page for <strong>More...</strong>.
         </p>
       </div>
@@ -932,7 +982,7 @@ function SeatingPage() {
 
       <h1 className="documents-heading">SEATING</h1>
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the placeholder page for <strong>Seating</strong>.
         </p>
       </div>
@@ -947,7 +997,7 @@ function CasegoodsPage() {
 
       <h1 className="documents-heading">CASEGOODS</h1>
       <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
+        <p style={{ padding: "0 16px", color: "#333333" }}>
           This is the placeholder page for <strong>Casegoods</strong>.
         </p>
       </div>
@@ -1439,7 +1489,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/sales" element={<SalesPage />} />
+        <Route path="/sales/new-leads" element={<NewLeadsPage />} />
         <Route path="/sales/rewards" element={<RewardsPage />} />
+        <Route path="/sales/commissions" element={<CommissionsPage />} />
         <Route path="/lead-times" element={<LeadTimesPage />} />
         <Route path="/fabrics" element={<FabricsPage />} />
         <Route
