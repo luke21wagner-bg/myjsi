@@ -104,7 +104,7 @@ function HomePage() {
       slug: "products",
       iconSvg: `
         <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
-          <!-- Placeholder box icon -->
+          <!-- Simple grid icon -->
           <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" stroke-width="2" fill="none"/>
           <rect x="7" y="7" width="4" height="4" fill="white"/>
           <rect x="13" y="7" width="4" height="4" fill="white"/>
@@ -194,7 +194,7 @@ function OrdersPage() {
     "BUSINESS FURNITURE LLC - Subaru - 448489",
     "BUSINESS FURNITURE LLC - Subaru - 448491",
     "COMMERCIAL OFFICE ENVIRONMENTS - FORUM - 447995",
-    "COMMERCIAL OFFICE ENVIRONMENTS - Microsoft - 447002",
+    "COMMERCIAL OFFICE ENVIRONMENTS - Microsoft - 447002"
     // …add more as needed
   ];
 
@@ -307,7 +307,7 @@ function SalesPage() {
     { month: "Mar", bookings: "$400,110", sales: "$365,601" },
     { month: "Apr", bookings: "$554,318", sales: "$696,628" },
     { month: "May", bookings: "$869,362", sales: "$1,340,018" },
-    { month: "Jun", bookings: "$0",      sales: "$0"       },
+    { month: "Jun", bookings: "$0",      sales: "$0"       }
   ];
 
   const totalBookings = salesData.reduce(
@@ -631,7 +631,7 @@ function ComYdgRequestPage() {
 }
 
 //
-// ─── PRODUCTS Page ─────────────────────────────────────────────────────────────
+// ─── PRODUCTS PAGE ─────────────────────────────────────────────────────────────
 //
 function ProductsPage() {
   return (
@@ -753,7 +753,7 @@ function ProductsPage() {
 }
 
 //
-// ─── Placeholder Pages for Each Product Category ──────────────────────────────
+// ─── PRODUCTS Placeholder Pages ─────────────────────────────────────────────────
 //
 function SwivelsPage() {
   return (
@@ -983,7 +983,7 @@ function ReplacementsPage() {
 }
 
 //
-// ─── SSAPage ──────────────────────────────────────────────────────────────────
+// ─── SSAPAGE ──────────────────────────────────────────────────────────────────
 //
 function SSAPage() {
   const [form, setForm] = useState({
@@ -1002,14 +1002,14 @@ function SSAPage() {
     waiveSpecialLam: false,
     validThrough: "",
     competition: "",
-    notes: "",
+    notes: ""
   });
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : value
     }));
   }
 
@@ -1281,236 +1281,6 @@ function SSAPage() {
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── PRODUCTS Placeholder Pages ─────────────────────────────────────────────────
-//
-function SwivelsPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">SWIVELS</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the placeholder page for <strong>Swivels</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function EndTablesPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">END TABLES</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the placeholder page for <strong>End Tables</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function ConferencePage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">CONFERENCE</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the placeholder page for <strong>Conference</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function MorePage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">MORE</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the placeholder page for <strong>More...</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function SeatingPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">SEATING</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the placeholder page for <strong>Seating</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function CasegoodsPage() {
-  return (
-    <div className="page">
-      <Topbar />
-
-      <h1 className="documents-heading">CASEGOODS</h1>
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the placeholder page for <strong>Casegoods</strong>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── REPLACEMENTS PAGE ─────────────────────────────────────────────────────────
-//
-function ReplacementsPage() {
-  const fileInputRef = useRef(null);
-  const [photoFile, setPhotoFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [soNumber, setSoNumber] = useState("");
-  const [lineItem, setLineItem] = useState("");
-  const [notes, setNotes] = useState("");
-
-  const handleTakePhoto = () => {
-    if (fileInputRef.current) fileInputRef.current.click();
-  };
-
-  const handleFileChosen = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPhotoFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Replacement submitted! (Add email logic separately.)");
-    setPhotoFile(null);
-    setPreviewUrl(null);
-    setSoNumber("");
-    setLineItem("");
-    setNotes("");
-  };
-
-  return (
-    <div className="page">
-      <Topbar />
-
-      {/* REPLACEMENTS heading at top */}
-      <h1 className="documents-heading">REPLACEMENTS</h1>
-
-      <div className="content-page">
-        {!photoFile ? (
-          <>
-            <div className="dashboard-grid">
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
-                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">TAKE PHOTO</div>
-              </button>
-
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChosen}
-              />
-
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">UPLOAD</div>
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="form-container">
-            <h1 className="section-title">REPLACEMENT DETAILS</h1>
-            {previewUrl && (
-              <img src={previewUrl} alt="Preview" className="image-preview" />
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <div className="form-field">
-                <label htmlFor="soNumber">SO #</label>
-                <input
-                  type="text"
-                  id="soNumber"
-                  value={soNumber}
-                  onChange={(e) => setSoNumber(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="lineItem">Line Item #</label>
-                <input
-                  type="text"
-                  id="lineItem"
-                  value={lineItem}
-                  onChange={(e) => setLineItem(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="notes">Notes / Description</label>
-                <textarea
-                  id="notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows="4"
-                  required
-                />
-              </div>
-
-              <button type="submit" className="submit-btn">
-                Submit
-              </button>
-            </form>
-          </div>
-        )}
       </div>
     </div>
   );
