@@ -178,7 +178,10 @@ function HomePage() {
         ))}
       </div>
 
-      <div className="feedback-bar">Feedback</div>
+      {/* Feedback bar is now clickable, navigates to /feedback */}
+      <Link to="/feedback">
+        <div className="feedback-bar">FEEDBACK</div>
+      </Link>
     </div>
   );
 }
@@ -1785,6 +1788,112 @@ function SamplesPage() {
 }
 
 //
+// ─── FEEDBACK PAGE ────────────────────────────────────────────────────────────
+//
+function FeedbackPage() {
+  const navigate = useNavigate();
+
+  const [subject, setSubject] = useState("");
+  const [suggestion, setSuggestion] = useState("");
+  const [files, setFiles] = useState("");
+
+  // Modal toggle
+  const [isSubmittedModalOpen, setIsSubmittedModalOpen] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can hook up actual file uploading / email logic here.
+    // For now, we just show the “Submitted” modal.
+
+    setIsSubmittedModalOpen(true);
+  };
+
+  const closeModalAndGoHome = () => {
+    setIsSubmittedModalOpen(false);
+    navigate("/");
+  };
+
+  return (
+    <div className="page feedback-page">
+      <Topbar />
+
+      {/* FEEDBACK heading */}
+      <h1 className="feedback-heading">FEEDBACK</h1>
+
+      <div className="content-page">
+        <form className="feedback-form" onSubmit={handleSubmit}>
+          {/* Subject */}
+          <div className="feedback-field">
+            <label>Subject</label>
+            <input
+              type="text"
+              placeholder="Include suggestion title..."
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Suggestion */}
+          <div className="feedback-field">
+            <label>Suggestion</label>
+            <textarea
+              rows="6"
+              placeholder="Include suggestions for MyJSI app improvements..."
+              value={suggestion}
+              onChange={(e) => setSuggestion(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Files (attachments) */}
+          <div className="feedback-field">
+            <label>Files</label>
+            <div className="feedback-file-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="#888"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Add attachments"
+                value={files}
+                onChange={(e) => setFiles(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button type="submit" className="feedback-submit-btn">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+
+      {/* Submitted Modal */}
+      {isSubmittedModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ maxWidth: "300px" }}>
+            <div className="submitted-message">Submitted</div>
+            <button className="modal-ok-btn" onClick={closeModalAndGoHome}>
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+//
 // ─── MAIN APP (Router Setup & Leads State & Viewport Lock) ────────────────────
 //
 function App() {
@@ -1882,6 +1991,9 @@ function App() {
 
           {/* SAMPLES */}
           <Route path="/samples" element={<SamplesPage />} />
+
+          {/* FEEDBACK */}
+          <Route path="/feedback" element={<FeedbackPage />} />
         </Routes>
       </Router>
     </div>
