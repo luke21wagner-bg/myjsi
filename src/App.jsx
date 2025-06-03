@@ -3,8 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useNavigate
+  Link
 } from "react-router-dom";
 import "./index.css";
 
@@ -97,6 +96,20 @@ function HomePage() {
           <circle cx="16" cy="8" r="1" fill="white"/>
           <circle cx="8" cy="16" r="1" fill="white"/>
           <circle cx="16" cy="16" r="1" fill="white"/>
+        </svg>
+      `
+    },
+    {
+      name: "products",
+      slug: "products",
+      iconSvg: `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+          <!-- Placeholder box icon -->
+          <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" stroke-width="2" fill="none"/>
+          <rect x="7" y="7" width="4" height="4" fill="white"/>
+          <rect x="13" y="7" width="4" height="4" fill="white"/>
+          <rect x="7" y="13" width="4" height="4" fill="white"/>
+          <rect x="13" y="13" width="4" height="4" fill="white"/>
         </svg>
       `
     },
@@ -476,10 +489,10 @@ function FabricDatabasePage() {
 //
 function ComYdgRequestPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [pillModel, setPillModel] = useState(""); 
+  const [pillModel, setPillModel] = useState("");
   const [lines, setLines] = useState([]); // { model, pattern, qty }
 
-  // When user presses Enter in the search box or clicks search icon:
+  // Add pill when user hits Enter or clicks search icon
   const addPill = () => {
     const trimmed = searchTerm.trim();
     if (trimmed === "") return;
@@ -487,10 +500,9 @@ function ComYdgRequestPage() {
     setSearchTerm("");
   };
 
-  // On clicking the pill, move it into the list:
+  // Move pill into list on click
   const pillClicked = () => {
     if (!pillModel) return;
-    // Prevent duplicates:
     const alreadyAdded = lines.some((l) => l.model === pillModel);
     if (!alreadyAdded) {
       setLines((prev) => [
@@ -501,7 +513,7 @@ function ComYdgRequestPage() {
     setPillModel("");
   };
 
-  // Update pattern or qty for a given line index:
+  // Update pattern or qty for a given line index
   const updateLine = (index, field, value) => {
     setLines((prev) =>
       prev.map((ln, i) =>
@@ -512,8 +524,8 @@ function ComYdgRequestPage() {
     );
   };
 
-  // Check if we can enable Submit: at least one line, and all lines have pattern + qty > 0
-  const allValid = 
+  // Enable Submit only if every line has nonempty pattern and qty>0
+  const allValid =
     lines.length > 0 &&
     lines.every(
       (ln) =>
@@ -522,13 +534,11 @@ function ComYdgRequestPage() {
     );
 
   const handleSubmit = () => {
-    // For now just alert JSON; you can replace with actual submit logic
     alert(`Submitting:\n${JSON.stringify(lines, null, 2)}`);
-    // Clear after submit:
     setLines([]);
   };
 
-  // Allow Enter key to trigger addPill
+  // Trigger addPill on Enter key
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -540,7 +550,7 @@ function ComYdgRequestPage() {
     <div className="page">
       <Topbar />
 
-      {/* COM YDG REQUEST heading at top */}
+      {/* COM YARD REQUEST heading at top */}
       <h1 className="com-heading">COM YARD REQUEST</h1>
 
       <div className="content-page com-page">
@@ -615,6 +625,221 @@ function ComYdgRequestPage() {
         >
           Submit
         </button>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── PRODUCTS Page ─────────────────────────────────────────────────────────────
+//
+function ProductsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* PRODUCTS heading at top */}
+      <h1 className="documents-heading">PRODUCTS</h1>
+
+      <div className="content-page products-page">
+        {/* Swivels */}
+        <Link to="/products/swivels" className="category-box">
+          <div className="category-title">Swivels</div>
+          <div className="product-images">
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Swivel 1"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Swivel 2"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Swivel 3"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Swivel 4"
+              className="product-img"
+            />
+          </div>
+        </Link>
+
+        {/* End Tables */}
+        <Link to="/products/end-tables" className="category-box">
+          <div className="category-title">End Tables</div>
+          <div className="product-images">
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Table 1"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Table 2"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Table 3"
+              className="product-img"
+            />
+          </div>
+        </Link>
+
+        {/* Conference */}
+        <Link to="/products/conference" className="category-box">
+          <div className="category-title">Conference</div>
+          <div className="product-images">
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Conference 1"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Conference 2"
+              className="product-img"
+            />
+            <img
+              src="https://via.placeholder.com/60"
+              alt="Conference 3"
+              className="product-img"
+            />
+          </div>
+        </Link>
+
+        {/* More... */}
+        <Link to="/products/more" className="category-box">
+          <div className="category-title">More...</div>
+        </Link>
+
+        {/* Bottom Buttons */}
+        <div className="prod-buttons">
+          <Link to="/products/seating" className="prod-btn">
+            <svg
+              className="prod-btn-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#333"
+            >
+              <path d="M4 17h16v-2H4v2zm2-4h12V7H6v6zm10 0V9H8v4h8zM5 6h14v2H5V6zm0 11h2v3H5v-3zm12 0h2v3h-2v-3z"/>
+            </svg>
+            <div className="prod-btn-label">Seating</div>
+          </Link>
+          <Link to="/products/casegoods" className="prod-btn">
+            <svg
+              className="prod-btn-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#333"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="1" stroke="#333" strokeWidth="1" fill="none"/>
+              <rect x="6" y="8" width="4" height="3" fill="#333"/>
+              <rect x="14" y="8" width="4" height="3" fill="#333"/>
+              <rect x="6" y="14" width="4" height="3" fill="#333"/>
+              <rect x="14" y="14" width="4" height="3" fill="#333"/>
+            </svg>
+            <div className="prod-btn-label">Casegoods</div>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── Placeholder Pages for Each Product Category ──────────────────────────────
+//
+function SwivelsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">SWIVELS</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Swivels</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function EndTablesPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">END TABLES</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>End Tables</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function ConferencePage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">CONFERENCE</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Conference</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function MorePage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">MORE</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>More...</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SeatingPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">SEATING</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Seating</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function CasegoodsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">CASEGOODS</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Casegoods</strong>.
+        </p>
       </div>
     </div>
   );
@@ -1062,6 +1287,236 @@ function SSAPage() {
 }
 
 //
+// ─── PRODUCTS Placeholder Pages ─────────────────────────────────────────────────
+//
+function SwivelsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">SWIVELS</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Swivels</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function EndTablesPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">END TABLES</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>End Tables</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function ConferencePage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">CONFERENCE</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Conference</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function MorePage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">MORE</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>More...</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SeatingPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">SEATING</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Seating</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function CasegoodsPage() {
+  return (
+    <div className="page">
+      <Topbar />
+
+      <h1 className="documents-heading">CASEGOODS</h1>
+      <div className="content-page">
+        <p style={{ padding: "0 16px" }}>
+          This is the placeholder page for <strong>Casegoods</strong>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── REPLACEMENTS PAGE ─────────────────────────────────────────────────────────
+//
+function ReplacementsPage() {
+  const fileInputRef = useRef(null);
+  const [photoFile, setPhotoFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [soNumber, setSoNumber] = useState("");
+  const [lineItem, setLineItem] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const handleTakePhoto = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+
+  const handleFileChosen = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPhotoFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Replacement submitted! (Add email logic separately.)");
+    setPhotoFile(null);
+    setPreviewUrl(null);
+    setSoNumber("");
+    setLineItem("");
+    setNotes("");
+  };
+
+  return (
+    <div className="page">
+      <Topbar />
+
+      {/* REPLACEMENTS heading at top */}
+      <h1 className="documents-heading">REPLACEMENTS</h1>
+
+      <div className="content-page">
+        {!photoFile ? (
+          <>
+            <div className="dashboard-grid">
+              <button className="tile" onClick={handleTakePhoto}>
+                <div className="tile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    width="48"
+                    height="48"
+                  >
+                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
+                  </svg>
+                </div>
+                <div className="tile-label">TAKE PHOTO</div>
+              </button>
+
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChosen}
+              />
+
+              <button className="tile" onClick={handleTakePhoto}>
+                <div className="tile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    width="48"
+                    height="48"
+                  >
+                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
+                  </svg>
+                </div>
+                <div className="tile-label">UPLOAD</div>
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="form-container">
+            <h1 className="section-title">REPLACEMENT DETAILS</h1>
+            {previewUrl && (
+              <img src={previewUrl} alt="Preview" className="image-preview" />
+            )}
+
+            <form onSubmit={handleSubmit}>
+              <div className="form-field">
+                <label htmlFor="soNumber">SO #</label>
+                <input
+                  type="text"
+                  id="soNumber"
+                  value={soNumber}
+                  onChange={(e) => setSoNumber(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="lineItem">Line Item #</label>
+                <input
+                  type="text"
+                  id="lineItem"
+                  value={lineItem}
+                  onChange={(e) => setLineItem(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="notes">Notes / Description</label>
+                <textarea
+                  id="notes"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows="4"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="submit-btn">
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+//
 // ─── SAMPLES PAGE ─────────────────────────────────────────────────────────────
 //
 function SamplesPage() {
@@ -1105,9 +1560,16 @@ function App() {
         <Route path="/fabrics" element={<FabricsPage />} />
         <Route path="/fabrics/database" element={<FabricDatabasePage />} />
         <Route path="/fabrics/com-request" element={<ComYdgRequestPage />} />
-        <Route path="/ssa" element={<SSAPage />} />
         <Route path="/documents" element={<DocumentsPage />} />
         <Route path="/replacements" element={<ReplacementsPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/swivels" element={<SwivelsPage />} />
+        <Route path="/products/end-tables" element={<EndTablesPage />} />
+        <Route path="/products/conference" element={<ConferencePage />} />
+        <Route path="/products/more" element={<MorePage />} />
+        <Route path="/products/seating" element={<SeatingPage />} />
+        <Route path="/products/casegoods" element={<CasegoodsPage />} />
+        <Route path="/ssa" element={<SSAPage />} />
         <Route path="/samples" element={<SamplesPage />} />
       </Routes>
     </Router>
