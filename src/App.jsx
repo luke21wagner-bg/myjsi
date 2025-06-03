@@ -12,25 +12,14 @@ import "./index.css";
 // ─── REUSABLE LOGO COMPONENT ─────────────────────────────────────────────────
 //
 function Logo() {
+  // Assumes your logo PNG (named exactly "5bda9457-0ac4-4a28-9268-f80f703e0ee2.png")
+  // has been copied into public/ so that it’s accessible at "/5bda9457-0ac4-4a28-9268-f80f703e0ee2.png".
   return (
     <Link to="/">
-      <div
-        className="logo"
-        dangerouslySetInnerHTML={{
-          __html: `
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="120" height="40"
-                 viewBox="0 0 120 40" fill="white">
-              <text x="10" y="25" font-family="Arial" font-size="18" font-style="italic">
-                My
-              </text>
-              <rect x="35" y="8" width="20" height="20" fill="none" stroke="white" stroke-width="2"/>
-              <text x="60" y="25" font-family="Arial" font-size="18">
-                JSI
-              </text>
-            </svg>
-          `
-        }}
+      <img
+        src="/5bda9457-0ac4-4a28-9268-f80f703e0ee2.png"
+        alt="My JSI Logo"
+        className="logo-image"
       />
     </Link>
   );
@@ -43,7 +32,7 @@ function Topbar() {
   return (
     <header className="topbar">
       <Logo />
-      <div className="profile"></div>
+      <div className="profile" />
     </header>
   );
 }
@@ -1095,8 +1084,8 @@ function FabricDatabasePage() {
 
       <div className="content-page">
         <p style={{ padding: "0 16px", color: "#333333" }}>
-          This is the landing page for <strong>Fabric Database</strong>. 
-          (Replace this stub with actual functionality later.)
+          This is the landing page for <strong>Fabric Database</strong>. (Replace
+          this stub with actual functionality later.)
         </p>
       </div>
     </div>
@@ -1475,7 +1464,10 @@ export default function App({ leads, addLead }) {
           <Route path="/" element={<HomePage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/sales" element={<SalesPage leads={leads} />} />
-          <Route path="/sales/new-leads" element={<NewLeadsPage addLead={addLead} />} />
+          <Route
+            path="/sales/new-leads"
+            element={<NewLeadsPage addLead={addLead} />}
+          />
           <Route path="/sales/rewards" element={<RewardsPage />} />
           <Route path="/lead-times" element={<LeadTimesPage />} />
           <Route path="/fabrics" element={<FabricsPage />} />
