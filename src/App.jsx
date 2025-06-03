@@ -339,7 +339,7 @@ function SalesPage() {
       {/* SALES heading */}
       <h1 className="documents-heading">SALES</h1>
 
-      {/* Toolbar: New Lead +, Rewards, Commissions */}
+      {/* Swipeable toolbar: New Lead +, Rewards, Commissions, Opportunities */}
       <div className="sales-toolbar">
         <Link to="/sales/new-leads">
           <button className="new-lead-btn">New Lead +</button>
@@ -349,6 +349,9 @@ function SalesPage() {
         </Link>
         <Link to="/sales/commissions">
           <button className="commissions-btn">Commissions</button>
+        </Link>
+        <Link to="/sales/opportunities">
+          <button className="opportunities-btn">Opportunities</button>
         </Link>
       </div>
 
@@ -472,6 +475,43 @@ function CommissionsPage() {
           This is a placeholder page for <strong>Commissions</strong>. 
           Implement your Commissions functionality here.
         </p>
+      </div>
+    </div>
+  );
+}
+
+//
+// ─── OPPORTUNITIES Placeholder Pipeline Page ─────────────────────────────────
+//
+function OpportunitiesPage() {
+  // Six categories with placeholder items
+  const pipeline = {
+    Discovery: ["Project Alpha", "Project Beta"],
+    Specifying: ["Project Gamma", "Project Delta"],
+    "Bidding/Decision": ["Project Epsilon", "Project Zeta"],
+    "PO Expected": ["Project Eta", "Project Theta"],
+    Won: ["Project Iota"],
+    Lost: ["Project Kappa"]
+  };
+
+  return (
+    <div className="page opp-page">
+      <Topbar />
+
+      <h1 className="documents-heading">OPPORTUNITIES</h1>
+      <div className="content-page">
+        {Object.entries(pipeline).map(([stage, items]) => (
+          <div key={stage} className="opp-section">
+            <h2>{stage}</h2>
+            <ul className="opp-list">
+              {items.map((proj, idx) => (
+                <li key={idx} className="opp-item">
+                  {proj}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -1484,46 +1524,49 @@ function SamplesPage() {
 //
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/sales" element={<SalesPage />} />
-        <Route path="/sales/new-leads" element={<NewLeadsPage />} />
-        <Route path="/sales/rewards" element={<RewardsPage />} />
-        <Route path="/sales/commissions" element={<CommissionsPage />} />
-        <Route path="/lead-times" element={<LeadTimesPage />} />
-        <Route path="/fabrics" element={<FabricsPage />} />
-        <Route
-          path="/fabrics/database"
-          element={<FabricDatabasePage />}
-        />
-        <Route
-          path="/fabrics/com-request"
-          element={<ComYdgRequestPage />}
-        />
-        <Route path="/documents" element={<DocumentsPage />} />
-        <Route path="/replacements" element={<ReplacementsPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/swivels" element={<SwivelsPage />} />
-        <Route
-          path="/products/end-tables"
-          element={<EndTablesPage />}
-        />
-        <Route
-          path="/products/conference"
-          element={<ConferencePage />}
-        />
-        <Route path="/products/more" element={<MorePage />} />
-        <Route path="/products/seating" element={<SeatingPage />} />
-        <Route
-          path="/products/casegoods"
-          element={<CasegoodsPage />}
-        />
-        <Route path="/ssa" element={<SSAPage />} />
-        <Route path="/samples" element={<SamplesPage />} />
-      </Routes>
-    </Router>
+    <div className="app-container">
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/sales" element={<SalesPage />} />
+          <Route path="/sales/new-leads" element={<NewLeadsPage />} />
+          <Route path="/sales/rewards" element={<RewardsPage />} />
+          <Route path="/sales/commissions" element={<CommissionsPage />} />
+          <Route path="/sales/opportunities" element={<OpportunitiesPage />} />
+          <Route path="/lead-times" element={<LeadTimesPage />} />
+          <Route path="/fabrics" element={<FabricsPage />} />
+          <Route
+            path="/fabrics/database"
+            element={<FabricDatabasePage />}
+          />
+          <Route
+            path="/fabrics/com-request"
+            element={<ComYdgRequestPage />}
+          />
+          <Route path="/documents" element={<DocumentsPage />} />
+          <Route path="/replacements" element={<ReplacementsPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/swivels" element={<SwivelsPage />} />
+          <Route
+            path="/products/end-tables"
+            element={<EndTablesPage />}
+          />
+          <Route
+            path="/products/conference"
+            element={<ConferencePage />}
+          />
+          <Route path="/products/more" element={<MorePage />} />
+          <Route path="/products/seating" element={<SeatingPage />} />
+          <Route
+            path="/products/casegoods"
+            element={<CasegoodsPage />}
+          />
+          <Route path="/ssa" element={<SSAPage />} />
+          <Route path="/samples" element={<SamplesPage />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
