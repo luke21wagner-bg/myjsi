@@ -191,6 +191,9 @@ function OrdersPage() {
     <div className="page">
       <Topbar />
 
+      {/* Add the Orders title here */}
+      <h1 className="documents-heading">ORDERS</h1>
+
       <div className="orders-toolbar">
         <div className="orders-search-wrapper">
           <svg
@@ -250,13 +253,16 @@ function OrdersPage() {
 
 //
 // ─── DOCUMENTS PAGE ─────────────────────────────────────────────────────────
+//
 function DocumentsPage() {
   return (
     <div className="page">
       <Topbar />
 
+      {/* Documents title already matches the desired style */}
+      <h1 className="documents-heading">DOCUMENTS</h1>
+
       <div className="content-page documents-page">
-        <h1 className="documents-heading">DOCUMENTS</h1>
         <div className="documents-buttons">
           <button className="doc-btn">Contracts</button>
           <button className="doc-btn">Commission Rates</button>
@@ -272,6 +278,7 @@ function DocumentsPage() {
 
 //
 // ─── SALES PAGE ────────────────────────────────────────────────────────────────
+//
 function SalesPage() {
   const [year, setYear] = useState(2025);
 
@@ -302,7 +309,10 @@ function SalesPage() {
   return (
     <div className="page">
       <Topbar />
-      <h1 className="sales-title">SALES</h1>
+
+      {/* Add the Sales title here */}
+      <h1 className="documents-heading">SALES</h1>
+
       <button className="new-lead-btn">New Lead +</button>
 
       <div className="content-page">
@@ -344,7 +354,7 @@ function SalesPage() {
           <div className="goal-header">
             <span className="goal-label">Goal</span>
             <span className="goal-amount">
-              ${ (goalAmount / 1000000).toFixed(2) }M
+              ${(goalAmount / 1000000).toFixed(2)}M
             </span>
           </div>
           <div className="progress-bar-container">
@@ -387,8 +397,10 @@ function LeadTimesPage() {
     <div className="page">
       <Topbar />
 
+      {/* Add the Lead Times title here */}
+      <h1 className="documents-heading">LEAD TIMES</h1>
+
       <div className="content-page">
-        <h1>Lead Times</h1>
         <div className="dashboard-grid">
           <div className="dashboard-card">
             <h3>Average Lead Time</h3>
@@ -444,10 +456,12 @@ function ReplacementPage() {
     <div className="page">
       <Topbar />
 
+      {/* Add the Replacement title here */}
+      <h1 className="documents-heading">REPLACEMENTS</h1>
+
       <div className="content-page">
         {!photoFile ? (
           <>
-            <h1 className="section-title">REPLACEMENT</h1>
             <div className="dashboard-grid">
               <button className="tile" onClick={handleTakePhoto}>
                 <div className="tile-icon">
@@ -544,6 +558,7 @@ function ReplacementPage() {
 
 //
 // ─── SSA PAGE ──────────────────────────────────────────────────────────────────
+//
 function SSAPage() {
   const [form, setForm] = useState({
     project: "",
@@ -582,8 +597,10 @@ function SSAPage() {
     <div className="page">
       <Topbar />
 
+      {/* Add the SSA title here */}
+      <h1 className="documents-heading">SSA</h1>
+
       <div className="content-page ssa-page">
-        <h1 className="ssa-heading">SSA</h1>
         <form className="ssa-form" onSubmit={handleSubmit}>
           {/* Project */}
           <div className="ssa-form-field">
@@ -850,8 +867,11 @@ function GenericPage({ title }) {
   return (
     <div className="page">
       <Topbar />
+
+      {/* Apply the same styled heading here */}
+      <h1 className="documents-heading">{title.toUpperCase()}</h1>
+
       <div className="content-page">
-        <h1>{title}</h1>
         <div className="dashboard-grid">
           <div className="dashboard-card">
             <h3>Welcome to {title}</h3>
@@ -881,11 +901,11 @@ function App() {
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/sales" element={<SalesPage />} />
         <Route path="/lead-times" element={<LeadTimesPage />} />
-        <Route path="/fabrics" element={<GenericPage title="Fabrics" />} />
+        <Route path="/fabrics" element={<GenericPage title="fabrics" />} />
         <Route path="/ssa" element={<SSAPage />} />
         <Route path="/documents" element={<DocumentsPage />} />
         <Route path="/replacements" element={<ReplacementPage />} />
-        <Route path="/samples" element={<GenericPage title="Samples" />} />
+        <Route path="/samples" element={<GenericPage title="samples" />} />
       </Routes>
     </Router>
   );
