@@ -105,7 +105,6 @@ function HomePage() {
       slug: "products",
       iconSvg: `
         <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
-          <!-- Simple grid icon -->
           <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" stroke-width="2" fill="none"/>
           <rect x="7" y="7" width="4" height="4" fill="white"/>
           <rect x="13" y="7" width="4" height="4" fill="white"/>
@@ -166,16 +165,18 @@ function HomePage() {
     <div className="page">
       <Topbar />
 
-      <div className="grid">
-        {apps.map((a, idx) => (
-          <Link key={idx} to={`/${a.slug}`} className="tile">
-            <div
-              className="tile-icon"
-              dangerouslySetInnerHTML={{ __html: a.iconSvg }}
-            />
-            <div className="tile-label">{a.name}</div>
-          </Link>
-        ))}
+      <div className="home-content">
+        <div className="grid">
+          {apps.map((a, idx) => (
+            <Link key={idx} to={`/${a.slug}`} className="tile">
+              <div
+                className="tile-icon"
+                dangerouslySetInnerHTML={{ __html: a.iconSvg }}
+              />
+              <div className="tile-label">{a.name}</div>
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Feedback bar is now clickable, navigates to /feedback */}
@@ -199,7 +200,6 @@ function OrdersPage() {
     "BUSINESS FURNITURE LLC - Subaru - 448491",
     "COMMERCIAL OFFICE ENVIRONMENTS - FORUM - 447995",
     "COMMERCIAL OFFICE ENVIRONMENTS - Microsoft - 447002"
-    // …add more as needed
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -514,7 +514,7 @@ function NewLeadsPage({ addLead }) {
     // Add to top‐level leads array
     addLead(newLead);
 
-    // After submit, navigate back to /sales (SalesPage)
+    // After submit, navigate back to /sales
     navigate("/sales");
   };
 
@@ -756,7 +756,6 @@ function OpportunitiesPage({ leads }) {
     if (categories[status]) {
       categories[status].push(lead.projectName);
     } else {
-      // If somehow unmatched, put in 'Discovery'
       categories["Discovery"].push(lead.projectName);
     }
   });
@@ -1798,19 +1797,18 @@ function FeedbackPage() {
   const [files, setFiles] = useState("");
 
   // Modal toggle
-  const [isSubmittedModalOpen, setIsSubmittedModalOpen] = useState(false);
+  const [isSubmittedOverlayOn, setIsSubmittedOverlayOn] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can hook up actual file uploading / email logic here.
-    // For now, we just show the “Submitted” modal.
+    // 1) Show overlay
+    setIsSubmittedOverlayOn(true);
 
-    setIsSubmittedModalOpen(true);
-  };
-
-  const closeModalAndGoHome = () => {
-    setIsSubmittedModalOpen(false);
-    navigate("/");
+    // 2) After 1 second, navigate back home
+    setTimeout(() => {
+      setIsSubmittedOverlayOn(false);
+      navigate("/");
+    }, 1000);
   };
 
   return (
@@ -1878,14 +1876,11 @@ function FeedbackPage() {
         </form>
       </div>
 
-      {/* Submitted Modal */}
-      {isSubmittedModalOpen && (
+      {/* Submitted Overlay */}
+      {isSubmittedOverlayOn && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: "300px" }}>
             <div className="submitted-message">Submitted</div>
-            <button className="modal-ok-btn" onClick={closeModalAndGoHome}>
-              OK
-            </button>
           </div>
         </div>
       )}
