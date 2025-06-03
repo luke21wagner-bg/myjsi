@@ -6,8 +6,8 @@
   margin: 0;
   padding: 0;
 }
-body,
 html,
+body,
 #root {
   height: 100%;
   font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@ html,
 }
 .topbar {
   background-color: #333333;   /* dark gray */
-  color: white;
+  color: #ffffff;
   height: 60px;
   display: flex;
   align-items: center;
@@ -88,7 +88,7 @@ html,
 .tile-label {
   text-transform: lowercase;
   font-size: 14px;
-  color: white;
+  color: #ffffff;
   text-align: center;
   line-height: 1.2;
 }
@@ -101,7 +101,7 @@ html,
   width: 100%;
   height: 48px;
   background-color: #c4b5a0;
-  color: white;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,7 +117,7 @@ html,
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  background-color: white;
+  background-color: #ffffff;
 }
 .orders-search-wrapper {
   position: relative;
@@ -136,12 +136,12 @@ html,
   width: 100%;
   padding: 8px 8px 8px 36px; /* leave space for search icon */
   font-size: 14px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 6px;
   outline: none;
 }
 .orders-search-input:focus {
-  border-color: #888;
+  border-color: #888888;
 }
 .calendar-icon {
   width: 24px;
@@ -154,31 +154,27 @@ html,
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: white;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  background-color: #ffffff;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
 }
-.orders-date {
+.orders-date,
+.orders-total {
   font-size: 16px;
   font-weight: bold;
   color: #333333;
   text-transform: uppercase;
 }
-.orders-total {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333333;
-}
 .orders-list {
   flex: 1;
   overflow-y: auto;
-  background-color: white;
+  background-color: #ffffff;
 }
 .orders-item {
   padding: 12px 16px;
   font-size: 14px;
   color: #333333;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eeeeee;
 }
 .orders-item:last-child {
   border-bottom: none;
@@ -197,14 +193,14 @@ html,
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 2px;
-  color: white;
+  color: #ffffff;
   margin-left: 16px;
   text-transform: uppercase;
 }
 .new-lead-btn {
   margin-left: auto;
   background-color: #5c6bc0;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   padding: 8px 12px;
@@ -221,9 +217,9 @@ html,
 .year-selector select {
   font-size: 14px;
   padding: 6px 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 4px;
-  background-color: white;
+  background-color: #ffffff;
 }
 .sales-table {
   width: 100%;
@@ -258,11 +254,7 @@ html,
   align-items: center;
   margin-bottom: 8px;
 }
-.goal-label {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333333;
-}
+.goal-label,
 .goal-amount {
   font-size: 18px;
   font-weight: bold;
@@ -281,7 +273,7 @@ html,
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #ffffff;
   font-size: 12px;
   white-space: nowrap;
 }
@@ -307,14 +299,13 @@ html,
 .info-card.placeholder-card {
   opacity: 0.6;
 }
-.info-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333333;
-}
+.info-title,
 .info-value {
   font-size: 16px;
   color: #333333;
+}
+.info-title {
+  font-weight: bold;
 }
 
 /* -------------------------------------------
@@ -327,7 +318,7 @@ html,
   margin-top: 16px;
 }
 .dashboard-card {
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px;
@@ -339,7 +330,7 @@ html,
 }
 .action-btn {
   background-color: #5c6bc0;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   padding: 10px 16px;
@@ -366,7 +357,7 @@ html,
   max-width: 100%;
   height: auto;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   border-radius: 4px;
 }
 .form-container {
@@ -385,19 +376,20 @@ html,
 .form-field textarea {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 4px;
   font-size: 14px;
 }
 .submit-btn {
   background-color: #5c6bc0;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   padding: 10px 16px;
   font-size: 16px;
   cursor: pointer;
   margin-top: 8px;
+  transition: background-color 0.2s ease;
 }
 .submit-btn:hover {
   background-color: #3949ab;
@@ -407,7 +399,7 @@ html,
    SSAPage: Fillable Form
 ------------------------------------------- */
 .ssa-page .content-page {
-  background: #ffffff;
+  background-color: #ffffff;
   padding: 16px;
   overflow-y: auto;
 }
@@ -525,7 +517,7 @@ html,
 }
 .ssa-submit-btn {
   background-color: #c4b5a0;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   padding: 12px 48px;
@@ -542,58 +534,32 @@ html,
 }
 
 /* -------------------------------------------
-   GenericPage: Dashboard Placeholder
+   GenericPage & Documents Page
 ------------------------------------------- */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
-}
-.dashboard-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-}
-
-/* Reuse action-btn if needed on GenericPage */
-/* ────────────────────────────────────────
-   DOCUMENTS PAGE (only) 
-──────────────────────────────────────── */
-
-/* Wrap the content of DocumentsPage */
+/* (reuses .dashboard-grid and .dashboard-card from above) */
 .documents-page {
   background-color: #ffffff;
   padding: 16px;
   overflow-y: auto;
 }
-
-/* “DOCUMENTS” heading – white fill with black outline */
 .documents-heading {
   font-size: 24px;
   font-weight: bold;
   text-transform: uppercase;
-  color: white;
-  /* A one‐pixel black stroke around each letter */
+  color: #ffffff;
   -webkit-text-stroke: 1px #333333;
-  /* Some bottom margin to separate from buttons */
   margin-bottom: 24px;
 }
-
-/* Container for the six buttons */
 .documents-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 0 16px;
 }
-
-/* Each placeholder button */
 .doc-btn {
   width: 100%;
-  background-color: #c4b5a0;   /* same beige as tiles */
-  color: white;
+  background-color: #c4b5a0;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   padding: 12px 0;
@@ -603,8 +569,6 @@ html,
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
-
-/* Hover/press effect */
 .doc-btn:hover {
   background-color: #b8a38e;
 }
