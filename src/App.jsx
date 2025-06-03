@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  useNavigate
 } from "react-router-dom";
 import "./index.css";
 
@@ -425,7 +426,7 @@ function LeadTimesPage() {
 }
 
 //
-// ─── NEW: FABRICS PAGE ─────────────────────────────────────────────────────────
+// ─── FABRICS PAGE (Decision Screen) ───────────────────────────────────────────
 //
 function FabricsPage() {
   return (
@@ -450,20 +451,20 @@ function FabricsPage() {
 }
 
 //
-// ─── NEW: Fabric Database Landing Page ────────────────────────────────────────
+// ─── Fabric Database Landing Page (stub) ──────────────────────────────────────
 //
 function FabricDatabasePage() {
   return (
     <div className="page">
       <Topbar />
 
-      {/* Fabric Database heading */}
+      {/* FABRIC DATABASE heading */}
       <h1 className="documents-heading">FABRIC DATABASE</h1>
 
       <div className="content-page">
         <p style={{ padding: "0 16px" }}>
           This is the landing page for <strong>Fabric Database</strong>. 
-          (You can replace this stub with actual functionality later.)
+          (Replace this stub with actual functionality later.)
         </p>
       </div>
     </div>
@@ -471,30 +472,158 @@ function FabricDatabasePage() {
 }
 
 //
-// ─── NEW: COM Yardage Request Landing Page ─────────────────────────────────────
+// ─── COM Yardage Request Page ─────────────────────────────────────────────────
 //
 function ComYdgRequestPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pillModel, setPillModel] = useState(""); 
+  const [lines, setLines] = useState([]); // { model, pattern, qty }
+
+  // When user presses Enter in the search box or clicks search icon:
+  const addPill = () => {
+    const trimmed = searchTerm.trim();
+    if (trimmed === "") return;
+    setPillModel(trimmed);
+    setSearchTerm("");
+  };
+
+  // On clicking the pill, move it into the list:
+  const pillClicked = () => {
+    if (!pillModel) return;
+    // Prevent duplicates:
+    const alreadyAdded = lines.some((l) => l.model === pillModel);
+    if (!alreadyAdded) {
+      setLines((prev) => [
+        ...prev,
+        { model: pillModel, pattern: "", qty: "" }
+      ]);
+    }
+    setPillModel("");
+  };
+
+  // Update pattern or qty for a given line index:
+  const updateLine = (index, field, value) => {
+    setLines((prev) =>
+      prev.map((ln, i) =>
+        i === index
+          ? { ...ln, [field]: value }
+          : ln
+      )
+    );
+  };
+
+  // Check if we can enable Submit: at least one line, and all lines have pattern + qty > 0
+  const allValid = 
+    lines.length > 0 &&
+    lines.every(
+      (ln) =>
+        ln.pattern.trim() !== "" &&
+        Number(ln.qty) > 0
+    );
+
+  const handleSubmit = () => {
+    // For now just alert JSON; you can replace with actual submit logic
+    alert(`Submitting:\n${JSON.stringify(lines, null, 2)}`);
+    // Clear after submit:
+    setLines([]);
+  };
+
+  // Allow Enter key to trigger addPill
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addPill();
+    }
+  };
+
   return (
     <div className="page">
       <Topbar />
 
-      {/* COM Ydg Request heading */}
-      <h1 className="documents-heading">COM YDG REQUEST</h1>
+      {/* COM YDG REQUEST heading at top */}
+      <h1 className="com-heading">COM YARD REQUEST</h1>
 
-      <div className="content-page">
-        <p style={{ padding: "0 16px" }}>
-          This is the landing page for <strong>COM Yardage Request</strong>. 
-          (You can replace this stub with actual functionality later.)
-        </p>
+      <div className="content-page com-page">
+        {/* Search Field */}
+        <div className="com-search-wrapper">
+          <input
+            type="text"
+            className="com-search-input"
+            placeholder="Search model(s)..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <svg
+            className="com-search-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            onClick={addPill}
+          >
+            <path
+              d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+              stroke="#888"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+
+        {/* Pill for the searched model */}
+        {pillModel && (
+          <div className="model-pill" onClick={pillClicked}>
+            {pillModel}
+          </div>
+        )}
+
+        {/* List of lines: once pill is clicked, show these entries */}
+        <div className="com-list">
+          {lines.map((ln, idx) => (
+            <div key={idx} className="com-item">
+              <div className="com-item-header">{ln.model}</div>
+              <div className="com-item-fields">
+                <input
+                  type="text"
+                  placeholder="Fabric Pattern"
+                  value={ln.pattern}
+                  onChange={(e) =>
+                    updateLine(idx, "pattern", e.target.value)
+                  }
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Qty"
+                  min="1"
+                  value={ln.qty}
+                  onChange={(e) =>
+                    updateLine(idx, "qty", e.target.value)
+                  }
+                  required
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          className="com-submit-btn"
+          disabled={!allValid}
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </div>
     </div>
   );
 }
 
 //
-// ─── REPLACEMENT PAGE ──────────────────────────────────────────────────────────
+// ─── REPLACEMENTS PAGE ─────────────────────────────────────────────────────────
 //
-function ReplacementPage() {
+function ReplacementsPage() {
   const fileInputRef = useRef(null);
   const [photoFile, setPhotoFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -629,7 +758,7 @@ function ReplacementPage() {
 }
 
 //
-// ─── SSA PAGE ──────────────────────────────────────────────────────────────────
+// ─── SSAPage ──────────────────────────────────────────────────────────────────
 //
 function SSAPage() {
   const [form, setForm] = useState({
@@ -933,144 +1062,7 @@ function SSAPage() {
 }
 
 //
-// ─── REPLACEMENTS PAGE ──────────────────────────────────────────────────────────
-//
-function ReplacementsPage() {
-  const fileInputRef = useRef(null);
-  const [photoFile, setPhotoFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [soNumber, setSoNumber] = useState("");
-  const [lineItem, setLineItem] = useState("");
-  const [notes, setNotes] = useState("");
-
-  const handleTakePhoto = () => {
-    if (fileInputRef.current) fileInputRef.current.click();
-  };
-
-  const handleFileChosen = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPhotoFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Replacement submitted! (Add email logic separately.)");
-    setPhotoFile(null);
-    setPreviewUrl(null);
-    setSoNumber("");
-    setLineItem("");
-    setNotes("");
-  };
-
-  return (
-    <div className="page">
-      <Topbar />
-
-      {/* REPLACEMENTS heading at top */}
-      <h1 className="documents-heading">REPLACEMENTS</h1>
-
-      <div className="content-page">
-        {!photoFile ? (
-          <>
-            <div className="dashboard-grid">
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M12 5a7 7 0 100 14 7 7 0 000-14zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
-                    <path d="M20 4h-3.17l-1.84-2H8.99L7.15 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V6h4.17l1.83-2h4.01l1.83 2H20v12z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">TAKE PHOTO</div>
-              </button>
-
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChosen}
-              />
-
-              <button className="tile" onClick={handleTakePhoto}>
-                <div className="tile-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    viewBox="0 0 24 24"
-                    width="48"
-                    height="48"
-                  >
-                    <path d="M5 20h14v-2H5v2zm7-18l-5 5h3v4h4V7h3l-5-5z"/>
-                  </svg>
-                </div>
-                <div className="tile-label">UPLOAD</div>
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="form-container">
-            <h1 className="section-title">REPLACEMENT DETAILS</h1>
-            {previewUrl && (
-              <img src={previewUrl} alt="Preview" className="image-preview" />
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <div className="form-field">
-                <label htmlFor="soNumber">SO #</label>
-                <input
-                  type="text"
-                  id="soNumber"
-                  value={soNumber}
-                  onChange={(e) => setSoNumber(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="lineItem">Line Item #</label>
-                <input
-                  type="text"
-                  id="lineItem"
-                  value={lineItem}
-                  onChange={(e) => setLineItem(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="notes">Notes / Description</label>
-                <textarea
-                  id="notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows="4"
-                  required
-                />
-              </div>
-
-              <button type="submit" className="submit-btn">
-                Submit
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-//
-// ─── GENERIC PAGE (for Samples, SSA already covered above) ───────────────────
+// ─── SAMPLES PAGE ─────────────────────────────────────────────────────────────
 //
 function SamplesPage() {
   return (
