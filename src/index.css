@@ -58,15 +58,19 @@ body,
 }
 
 /* -------------------------------------------
-   HomePage: Grid & Tiles (slightly smaller + subtle shadow)
+   HomePage: Scrollable container + Grid & Tiles (even smaller + subtle shadow)
 ------------------------------------------- */
+.home-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 8px;
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;          /* reduced from 12px */
-  padding: 10px;     /* slightly reduced from 12px */
-  margin-top: 8px;
-  margin-bottom: 56px; /* leave room for feedback bar */
+  gap: 6px;          /* reduced from 8px */
+  padding: 8px;      /* reduced from 10px */
+  margin-bottom: 8px;
 }
 .tile {
   background-color: #c4b5a0;   /* light beige */
@@ -76,7 +80,7 @@ body,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* very subtle shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* slightly bolder subtle shadow */
   text-decoration: none;
   overflow: hidden;
   transition: background-color 0.2s ease, transform 0.1s ease;
@@ -88,9 +92,9 @@ body,
   background-color: #b8a38e;  /* darker on hover */
 }
 .tile-icon {
-  width: 50px;    /* slightly smaller than 60px */
-  height: 50px;
-  margin-bottom: 6px;
+  width: 45px;    /* reduced from 50px */
+  height: 45px;
+  margin-bottom: 5px;
 }
 .tile-icon svg {
   width: 100%;
@@ -98,7 +102,7 @@ body,
 }
 .tile-label {
   text-transform: lowercase;
-  font-size: 12px; /* reduced from 14px */
+  font-size: 11px; /* reduced from 12px */
   color: #ffffff;
   text-align: center;
   line-height: 1.2;
@@ -1072,27 +1076,11 @@ body.no-scroll {
 }
 
 /* -------------------------------------------
-   FEEDBACK Submission Modal (reuse modal classes)
+   FEEDBACK Submission Overlay (reuses modal classes)
 ------------------------------------------- */
 .submitted-message {
   text-align: center;
   font-size: 18px;
   color: #333333;
   margin-bottom: 16px;
-}
-.modal-ok-btn {
-  background-color: #c4b5a0;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.modal-ok-btn:hover {
-  background-color: #b8a38e;
-}
-.modal-ok-btn:active {
-  transform: scale(0.98);
 }
