@@ -1,6 +1,7 @@
 :root {
-  --primary-dark-grey: #333333;
+  --primary-dark-grey: #3a3a3a; /* updated to match the icon background */
 }
+
 
 /* GLOBAL & CONTAINER */
 * {
