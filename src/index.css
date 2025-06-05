@@ -1,10 +1,10 @@
 :root {
-  --primary-dark-grey: #2f2f2f; /* New target to match MyJSI icon bg */
+  --primary-dark-grey: #2f2f2f;
 }
 
-
-
-/* GLOBAL & CONTAINER */
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLOBAL & CONTAINER
+───────────────────────────────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -28,7 +28,9 @@ html, body, #root {
   height: 100%;
 }
 
-/* TOPBAR */
+/* ─────────────────────────────────────────────────────────────────────────────
+   TOPBAR (shared by Home, Orders, Sales, etc.)
+───────────────────────────────────────────────────────────────────────────── */
 .topbar {
   background-color: var(--primary-dark-grey);
   color: #ffffff;
@@ -53,11 +55,14 @@ html, body, #root {
   background-color: #666666;
 }
 
-/* PAGE HEADINGS */
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOCUMENTS-STYLE HEADING (Re-used on multiple pages)
+───────────────────────────────────────────────────────────────────────────── */
 .documents-heading,
 .new-lead-heading,
 .rewards-heading,
-.com-heading {
+.com-heading,
+.feedback-heading {
   font-size: 32px;
   font-weight: bold;
   text-transform: uppercase;
@@ -66,7 +71,7 @@ html, body, #root {
   margin: 20px 16px 24px;
 }
 
-/* [Your other unchanged CSS remains below this] */
+/* The rest of the CSS remains unchanged below this section. */
 
 /* index.css */
 
