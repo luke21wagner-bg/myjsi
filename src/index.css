@@ -1,3 +1,71 @@
+:root {
+  --primary-dark-grey: #333333;
+}
+
+/* GLOBAL & CONTAINER */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body, #root {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+.app-container {
+  max-width: 420px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* TOPBAR */
+.topbar {
+  background-color: var(--primary-dark-grey);
+  color: #ffffff;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: relative;
+  z-index: 5;
+}
+.logo {
+  height: 40px;
+  object-fit: contain;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.profile {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #666666;
+}
+
+/* PAGE HEADINGS */
+.documents-heading,
+.new-lead-heading,
+.rewards-heading,
+.com-heading {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  -webkit-text-stroke: 1px var(--primary-dark-grey);
+  margin: 20px 16px 24px;
+}
+
+/* [Your other unchanged CSS remains below this] */
+
 /* index.css */
 
 /* ─────────────────────────────────────────────────────────────────────────────
